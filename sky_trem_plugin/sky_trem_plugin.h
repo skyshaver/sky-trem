@@ -3,14 +3,14 @@
 
 BEGIN_JUCE_MODULE_DECLARATION
 
-   ID:            tremolo_plugin
-   vendor:        WolfSound
+   ID:            sky_trem_plugin
+   vendor:        CloudMapMusic
    version:       1.0.0
-   name:          Tremolo Plugin
-   description:   Core of the tremolo plugin
+   name:          Sky Trem Plugin
+   description:   Rhythmic Tremolo Audio Plugin
    dependencies:  juce_audio_utils, juce_dsp
 
-   website:       https://thewolfsound.com
+   website:       https://skyshaver.com
    license:       MIT
 
 END_JUCE_MODULE_DECLARATION
@@ -36,10 +36,10 @@ END_JUCE_MODULE_DECLARATION
 #include <cmath>
 #include <utility>
 
-#include "include/Tremolo/Parameters.h"
-#include "include/Tremolo/CustomLookAndFeel.h"
-#include "include/Tremolo/JsonSerializer.h"
-#include "include/Tremolo/Tremolo.h"
-#include "include/Tremolo/BypassTransitionSmoother.h"
-#include "include/Tremolo/PluginProcessor.h"
-#include "include/Tremolo/PluginEditor.h"
+#include "include/Parameters.h"
+#include "include/CustomLookAndFeel.h"
+#include "include/JsonSerializer.h"
+#include "include/Tremolo.h"
+#include "include/BypassTransitionSmoother.h"
+#include "include/PluginProcessor.h"
+#include "include/PluginEditor.h"
