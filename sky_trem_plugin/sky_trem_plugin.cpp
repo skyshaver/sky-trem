@@ -1,4 +1,4 @@
-#include "skyTrem_plugin.h"
+#include "sky_trem_plugin.h"
 #include <TremoloPluginAssets.h>
 #include "source/CustomLookAndFeel.cpp"
 #include "source/JsonSerializer.cpp"

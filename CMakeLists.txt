@@ -112,23 +112,23 @@ juce_add_binary_data(tremolo_plugin_assets
 
 add_library(tremolo::tremolo_plugin_assets ALIAS tremolo_plugin_assets)
 
-juce_add_module(skyTrem_plugin ALIAS_NAMESPACE tremolo)
+juce_add_module(sky_trem_plugin ALIAS_NAMESPACE tremolo)
 
 # Additional definitions required by all users of this module.
-target_compile_definitions(skyTrem_plugin
+target_compile_definitions(sky_trem_plugin
   INTERFACE
     PLUGIN_NAME="${PLUGIN_NAME}"
 )
 
 # Enables strict C++ warnings.
-target_compile_options(skyTrem_plugin INTERFACE "${PROJECT_WARNINGS_CXX}")
+target_compile_options(sky_trem_plugin INTERFACE "${PROJECT_WARNINGS_CXX}")
 
-target_link_libraries(skyTrem_plugin INTERFACE tremolo::tremolo_plugin_assets)
+target_link_libraries(sky_trem_plugin INTERFACE tremolo::tremolo_plugin_assets)
 
 target_link_libraries(
   SkyTremPlugin
   PRIVATE
-    tremolo::skyTrem_plugin
+    tremolo::sky_trem_plugin
   PUBLIC
     juce::juce_recommended_config_flags
     juce::juce_recommended_lto_flags
