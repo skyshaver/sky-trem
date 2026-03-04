@@ -9,9 +9,9 @@ namespace sky_trem {
 	public:
 
 		enum class LfoWaveform : size_t {
-			SINE = 0,
-			TRIANGLE = 1,
-			SQUARE = 2
+			Sine = 0,
+			Triangle = 1,
+			Square = 2
 		};
 
 		Tremolo();
@@ -38,16 +38,16 @@ namespace sky_trem {
 			return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
 		}
 
-		std::array<juce::dsp::Oscillator<float>, 3> lfos{
+		std::array<juce::dsp::Oscillator<float>, 3> lfos {
 			juce::dsp::Oscillator<float> {[](auto phase) { return std::sin(phase);}},
 			juce::dsp::Oscillator<float> { triangle },
 			juce::dsp::Oscillator<float> {[](auto phase) { return phase < 0.0f ? -1.f : 1.f; }}
 		};
 
 		float getNextLfoValue();
-		LfoWaveform currentLfo = LfoWaveform::SINE;
+		LfoWaveform currentLfo = LfoWaveform::Sine;
 		LfoWaveform lfoToSet = currentLfo;
-		juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> lfoSmoothed{};
+		juce::LinearSmoothedValue<float> lfoSmoothed{};
 
 
 		float getNextGainValue();

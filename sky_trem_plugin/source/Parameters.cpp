@@ -45,8 +45,8 @@ namespace sky_trem {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterBool>(
-				juce::ParameterID{ "Bypass", versionHint }, 
-				"Bypass",
+				juce::ParameterID{ "bypass", versionHint }, 
+				"bypass",
 				false ));
 
 	}
@@ -59,7 +59,7 @@ namespace sky_trem {
 			std::make_unique<juce::AudioParameterChoice>(
 				juce::ParameterID{ "modulation.waveform", versionHint },
 				"Modulation Waveform",
-				juce::StringArray{ "SINE", "TRIANGLE", "SQUARE" },
+				juce::StringArray{ "Sine", "Triangle", "Square" },
 				0));
 
 	}

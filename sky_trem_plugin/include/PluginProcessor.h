@@ -8,7 +8,7 @@ namespace sky_trem {
 
 		void prepareToPlay(double sampleRate, int expectedMaxFramesPerBlock) override;
 
-		void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
+		void processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override;
 		using AudioProcessor::processBlock;
 
 		void releaseResources() override;
@@ -36,8 +36,10 @@ namespace sky_trem {
 
 		juce::AudioProcessorParameter* getBypassParameter() const override;
 
+		Parameters& getParameterRefs() noexcept { return parameters; }
+
 	private:
-		Parameters parameters{*this};
+		Parameters parameters{ *this };
 
 		BypassTransitionSmoother bypassTransitionSmoother;
 

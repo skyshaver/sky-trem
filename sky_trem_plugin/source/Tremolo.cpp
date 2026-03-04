@@ -1,19 +1,18 @@
 
 namespace sky_trem {
 
-	Tremolo::Tremolo() {
-		// lfoSine.setFrequency(5.f, true);  // force prevents smoothing
-		for (auto& lfo : lfos) {			
-			lfo.setFrequency(5.f, true);
+	Tremolo::Tremolo() {		
+		for (auto& lfo : lfos) {
+			lfo.setFrequency(5.f, true); // force prevents smoothing
 		}
 	}
 
-	void Tremolo::prepare(double sampleRate, int expectedMaxFramesPerBlock) {		
+	void Tremolo::prepare(double sampleRate, int expectedMaxFramesPerBlock) {
 		const juce::dsp::ProcessSpec pspec{ .sampleRate = sampleRate,
 										   .maximumBlockSize = static_cast<juce::uint32>(expectedMaxFramesPerBlock),
-										   .numChannels = 1u };		
+										   .numChannels = 1u };
 		for (auto& lfo : lfos) {
-			lfo.prepare(pspec);			
+			lfo.prepare(pspec);
 		}
 
 		lfoSmoothed.reset(sampleRate, 0.1);
@@ -26,11 +25,9 @@ namespace sky_trem {
 		updateGain();
 
 		// for each frame
-		for (const auto frameIndex : std::views::iota(0, buffer.getNumSamples())) {
-			// const auto lfoValue = lfos[std::to_underlying(currentLfo)].processSample(0.f);  // pass 0 to just get the generated value
+		for (const auto frameIndex : std::views::iota(0, buffer.getNumSamples())) {			
+			
 			const auto lfoValue = getNextLfoValue();
-
-
 			const auto modValue = (1.f - modDepth) + modDepth * (0.5f * (lfoValue + 1.f));  // may be a better implementation
 			// const auto modValue = (modDepth * lfoValue + 1.f); // uncomment this for testing just the raw waveform shape
 
@@ -38,7 +35,7 @@ namespace sky_trem {
 			for (const auto channelIndex : std::views::iota(0, buffer.getNumChannels())) {
 
 				const auto inputSample = buffer.getSample(channelIndex, frameIndex);
-				
+
 				const auto outputSample = inputSample * modValue * getNextGainValue();
 
 				buffer.setSample(channelIndex, frameIndex, outputSample);
@@ -51,7 +48,7 @@ namespace sky_trem {
 			lfo.setFrequency(modRate);
 		}
 	}
-	
+
 	void Tremolo::setLfoWaveform(LfoWaveform lwf) {
 		// no clean way to check that lwf is a valid member of LfoWaverform without listing all possible values again
 		// which makes me think this should be an associative container, then you can check it's a member before assigning or maybe a vector of "Lfoclass" or something
@@ -64,7 +61,7 @@ namespace sky_trem {
 		}
 		return lfos[std::to_underlying(currentLfo)].processSample(0.f); // pass 0 to just get the generated value
 	}
-	
+
 	void Tremolo::updateLfoWaveform() {
 		if (currentLfo != lfoToSet) {
 			lfoSmoothed.setCurrentAndTargetValue(getNextLfoValue());
@@ -98,7 +95,7 @@ namespace sky_trem {
 		for (auto& lfo : lfos) {
 			lfo.reset();
 		}
-			
+
 	}
 }  // namespace sky_trem
 

@@ -62,10 +62,7 @@ namespace sky_trem {
 			});
 	}
 
-	void PluginProcessor::releaseResources() {
-		// When playback stops, you can use this as an opportunity to free up any
-		// spare memory, etc.
-
+	void PluginProcessor::releaseResources() {		
 		tremolo.reset();
 		bypassTransitionSmoother.reset();
 	}
@@ -113,10 +110,7 @@ namespace sky_trem {
 
 		// you may need to check for a delay if your process introduces delay
 		if (parameters.bypass.get() && !bypassTransitionSmoother.isTransitioning())
-			return;
-
-		/*if (parameters.bypass.get())
-			return;*/
+			return;		
 
 		bypassTransitionSmoother.setDryBuffer(buffer);
 
@@ -128,28 +122,23 @@ namespace sky_trem {
 	bool PluginProcessor::hasEditor() const {
 		return false;
 	}
-
-	// This function will be called to create an instance of the editor
+	
 	juce::AudioProcessorEditor* PluginProcessor::createEditor() {
 		return nullptr;
 	}
 
 	void PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {
-		// You should use this method to store your parameters in the memory block.
-		// You could do that either as raw data, or use the XML or ValueTree classes
-		// as intermediaries to make it easy to save and load complex data.
-		juce::ignoreUnused(destData);
-
-		// TODO: implement state serialization to JSON
+		juce::MemoryOutputStream outputStream(destData, true);
+		JsonSerializer::serialize(parameters, outputStream);
 	}
 
 	void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
-		// You should use this method to restore your parameters from this memory
-		// block, whose contents will have been created by the getStateInformation()
-		// call.
-		juce::ignoreUnused(data, sizeInBytes);
-
-		// TODO: implement state deserialization from JSON
+		juce::MemoryInputStream inputStream({ data, static_cast<size_t> (sizeInBytes) }, false);
+		const auto result = JsonSerializer::deserialize(inputStream, parameters);
+		if (result.failed()) {
+			DBG(result.getErrorMessage());
+		}
+		bypassTransitionSmoother.setBypassForced(parameters.bypass.get());
 	}
 
 	juce::AudioProcessorParameter* sky_trem::PluginProcessor::getBypassParameter() const {
