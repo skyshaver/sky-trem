@@ -1,5 +1,5 @@
 
-namespace tremolo {
+namespace sky_trem {
 
 	Tremolo::Tremolo() {
 		// lfoSine.setFrequency(5.f, true);  // force prevents smoothing
@@ -100,7 +100,7 @@ namespace tremolo {
 		}
 			
 	}
-}  // namespace tremolo
+}  // namespace sky_trem
 
 
 

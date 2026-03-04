@@ -1,4 +1,4 @@
-namespace tremolo {
+namespace sky_trem {
 PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
   background.setImage(juce::ImageCache::getFromMemory(
       assets::Background_png, assets::Background_pngSize));
@@ -21,4 +21,4 @@ void PluginEditor::resized() {
 
   logo.setBounds({16, 16, 105, 24});
 }
-}  // namespace tremolo
+}  // namespace sky_trem

@@ -1,5 +1,5 @@
 
-namespace tremolo {
+namespace sky_trem {
 
 	namespace {
 		auto& addParameterToProcessor(juce::AudioProcessor& processor, auto parameter) {
@@ -71,4 +71,4 @@ namespace tremolo {
 		lfoWaveform{ createLfoWaveformParameter(processor) }
 	{}
 
-}  // namespace tremolo
+}  // namespace sky_trem

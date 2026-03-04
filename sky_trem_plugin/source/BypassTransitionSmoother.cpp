@@ -1,11 +1,11 @@
 
-namespace tremolo {
+namespace sky_trem {
 
     BypassTransitionSmoother::BypassTransitionSmoother(double crossfadeLengthSecondsValue) : crossfadeLengthSeconds{ crossfadeLengthSecondsValue } {
         jassert(0.0 < crossfadeLengthSeconds);
     }
 
-    void tremolo::BypassTransitionSmoother::prepare(const juce::dsp::ProcessSpec& spec) {
+    void sky_trem::BypassTransitionSmoother::prepare(const juce::dsp::ProcessSpec& spec) {
         sampleRateHz = spec.sampleRate;
         dryBuffer.setSize(static_cast<int>(spec.numChannels), static_cast<int>(spec.maximumBlockSize));
         dryGain.reset(spec.sampleRate, crossfadeLengthSeconds);
@@ -62,4 +62,4 @@ namespace tremolo {
         dryBuffer.clear();
     }
 
-} // namespace tremolo
+} // namespace sky_trem

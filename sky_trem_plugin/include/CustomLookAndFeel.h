@@ -1,5 +1,5 @@
 #pragma once
 
-namespace tremolo {
+namespace sky_trem {
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {};
-}  // namespace tremolo
+}  // namespace sky_trem

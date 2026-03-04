@@ -1,6 +1,6 @@
 #pragma once
 
-namespace tremolo {
+namespace sky_trem {
 	class PluginProcessor : public juce::AudioProcessor {
 
 	public:
@@ -45,4 +45,4 @@ namespace tremolo {
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 	};
-}  // namespace tremolo
+}  // namespace sky_trem

@@ -99,20 +99,20 @@ target_compile_definitions(SkyTremPlugin
     JUCE_VST3_CAN_REPLACE_VST2=0
 )
 
-juce_add_binary_data(tremolo_plugin_assets
+juce_add_binary_data(sky_trem_plugin_assets
   HEADER_NAME
     "TremoloPluginAssets.h"
   NAMESPACE
-    tremolo::assets
+    sky_trem::assets
   SOURCES
     assets/Background.png
     assets/Logo.png
     # TODO: Add custom font files
 )
 
-add_library(tremolo::tremolo_plugin_assets ALIAS tremolo_plugin_assets)
+add_library(sky_trem::sky_trem_plugin_assets ALIAS sky_trem_plugin_assets)
 
-juce_add_module(sky_trem_plugin ALIAS_NAMESPACE tremolo)
+juce_add_module(sky_trem_plugin ALIAS_NAMESPACE sky_trem)
 
 # Additional definitions required by all users of this module.
 target_compile_definitions(sky_trem_plugin
@@ -123,12 +123,12 @@ target_compile_definitions(sky_trem_plugin
 # Enables strict C++ warnings.
 target_compile_options(sky_trem_plugin INTERFACE "${PROJECT_WARNINGS_CXX}")
 
-target_link_libraries(sky_trem_plugin INTERFACE tremolo::tremolo_plugin_assets)
+target_link_libraries(sky_trem_plugin INTERFACE sky_trem::sky_trem_plugin_assets)
 
 target_link_libraries(
   SkyTremPlugin
   PRIVATE
-    tremolo::sky_trem_plugin
+    sky_trem::sky_trem_plugin
   PUBLIC
     juce::juce_recommended_config_flags
     juce::juce_recommended_lto_flags

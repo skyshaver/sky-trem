@@ -1,6 +1,6 @@
 #pragma once
 
-namespace tremolo {
+namespace sky_trem {
 class JsonSerializer {
 public:
   static void serialize(const Parameters&, juce::OutputStream&);
@@ -9,4 +9,4 @@ public:
    *           In case of error, no parameters are updated. */
   static juce::Result deserialize(juce::InputStream&, Parameters&);
 };
-}  // namespace tremolo
+}  // namespace sky_trem

@@ -2,12 +2,12 @@
 
 //https://github.com/juce-framework/JUCE/blob/master/examples/DSP/OscillatorDemo.h
 
-namespace tremolo {
+namespace sky_trem {
 
 	class Tremolo {
 
 	public:
-		
+
 		enum class LfoWaveform : size_t {
 			SINE = 0,
 			TRIANGLE = 1,
@@ -24,7 +24,7 @@ namespace tremolo {
 
 		void setLfoWaveform(LfoWaveform lfw);
 		void updateLfoWaveform();
-		
+
 		void setGainInDB(float gainInDb);
 		void updateGain();
 
@@ -32,7 +32,7 @@ namespace tremolo {
 		float modDepth = 0.4f;
 
 	private:
-		
+
 		static float triangle(float phase) {
 			const auto ft = phase / juce::MathConstants<float>::twoPi; // ft is triangles frequency * time
 			return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
@@ -51,10 +51,10 @@ namespace tremolo {
 
 
 		float getNextGainValue();
-		float currentGain{1.f}; // value used to apply gain after dB translation
+		float currentGain{ 1.f }; // value used to apply gain after dB translation
 		float gainToSet = currentGain;
-		juce::LinearSmoothedValue<float> gainSmoothed{ 1.f };		
+		juce::LinearSmoothedValue<float> gainSmoothed{ 1.f };
 
 	};
 
-}  // namespace tremolo
+}  // namespace sky_trem

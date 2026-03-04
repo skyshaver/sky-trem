@@ -1,6 +1,6 @@
 #pragma once
 
-namespace tremolo {
+namespace sky_trem {
 	
 	struct Parameters {
 
@@ -14,4 +14,4 @@ namespace tremolo {
 		JUCE_DECLARE_NON_MOVEABLE(Parameters);
 	};
 
-}  // namespace tremolo
+}  // namespace sky_trem

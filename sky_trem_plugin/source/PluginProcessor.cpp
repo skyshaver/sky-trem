@@ -1,5 +1,5 @@
 
-namespace tremolo {
+namespace sky_trem {
 
 	PluginProcessor::PluginProcessor()
 		: AudioProcessor(BusesProperties()
@@ -104,13 +104,13 @@ namespace tremolo {
 		for (const auto channelToClear : std::views::iota(totalNumInputChannels, totalNumOutputChannels)) {
 			buffer.clear(channelToClear, 0, buffer.getNumSamples());
 		}
-		
+
 		tremolo.setModulationRate(parameters.modulationRate.get());
 		tremolo.setGainInDB(parameters.gainInDb.get());
 		tremolo.setLfoWaveform(static_cast<Tremolo::LfoWaveform>(parameters.lfoWaveform.getIndex()));
-				
+
 		bypassTransitionSmoother.setBypass(parameters.bypass.get());
-		
+
 		// you may need to check for a delay if your process introduces delay
 		if (parameters.bypass.get() && !bypassTransitionSmoother.isTransitioning())
 			return;
@@ -152,14 +152,14 @@ namespace tremolo {
 		// TODO: implement state deserialization from JSON
 	}
 
-	juce::AudioProcessorParameter* tremolo::PluginProcessor::getBypassParameter() const	{
+	juce::AudioProcessorParameter* sky_trem::PluginProcessor::getBypassParameter() const {
 		return &parameters.bypass;
 	}
 
-}  // namespace tremolo
+}  // namespace sky_trem
 
 // This creates new instances of the plugin.
 // This function definition must be in the global namespace.
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-	return new tremolo::PluginProcessor();
+	return new sky_trem::PluginProcessor();
 }
