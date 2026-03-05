@@ -53,9 +53,7 @@ namespace sky_trem {
 	}
 
 	juce::Result JsonSerializer::deserialize(juce::InputStream& input, Parameters& parameters) {
-		juce::var parsedResult;
-		juce::String inputAsString = input.readEntireStreamAsString();
-		DBG(inputAsString);
+		juce::var parsedResult;		
 		const auto result = juce::JSON::parse(input.readEntireStreamAsString(), parsedResult);
 		
 		if (result.failed()) {

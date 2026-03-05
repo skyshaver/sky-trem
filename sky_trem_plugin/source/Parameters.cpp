@@ -20,7 +20,7 @@ namespace sky_trem {
 				juce::ParameterID{ "modulation.rate", versionHint }, 
 				"Modulation Rate",
 				juce::NormalisableRange<float>{ .1f, 20.f, .01f, .4f },
-				5.f,
+				10.f,
 				juce::AudioParameterFloatAttributes{}.withLabel("Hz")));
 
 	}
@@ -60,7 +60,7 @@ namespace sky_trem {
 				juce::ParameterID{ "modulation.waveform", versionHint },
 				"Modulation Waveform",
 				juce::StringArray{ "Sine", "Triangle", "Square" },
-				0));
+				1));
 
 	}
 
