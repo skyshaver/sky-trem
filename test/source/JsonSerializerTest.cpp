@@ -15,6 +15,7 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
+  "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
   "lfoWaveform": "Triangle"
@@ -36,6 +37,7 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
+  "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
   "lfoWaveform": "Triangle"
@@ -64,6 +66,7 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
+  "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
   "lfoWaveform": "Foo"
