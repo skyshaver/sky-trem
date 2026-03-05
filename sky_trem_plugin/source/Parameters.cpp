@@ -35,7 +35,7 @@ namespace sky_trem {
 				"Modulation Depth",
 				juce::NormalisableRange<float>{ 0.f, 1.f, .01f },
 				0.4f,
-				juce::AudioParameterFloatAttributes{}.withLabel("Gain")));
+				juce::AudioParameterFloatAttributes{}.withLabel("Depth")));
 
 	}
 

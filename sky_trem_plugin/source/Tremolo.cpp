@@ -62,9 +62,14 @@ namespace sky_trem {
 		}
 	}
 
-	void Tremolo::setLfoWaveform(LfoWaveform lwf) {
-		// no clean way to check that lwf is a valid member of LfoWaverform without listing all possible values again
-		// which makes me think this should be an associative container, then you can check it's a member before assigning or maybe a vector of "Lfoclass" or something
+	float Tremolo::getNextModulationDepthValue() {
+		if (modulationDepthSmoothed.isSmoothing()) {
+			return modulationDepthSmoothed.getNextValue();
+		}
+		return currentModulationDepth;
+	}
+
+	void Tremolo::setLfoWaveform(LfoWaveform lwf) {		
 		lfoToSet = lwf;
 	}
 
@@ -96,12 +101,7 @@ namespace sky_trem {
 		return currentGain;
 	}
 
-	float Tremolo::getNextModulationDepthValue() {
-		if (modulationDepthSmoothed.isSmoothing()) {
-			return modulationDepthSmoothed.getNextValue();
-		}
-		return currentModulationDepth;
-	}
+
 
 	void Tremolo::updateGain() {
 		if (currentGain != gainToSet) {

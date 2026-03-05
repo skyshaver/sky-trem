@@ -72,8 +72,7 @@ namespace sky_trem {
 		}
 		
 		const auto lfoWaveformIndex = parameters.lfoWaveform.choices.indexOf(parsedParamaters->lfoWaveform);
-		if (lfoWaveformIndex < 0) {
-			// don't update parameters if modulation waveform name is invalid
+		if (lfoWaveformIndex < 0) {			
 			return juce::Result::fail(
 				"invalid modulation waveform name; supported values are: " +
 				parameters.lfoWaveform.choices.joinIntoString(", "));
