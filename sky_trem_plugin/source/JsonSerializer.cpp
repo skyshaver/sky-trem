@@ -16,8 +16,17 @@ namespace sky_trem {
 				if (archive.getVersion() != marshallingVersion) {
 					return;
 				}
-				archive(juce::named("pluginName", PLUGIN_NAME));
-				archive(juce::named("modulationRate", t.modulationRate), juce::named("gainInDb", t.gainInDb), juce::named("bypass", t.bypass), juce::named("lfoWaveform", t.lfoWaveform));
+				std::string pluginName = PLUGIN_NAME;
+
+				if (pluginName != PLUGIN_NAME) {
+					return;
+				}
+
+				archive(juce::named("pluginName", pluginName));
+				archive(juce::named("modulationRate", t.modulationRate), 
+					juce::named("gainInDb", t.gainInDb), 
+					juce::named("bypass", t.bypass), 
+					juce::named("lfoWaveform", t.lfoWaveform));
 
 			}
 		};
@@ -32,10 +41,11 @@ namespace sky_trem {
 		}
 	}
 
-	void JsonSerializer::serialize(const Parameters& parameters, juce::OutputStream& output) {
-		const auto parametersToSerialize = from(parameters);
-		const auto json = juce::ToVar::convert(parametersToSerialize);
+	void JsonSerializer::serialize(const Parameters& parameters, juce::OutputStream& output) {		
+		const auto json = juce::ToVar::convert(from(parameters));
+		
 		if (!json.has_value()) {
+			DBG("failed to serialize json");
 			return;
 		}
 
@@ -44,11 +54,25 @@ namespace sky_trem {
 
 	juce::Result JsonSerializer::deserialize(juce::InputStream& input, Parameters& parameters) {
 		juce::var parsedResult;
+		juce::String inputAsString = input.readEntireStreamAsString();
+		DBG(inputAsString);
 		const auto result = juce::JSON::parse(input.readEntireStreamAsString(), parsedResult);
+		
 		if (result.failed()) {
 			return result;
 		}
 
-		return juce::Result::fail("not implemented");
+		const auto parsedParamaters = juce::FromVar::convert<SerializableParameters>(parsedResult);
+
+		if (parsedParamaters.has_value()) {
+			parameters.modulationRate = parsedParamaters->modulationRate;
+			parameters.gainInDb = parsedParamaters->gainInDb;
+			parameters.bypass = parsedParamaters->bypass;
+			parameters.lfoWaveform = parameters.lfoWaveform.choices.indexOf(parsedParamaters->lfoWaveform);
+			return juce::Result::ok();
+		}
+		
+		return juce::Result::fail("failed to parse parameters from json");
+
 	}
 }  // namespace sky_trem

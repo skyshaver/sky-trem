@@ -58,6 +58,7 @@ include(cmake/Util.cmake)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # Sets the Windows VST3 installation location to one
   # that doesn't require elevated permissions
+  # C:\Users\skysh\AppData\Local\Programs\Common\VST3\SkyTrem.vst3\Contents\x86_64-win
   set_directory_properties(PROPERTIES JUCE_VST3_COPY_DIR "$ENV{LOCALAPPDATA}/Programs/Common/VST3")
 endif()
 
