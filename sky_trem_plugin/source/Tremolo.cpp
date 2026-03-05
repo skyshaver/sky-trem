@@ -21,6 +21,7 @@ namespace sky_trem {
 
 	void Tremolo::process(juce::AudioBuffer<float>& buffer) noexcept {
 
+		updateModulationDepth();
 		updateLfoWaveform();
 		updateGain();
 
@@ -51,6 +52,14 @@ namespace sky_trem {
 
 	void Tremolo::setModulationDepth(float modDepth) {
 		currentModulationDepth = modDepth;
+	}
+
+	void Tremolo::updateModulationDepth() {
+		if (currentModulationDepth != modulationDepthToSet) {
+			modulationDepthSmoothed.setCurrentAndTargetValue(getNextModulationDepthValue());
+			currentModulationDepth = modulationDepthToSet;
+			modulationDepthSmoothed.setTargetValue(getNextModulationDepthValue());
+		}
 	}
 
 	void Tremolo::setLfoWaveform(LfoWaveform lwf) {
@@ -85,6 +94,13 @@ namespace sky_trem {
 			return gainSmoothed.getNextValue();
 		}
 		return currentGain;
+	}
+
+	float Tremolo::getNextModulationDepthValue() {
+		if (modulationDepthSmoothed.isSmoothing()) {
+			return modulationDepthSmoothed.getNextValue();
+		}
+		return currentModulationDepth;
 	}
 
 	void Tremolo::updateGain() {

@@ -23,6 +23,7 @@ namespace sky_trem {
 		void setModulationRate(float modRate);
 
 		void setModulationDepth(float modDepth);
+		void updateModulationDepth();
 
 		void setLfoWaveform(LfoWaveform lfw);
 		void updateLfoWaveform();
@@ -30,8 +31,7 @@ namespace sky_trem {
 		void setGainInDB(float gainInDb);
 		void updateGain();
 
-		void reset() noexcept;
-		// float modDepth = 0.4f;
+		void reset() noexcept;		
 
 	private:
 
@@ -57,7 +57,10 @@ namespace sky_trem {
 		float gainToSet = currentGain;
 		juce::LinearSmoothedValue<float> gainSmoothed{ 1.f };
 
+		float getNextModulationDepthValue();
 		float currentModulationDepth{ 0.4f };
+		float modulationDepthToSet = currentModulationDepth;
+		juce::LinearSmoothedValue<float> modulationDepthSmoothed{ 0.4f };
 
 
 	};
