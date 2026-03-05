@@ -2,6 +2,7 @@
 namespace {
 	struct SerializableParameters {
 		float modulationRate;
+		float modulationDepth;
 		float gainInDb;
 		bool bypass;
 		juce::String lfoWaveform;
@@ -22,6 +23,7 @@ namespace {
 			}
 
 			archive(juce::named("modulationRate", p.modulationRate),
+				juce::named("modulationDepth", p.modulationDepth),
 				juce::named("gainInDb", p.gainInDb),
 				juce::named("bypass", p.bypass),
 				juce::named("lfoWaveform", p.lfoWaveform));
@@ -32,6 +34,7 @@ namespace {
 	SerializableParameters from(const sky_trem::Parameters& parameters) {
 		return {
 			.modulationRate = parameters.modulationRate.get(),
+			.modulationDepth = parameters.modulationDepth.get(),
 			.gainInDb = parameters.gainInDb.get(),
 			.bypass = parameters.bypass.get(),
 			.lfoWaveform = parameters.lfoWaveform.getCurrentChoiceName(),
@@ -78,6 +81,7 @@ namespace sky_trem {
 
 		
 		parameters.modulationRate = parsedParamaters->modulationRate;
+		parameters.modulationDepth = parsedParamaters->modulationDepth;
 		parameters.gainInDb = parsedParamaters->gainInDb;
 		parameters.bypass = parsedParamaters->bypass;
 		parameters.lfoWaveform = lfoWaveformIndex;

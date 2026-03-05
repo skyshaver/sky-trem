@@ -6,6 +6,7 @@ namespace sky_trem {
 
 		explicit Parameters(juce::AudioProcessor&);
 		juce::AudioParameterFloat& modulationRate;
+		juce::AudioParameterFloat& modulationDepth;
 		juce::AudioParameterFloat& gainInDb;
 		juce::AudioParameterBool& bypass;
 		juce::AudioParameterChoice& lfoWaveform;

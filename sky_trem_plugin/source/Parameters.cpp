@@ -25,6 +25,20 @@ namespace sky_trem {
 
 	}
 
+	juce::AudioParameterFloat& createModulationDepthParameter(juce::AudioProcessor& processor) {
+
+		constexpr auto versionHint = 1;
+		return addParameterToProcessor(
+			processor,
+			std::make_unique<juce::AudioParameterFloat>(
+				juce::ParameterID{ "modulation.depth", versionHint },
+				"Modulation Depth",
+				juce::NormalisableRange<float>{ 0.f, 1.f, .01f },
+				0.4f,
+				juce::AudioParameterFloatAttributes{}.withLabel("Gain")));
+
+	}
+
 	juce::AudioParameterFloat& createGainInDbParameter(juce::AudioProcessor& processor) {
 
 		constexpr auto versionHint = 1;
@@ -66,9 +80,11 @@ namespace sky_trem {
 
 	Parameters::Parameters(juce::AudioProcessor& processor) : 
 		modulationRate{ createModulationRateParameter(processor) }, 
+		modulationDepth{ createModulationDepthParameter(processor) },
 		gainInDb{ createGainInDbParameter(processor) }, 
 		bypass{ createbypassParameter(processor) },
 		lfoWaveform{ createLfoWaveformParameter(processor) }
+
 	{}
 
 }  // namespace sky_trem

@@ -103,6 +103,7 @@ namespace sky_trem {
 		}
 
 		tremolo.setModulationRate(parameters.modulationRate.get());
+		tremolo.setModulationDepth(parameters.modulationDepth.get());
 		tremolo.setGainInDB(parameters.gainInDb.get());
 		tremolo.setLfoWaveform(static_cast<Tremolo::LfoWaveform>(parameters.lfoWaveform.getIndex()));
 
