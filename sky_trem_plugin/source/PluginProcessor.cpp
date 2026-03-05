@@ -121,11 +121,11 @@ namespace sky_trem {
 	}
 
 	bool PluginProcessor::hasEditor() const {
-		return false;
+		return true;
 	}
 	
 	juce::AudioProcessorEditor* PluginProcessor::createEditor() {
-		return nullptr;
+		return new PluginEditor(*this);
 	}
 
 	void PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {

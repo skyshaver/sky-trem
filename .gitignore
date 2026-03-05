@@ -463,4 +463,6 @@ FodyWeavers.xsd
 # IntelliJ
 .idea
 **/cmake-build*
+
+# user defined
 /assets/gimp_files

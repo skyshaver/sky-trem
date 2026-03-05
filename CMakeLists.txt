@@ -108,6 +108,7 @@ juce_add_binary_data(sky_trem_plugin_assets
   SOURCES
     assets/Background.png
     assets/Logo.png
+    assets/temp_logo.png
     # TODO: Add custom font files
 )
 
