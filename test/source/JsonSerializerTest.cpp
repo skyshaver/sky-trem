@@ -66,7 +66,7 @@ namespace sky_trem {
   "modulationRate": 10.0,
   "gainInDb": 0.0,
   "bypass": true,
-  "lfoWaveform": "Triangle"
+  "lfoWaveform": "Foo"
 })";
 
 		juce::MemoryInputStream inputStream{ savedParameters.getCharPointer(), static_cast<size_t>(savedParameters.length()), false };
