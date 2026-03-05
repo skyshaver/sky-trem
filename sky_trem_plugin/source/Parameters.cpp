@@ -46,7 +46,7 @@ namespace sky_trem {
 			processor,
 			std::make_unique<juce::AudioParameterBool>(
 				juce::ParameterID{ "bypass", versionHint }, 
-				"bypass",
+				"Bypass",
 				false ));
 
 	}

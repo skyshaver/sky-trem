@@ -128,15 +128,16 @@ namespace sky_trem {
 	}
 
 	void PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {
-		juce::MemoryOutputStream outputStream(destData, true);
+		juce::MemoryOutputStream outputStream{ destData, true };
 		JsonSerializer::serialize(parameters, outputStream);
 	}
 
 	void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
-		juce::MemoryInputStream inputStream({ data, static_cast<size_t> (sizeInBytes) }, false);
+		
+		juce::MemoryInputStream inputStream{ data, static_cast<size_t>(sizeInBytes), false };		
 		const auto result = JsonSerializer::deserialize(inputStream, parameters);
 		if (result.failed()) {
-			DBG(result.getErrorMessage());
+			DBG("setStateInformation: " << result.getErrorMessage());
 		}
 		bypassTransitionSmoother.setBypassForced(parameters.bypass.get());
 	}
