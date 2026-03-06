@@ -6,16 +6,11 @@ namespace sky_trem {
 		background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
 
 		logo.setImage(juce::ImageCache::getFromMemory(assets::temp_logo_png, assets::temp_logo_pngSize));
-		logo_c.setImage(juce::ImageCache::getFromMemory(assets::temp_logo_png, assets::temp_logo_pngSize));
-		logo_r.setImage(juce::ImageCache::getFromMemory(assets::temp_logo_png, assets::temp_logo_pngSize));
+		
 
 		addAndMakeVisible(background);
 		addAndMakeVisible(logo);
-		addAndMakeVisible(logo_c);
-		addAndMakeVisible(logo_r);
-
-		// Make sure that before the constructor has finished, you've set the
-		// editor's size to whatever you need it to be.
+		addAndMakeVisible(lfoVisualizer);
 		setSize(540, 270);
 
 	}
@@ -26,8 +21,8 @@ namespace sky_trem {
 		background.setBounds(bounds);
 
 		logo.setBounds({ 16, 16, 105, 24 });
-		logo_c.setBounds({ bounds.getCentreX() - (105/2), 16, 105, 24});
-		logo_r.setBounds({ bounds.getWidth() - 105 - 16, 16, 105, 24});
+		lfoVisualizer.setBounds({ 18, 149, 504, 92 });
+		
 	}
 
 }  // namespace sky_trem
