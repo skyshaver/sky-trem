@@ -11,8 +11,7 @@ namespace sky_trem {
 		modulationRateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		modulationRateSlider.setPopupDisplayEnabled(true, true, this);
 		modulationRateSlider.setRange(1.f, 30.f, 0.5f);
-		// modulationRateSlider.onValueChange = [this]() { DBG("Rate Slider Value: " << modulationRateSlider.getValue()); };
-		// modulationRateSlider.onValueChange = [this]() { lfoVisualizer.setStrokeWidth(modulationRateSlider.getValue()); };
+		// modulationRateSlider.onValueChange = [this]() { DBG("Rate Slider Value: " << modulationRateSlider.getValue()); };		
 		modulationRateSlider.setTextValueSuffix(" Hz");
 
 		strokeWidthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
@@ -32,6 +31,7 @@ namespace sky_trem {
 	}
 
 	void PluginEditor::resized() {
+
 		const auto bounds = getLocalBounds();
 		auto modulationRateSliderBounds = bounds;
 		auto strokeWidthSliderBounds = bounds;
@@ -41,8 +41,7 @@ namespace sky_trem {
 		background.setBounds(backgroundBounds);
 
 		logo.setBounds({ 16, 16, 105, 24 });
-
-		// bounds.removeFromBottom(bounds.getHeight() / 3);
+		
 		modulationRateSliderBounds.removeFromLeft(230);
 		modulationRateSliderBounds.removeFromRight(230);
 		modulationRateSliderBounds.removeFromTop(40);

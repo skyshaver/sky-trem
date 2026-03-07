@@ -7,7 +7,6 @@ namespace sky_trem {
 	class Tremolo {
 
 	public:
-
 		enum class LfoWaveform : size_t {
 			Sine = 0,
 			Triangle = 1,
@@ -34,7 +33,6 @@ namespace sky_trem {
 		void reset() noexcept;		
 
 	private:
-
 		static float triangle(float phase) {
 			const auto ft = phase / juce::MathConstants<float>::twoPi; // ft is triangles frequency * time
 			return 4.f * std::abs(ft - std::floor(ft + 0.5f)) - 1.f;
@@ -61,7 +59,6 @@ namespace sky_trem {
 		float currentModulationDepth{ 0.4f };
 		float modulationDepthToSet = currentModulationDepth;
 		juce::LinearSmoothedValue<float> modulationDepthSmoothed{ 0.4f };
-
 
 	};
 
