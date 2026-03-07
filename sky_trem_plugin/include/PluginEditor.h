@@ -14,6 +14,7 @@ namespace sky_trem {
 		LfoVisualizer lfoVisualizer;
 
 		juce::Slider modulationRateSlider;
+		juce::Slider strokeWidthSlider;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 	};

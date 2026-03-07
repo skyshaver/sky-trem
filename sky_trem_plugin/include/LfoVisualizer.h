@@ -6,10 +6,12 @@ namespace sky_trem {
 
 		public:
 			void paint(juce::Graphics& g) override;
-			void resized() override;
+			void resized() override;			
+			void setStrokeWidth(float sw);			
 
 	private:
-		const float strokeWidth = 4.f;
+		float strokeWidth = 1.f;
+		
 		juce::Path sine;
 
 
