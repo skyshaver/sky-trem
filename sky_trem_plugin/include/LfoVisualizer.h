@@ -13,6 +13,7 @@ namespace sky_trem {
 		float strokeWidth = 1.f;
 
 		juce::Path sine;
+		void drawSine();
 
 	};
 }

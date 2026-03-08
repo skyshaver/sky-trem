@@ -1,7 +1,8 @@
 
 namespace sky_trem {
 
-	PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
+	PluginEditor::PluginEditor(PluginProcessor& p)
+		: AudioProcessorEditor(&p), modulationRateSliderAttachment{ p.getParameterRefs().modulationRate, modulationRateSlider } {
 
 		background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
 
@@ -9,15 +10,13 @@ namespace sky_trem {
 
 		modulationRateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 		modulationRateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-		modulationRateSlider.setPopupDisplayEnabled(true, true, this);
-		modulationRateSlider.setRange(1.f, 30.f, 0.5f);
-		// modulationRateSlider.onValueChange = [this]() { DBG("Rate Slider Value: " << modulationRateSlider.getValue()); };		
+		modulationRateSlider.setPopupDisplayEnabled(true, true, this);				
 		modulationRateSlider.setTextValueSuffix(" Hz");
 
 		strokeWidthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
 		strokeWidthSlider.setRange(1.f, 30.f, 0.5f);
 		// strokeWidthSlider.onValueChange = [this]() { DBG("Stroke Width SLider: " << strokeWidthSlider.getValue()); };
-		strokeWidthSlider.onValueChange = [this]() { lfoVisualizer.setStrokeWidth( strokeWidthSlider.getValue()); };
+		strokeWidthSlider.onValueChange = [this]() { lfoVisualizer.setStrokeWidth(static_cast<float>(strokeWidthSlider.getValue())); };
 
 		addAndMakeVisible(background);
 		addAndMakeVisible(logo);
@@ -41,7 +40,7 @@ namespace sky_trem {
 		background.setBounds(backgroundBounds);
 
 		logo.setBounds({ 16, 16, 105, 24 });
-		
+
 		modulationRateSliderBounds.removeFromLeft(230);
 		modulationRateSliderBounds.removeFromRight(230);
 		modulationRateSliderBounds.removeFromTop(40);
