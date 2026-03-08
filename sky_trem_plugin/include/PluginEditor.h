@@ -18,6 +18,12 @@ namespace sky_trem {
 
 		juce::Slider modulationRateSlider;		
 		juce::SliderParameterAttachment modulationRateSliderAttachment;
+
+		juce::Slider modulationDepthSlider;
+		juce::SliderParameterAttachment modulationDepthSliderAttachement;
+
+		juce::Slider gainInDbSlider;
+		juce::SliderParameterAttachment gainInDbSliderAttachment;
 		
 		juce::Slider strokeWidthSlider;
 

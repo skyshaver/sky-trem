@@ -2,7 +2,10 @@
 namespace sky_trem {
 
 	PluginEditor::PluginEditor(PluginProcessor& p)
-		: AudioProcessorEditor(&p), modulationRateSliderAttachment{ p.getParameterRefs().modulationRate, modulationRateSlider } {
+		: AudioProcessorEditor(&p),
+		modulationRateSliderAttachment{ p.getParameterRefs().modulationRate, modulationRateSlider },
+		modulationDepthSliderAttachement{ p.getParameterRefs().modulationDepth, modulationDepthSlider },
+		gainInDbSliderAttachment{ p.getParameterRefs().gainInDb, gainInDbSlider } {
 
 		background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
 
@@ -10,22 +13,33 @@ namespace sky_trem {
 
 		modulationRateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 		modulationRateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
-		modulationRateSlider.setPopupDisplayEnabled(true, true, this);				
+		modulationRateSlider.setPopupDisplayEnabled(true, true, this);
 		modulationRateSlider.setTextValueSuffix(" Hz");
+
+		modulationDepthSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+		modulationDepthSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+		modulationDepthSlider.setPopupDisplayEnabled(true, true, this);
+		modulationDepthSlider.setTextValueSuffix(" Depth");
+
+		gainInDbSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+		gainInDbSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+		gainInDbSlider.setPopupDisplayEnabled(true, true, this);
+		gainInDbSlider.setTextValueSuffix(" dB");
 
 		strokeWidthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
 		strokeWidthSlider.setRange(1.f, 30.f, 0.5f);
-		// strokeWidthSlider.onValueChange = [this]() { DBG("Stroke Width SLider: " << strokeWidthSlider.getValue()); };
 		strokeWidthSlider.onValueChange = [this]() { lfoVisualizer.setStrokeWidth(static_cast<float>(strokeWidthSlider.getValue())); };
 
 		addAndMakeVisible(background);
 		addAndMakeVisible(logo);
-		addAndMakeVisible(strokeWidthSlider);
 		addAndMakeVisible(modulationRateSlider);
+		addAndMakeVisible(modulationDepthSlider);
+		addAndMakeVisible(gainInDbSlider);
+		// addAndMakeVisible(strokeWidthSlider);
 		addAndMakeVisible(lfoVisualizer);
 
-		// setSize(540, 270);
-		setSize(540, 300); // with UI control pane
+		setSize(540, 270);
+		// setSize(540, 300); // with UI control pane
 
 	}
 
@@ -33,10 +47,12 @@ namespace sky_trem {
 
 		const auto bounds = getLocalBounds();
 		auto modulationRateSliderBounds = bounds;
+		auto modulationDepthSliderBounds = bounds;
+		auto gainInDbSliderBounds = bounds;
 		auto strokeWidthSliderBounds = bounds;
 
 		auto backgroundBounds = bounds;
-		backgroundBounds.removeFromBottom(30);
+		// backgroundBounds.removeFromBottom(30);
 		background.setBounds(backgroundBounds);
 
 		logo.setBounds({ 16, 16, 105, 24 });
@@ -46,6 +62,18 @@ namespace sky_trem {
 		modulationRateSliderBounds.removeFromTop(40);
 		modulationRateSliderBounds.removeFromBottom(150);
 		modulationRateSlider.setBounds(modulationRateSliderBounds);
+
+		modulationDepthSliderBounds.removeFromLeft(16);
+		modulationDepthSliderBounds.removeFromRight(bounds.getRight() / 3 * 2);
+		modulationDepthSliderBounds.removeFromTop(40);
+		modulationDepthSliderBounds.removeFromBottom(150);
+		modulationDepthSlider.setBounds(modulationDepthSliderBounds);
+
+		gainInDbSliderBounds.removeFromLeft(bounds.getRight() / 3 * 2);
+		gainInDbSliderBounds.removeFromRight(16);
+		gainInDbSliderBounds.removeFromTop(40);
+		gainInDbSliderBounds.removeFromBottom(150);
+		gainInDbSlider.setBounds(gainInDbSliderBounds);
 
 		strokeWidthSliderBounds.removeFromLeft(16);
 		strokeWidthSliderBounds.removeFromRight(bounds.getRight() / 2);
