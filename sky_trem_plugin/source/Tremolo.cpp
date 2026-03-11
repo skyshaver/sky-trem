@@ -90,8 +90,7 @@ namespace sky_trem {
 
 	void Tremolo::setGainInDB(float gainInDb) {
 		// normalizedGain = std::pow(10.f, gainInDb / 20.f);
-		gainToSet = juce::Decibels::decibelsToGain(gainInDb);
-		// DBG(normalizedGain);
+		gainToSet = juce::Decibels::decibelsToGain(gainInDb);	
 	}
 
 	float Tremolo::getNextGainValue() {
@@ -100,8 +99,6 @@ namespace sky_trem {
 		}
 		return currentGain;
 	}
-
-
 
 	void Tremolo::updateGain() {
 		if (currentGain != gainToSet) {

@@ -31,24 +31,18 @@ namespace sky_trem {
 			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
 			};
 		bypassButton.onClick();
-
-		//strokeWidthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-		//strokeWidthSlider.setRange(1.f, 30.f, 0.5f);
-		//strokeWidthSlider.onValueChange = [this]() { lfoVisualizer.setStrokeWidth(static_cast<float>(strokeWidthSlider.getValue())); };
-
+		
 		addAndMakeVisible(background);
 		addAndMakeVisible(logo);
 		addAndMakeVisible(modulationRateSlider);
 		addAndMakeVisible(modulationDepthSlider);
 		addAndMakeVisible(gainInDbSlider);
-		addAndMakeVisible(bypassButton);
-		// addAndMakeVisible(strokeWidthSlider);
+		addAndMakeVisible(bypassButton);		
 		addAndMakeVisible(lfoVisualizer);
 
 
 		setLookAndFeel(&lookAndFeel);
-		setSize(540, 270);
-		// setSize(540, 300); // with UI control pane
+		setSize(540, 270);		
 
 	}
 
@@ -65,8 +59,7 @@ namespace sky_trem {
 		auto strokeWidthSliderBounds = bounds;
 		auto bypassButtonBounds = bounds;
 
-		auto backgroundBounds = bounds;
-		// backgroundBounds.removeFromBottom(30);
+		auto backgroundBounds = bounds;		
 		background.setBounds(backgroundBounds);
 
 		logo.setBounds({ 16, 16, 105, 24 });
