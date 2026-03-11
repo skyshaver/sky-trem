@@ -16,7 +16,7 @@ namespace sky_trem {
 
 		LfoVisualizer lfoVisualizer;
 
-		juce::Slider modulationRateSlider;		
+		ModulationRateSlider modulationRateSlider;
 		juce::SliderParameterAttachment modulationRateSliderAttachment;
 
 		juce::Slider modulationDepthSlider;

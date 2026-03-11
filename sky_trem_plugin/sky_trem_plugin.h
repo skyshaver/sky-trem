@@ -43,5 +43,6 @@ END_JUCE_MODULE_DECLARATION
 #include "include/BypassTransitionSmoother.h"
 #include "include/PluginProcessor.h"
 #include "include/LfoVisualizer.h"
+#include "include/ModulationRateSlider.h"
 #include "include/PluginEditor.h"
 
