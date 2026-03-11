@@ -2,7 +2,7 @@
 namespace sky_trem {
 	void sky_trem::ModulationRateSlider::paint(juce::Graphics& g) {
 
-		auto sliderPos = (float)valueToProportionOfLength(getValue());
+		auto sliderPos = static_cast<float>(valueToProportionOfLength(getValue()));
 		jassert(sliderPos >= 0 && sliderPos <= 1.f);
 
 		const auto rotaryParams = getRotaryParameters();

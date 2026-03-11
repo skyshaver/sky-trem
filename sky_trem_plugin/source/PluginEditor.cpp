@@ -45,9 +45,15 @@ namespace sky_trem {
 		// addAndMakeVisible(strokeWidthSlider);
 		addAndMakeVisible(lfoVisualizer);
 
+
+		setLookAndFeel(&lookAndFeel);
 		setSize(540, 270);
 		// setSize(540, 300); // with UI control pane
 
+	}
+
+	PluginEditor::~PluginEditor() {
+		setLookAndFeel(nullptr);
 	}
 
 	void PluginEditor::resized() {

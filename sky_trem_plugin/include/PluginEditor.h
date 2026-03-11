@@ -6,6 +6,7 @@ namespace sky_trem {
 
 	public:
 		explicit PluginEditor(PluginProcessor&);
+		~PluginEditor() override;
 
 		void resized() override;
 
@@ -16,7 +17,7 @@ namespace sky_trem {
 
 		LfoVisualizer lfoVisualizer;
 
-		ModulationRateSlider modulationRateSlider;
+		juce::Slider modulationRateSlider;
 		juce::SliderParameterAttachment modulationRateSliderAttachment;
 
 		juce::Slider modulationDepthSlider;
@@ -29,6 +30,8 @@ namespace sky_trem {
 		juce::ButtonParameterAttachment bypassParameterAttachment;
 		
 		juce::Slider strokeWidthSlider;
+
+		CustomLookAndFeel lookAndFeel;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 
