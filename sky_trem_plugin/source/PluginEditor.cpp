@@ -28,7 +28,7 @@ namespace sky_trem {
 		gainInDbSlider.setTextValueSuffix(" dB");
 
 		bypassButton.onClick = [this]() {
-			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypassed" : "Bypass?");
+			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
 			};
 		bypassButton.onClick();
 
@@ -73,8 +73,8 @@ namespace sky_trem {
 
 		bypassButtonBounds.removeFromLeft(392);
 		bypassButtonBounds.removeFromRight(16);
-		bypassButtonBounds.removeFromTop(16);
-		bypassButtonBounds.removeFromBottom(216);
+		bypassButtonBounds.removeFromTop(10);
+		bypassButtonBounds.removeFromBottom(226);
 		bypassButton.setBounds(bypassButtonBounds);
 				
 		modulationRateSliderBounds.removeFromLeft(230);

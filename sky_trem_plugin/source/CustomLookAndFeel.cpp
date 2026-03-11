@@ -1,29 +1,54 @@
+// https://github.com/juce-framework/JUCE/blob/master/modules/juce_gui_basics/lookandfeel/juce_LookAndFeel_V4.cpp
 
 namespace sky_trem {
-
+	/*
+	* bounds of button are 132 x 28px
+	* margin of 2px
+	* rounded rectangle, corner radius of 4px
+	* text colour #DDECFF
+	* bg gradient, 3 stops, 0% #4A7090, 73% #315160, 100% #324258
+	* juce uses ARGB 0xAARRGGBB
+	*/
 	void sky_trem::CustomLookAndFeel::drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
 		bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) {
 
-		auto fontSize = juce::jmin(15.0f, (float)button.getHeight() * 0.75f);
-		auto tickWidth = fontSize * 1.1f;
+		const auto bounds = button.getLocalBounds().reduced(2);		
+		
+		auto textColour = juce::Colour{ 0xFFDDECFF };
+		std::array<juce::Colour, 3> gradientColours = { juce::Colour{0xFF4A7090}, juce::Colour{0xFF315160} , juce::Colour{0xFF324258} };
+		std::array<juce::Colour, 2> bypassColours = { juce::Colour{0xFFFF901A}, juce::Colour{0xFFFFC300} };
 
-		drawTickBox(g, button, 4.0f, ((float)button.getHeight() - tickWidth) * 0.5f,
-			tickWidth, tickWidth,
-			button.getToggleState(),
-			button.isEnabled(),
-			shouldDrawButtonAsHighlighted,
-			shouldDrawButtonAsDown);
+		auto buttonGradient = juce::ColourGradient::vertical(gradientColours[0], gradientColours[2], bounds);
+		buttonGradient.addColour(.73, gradientColours[1]);
 
-		g.setColour(button.findColour(juce::ToggleButton::textColourId));
-		g.setFont(fontSize);
+		auto bypassGradient = juce::ColourGradient::vertical(bypassColours[0], bypassColours[1], bounds);
 
-		if (!button.isEnabled())
-			g.setOpacity(0.5f);
+		button.getToggleState() ?  g.setGradientFill(bypassGradient) : g.setGradientFill(buttonGradient);
+		g.fillRoundedRectangle(bounds.toFloat(), 4);
 
-		g.drawFittedText(button.getButtonText(),
-			button.getLocalBounds().withTrimmedLeft(juce::roundToInt(tickWidth) + 10)
-			.withTrimmedRight(2),
-			juce::Justification::centredLeft, 10);
+		g.setColour(textColour);
+		g.drawText(button.getButtonText(), bounds, juce::Justification::centred, false);
+
+		//auto fontSize = juce::jmin(15.0f, (float)button.getHeight() * 0.75f);
+		//auto tickWidth = fontSize * 1.1f;
+
+		//drawTickBox(g, button, 4.0f, ((float)button.getHeight() - tickWidth) * 0.5f,
+		//	tickWidth, tickWidth,
+		//	button.getToggleState(),
+		//	button.isEnabled(),
+		//	shouldDrawButtonAsHighlighted,
+		//	shouldDrawButtonAsDown);
+
+		//g.setColour(button.findColour(juce::ToggleButton::textColourId));
+		//g.setFont(fontSize);
+
+		//if (!button.isEnabled())
+		//	g.setOpacity(0.5f);
+
+		//g.drawFittedText(button.getButtonText(),
+		//	button.getLocalBounds().withTrimmedLeft(juce::roundToInt(tickWidth) + 10)
+		//	.withTrimmedRight(2),
+		//	juce::Justification::centredLeft, 10);
 
 	}
 
