@@ -5,7 +5,8 @@ namespace sky_trem {
 		: AudioProcessorEditor(&p),
 		modulationRateSliderAttachment{ p.getParameterRefs().modulationRate, modulationRateSlider },
 		modulationDepthSliderAttachement{ p.getParameterRefs().modulationDepth, modulationDepthSlider },
-		gainInDbSliderAttachment{ p.getParameterRefs().gainInDb, gainInDbSlider } {
+		gainInDbSliderAttachment{ p.getParameterRefs().gainInDb, gainInDbSlider }, 
+		bypassParameterAttachment{p.getParameterRefs().bypass, bypassButton } {
 
 		background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
 
@@ -26,15 +27,21 @@ namespace sky_trem {
 		gainInDbSlider.setPopupDisplayEnabled(true, true, this);
 		gainInDbSlider.setTextValueSuffix(" dB");
 
-		strokeWidthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
-		strokeWidthSlider.setRange(1.f, 30.f, 0.5f);
-		strokeWidthSlider.onValueChange = [this]() { lfoVisualizer.setStrokeWidth(static_cast<float>(strokeWidthSlider.getValue())); };
+		bypassButton.onClick = [this]() {
+			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypassed" : "Bypass?");
+			};
+		bypassButton.onClick();
+
+		//strokeWidthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+		//strokeWidthSlider.setRange(1.f, 30.f, 0.5f);
+		//strokeWidthSlider.onValueChange = [this]() { lfoVisualizer.setStrokeWidth(static_cast<float>(strokeWidthSlider.getValue())); };
 
 		addAndMakeVisible(background);
 		addAndMakeVisible(logo);
 		addAndMakeVisible(modulationRateSlider);
 		addAndMakeVisible(modulationDepthSlider);
 		addAndMakeVisible(gainInDbSlider);
+		addAndMakeVisible(bypassButton);
 		// addAndMakeVisible(strokeWidthSlider);
 		addAndMakeVisible(lfoVisualizer);
 
@@ -50,6 +57,7 @@ namespace sky_trem {
 		auto modulationDepthSliderBounds = bounds;
 		auto gainInDbSliderBounds = bounds;
 		auto strokeWidthSliderBounds = bounds;
+		auto bypassButtonBounds = bounds;
 
 		auto backgroundBounds = bounds;
 		// backgroundBounds.removeFromBottom(30);
@@ -57,6 +65,12 @@ namespace sky_trem {
 
 		logo.setBounds({ 16, 16, 105, 24 });
 
+		bypassButtonBounds.removeFromLeft(392);
+		bypassButtonBounds.removeFromRight(16);
+		bypassButtonBounds.removeFromTop(16);
+		bypassButtonBounds.removeFromBottom(216);
+		bypassButton.setBounds(bypassButtonBounds);
+				
 		modulationRateSliderBounds.removeFromLeft(230);
 		modulationRateSliderBounds.removeFromRight(230);
 		modulationRateSliderBounds.removeFromTop(40);
@@ -74,7 +88,7 @@ namespace sky_trem {
 		gainInDbSliderBounds.removeFromTop(40);
 		gainInDbSliderBounds.removeFromBottom(150);
 		gainInDbSlider.setBounds(gainInDbSliderBounds);
-
+		
 		strokeWidthSliderBounds.removeFromLeft(16);
 		strokeWidthSliderBounds.removeFromRight(bounds.getRight() / 2);
 		strokeWidthSliderBounds.removeFromTop(270);

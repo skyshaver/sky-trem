@@ -24,6 +24,9 @@ namespace sky_trem {
 
 		juce::Slider gainInDbSlider;
 		juce::SliderParameterAttachment gainInDbSliderAttachment;
+
+		juce::ToggleButton bypassButton;
+		juce::ButtonParameterAttachment bypassParameterAttachment;
 		
 		juce::Slider strokeWidthSlider;
 
