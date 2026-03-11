@@ -15,10 +15,10 @@ namespace sky_trem {
 
 		auto bounds = getLocalBounds().toFloat().reduced(10);
 
-		// auto radius = juce::jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f;
+		auto radius = juce::jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f;
 		auto toAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
-		// auto lineW = juce::jmin(8.0f, radius * 0.5f);
-		// auto arcRadius = radius - lineW * 0.5f;
+		auto lineW = juce::jmin(8.0f, radius * 0.5f);
+		auto arcRadius = radius - lineW * 0.5f;
 
 		//juce::Path backgroundArc;
 		//backgroundArc.addCentredArc(bounds.getCentreX(),
@@ -36,7 +36,7 @@ namespace sky_trem {
 		if (isEnabled())
 		{
 			juce::Path valueArc;
-			valueArc.addPieSegment(getLocalBounds().toFloat(), rotaryStartAngle, toAngle, 0.f);
+			// valueArc.addPieSegment(getLocalBounds().toFloat(), rotaryStartAngle, toAngle, 0.f);
 			//valueArc.addCentredArc(bounds.getCentreX(),
 			//	bounds.getCentreY(),
 			//	arcRadius,
@@ -46,9 +46,18 @@ namespace sky_trem {
 			//	toAngle,
 			//	true);
 
+			valueArc.addArc(bounds.getX(),
+				bounds.getY(),
+				bounds.getWidth(),
+				bounds.getHeight(),
+				rotaryStartAngle,
+				toAngle,
+				true
+			);
+
 			g.setColour(fill);
-			// g.strokePath(valueArc, juce::PathStrokeType(lineW, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
-			g.fillPath(valueArc);
+			g.strokePath(valueArc, juce::PathStrokeType(lineW, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
+			// g.fillPath(valueArc);
 		}
 
 		//auto thumbWidth = lineW * 2.0f;
