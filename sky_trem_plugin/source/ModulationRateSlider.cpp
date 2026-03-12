@@ -18,7 +18,7 @@ namespace sky_trem {
 		auto radius = juce::jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f;
 		auto toAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 		auto lineW = juce::jmin(8.0f, radius * 0.5f);
-		auto arcRadius = radius - lineW * 0.5f;
+		// auto arcRadius = radius - lineW * 0.5f;
 
 		//juce::Path backgroundArc;
 		//backgroundArc.addCentredArc(bounds.getCentreX(),

@@ -8,16 +8,25 @@ namespace sky_trem {
 	* text colour #DDECFF
 	* bg gradient, 3 stops, 0% #4A7090, 73% #315160, 100% #324258
 	* juce uses ARGB 0xAARRGGBB
-	*/
+	* B4 for 70% opacity or use "withMultipliedAlpha" member function
+	*/	
+
 	void sky_trem::CustomLookAndFeel::drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
 		bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) {
 
-		auto fontSize = juce::jmin(15.0f, static_cast<float>(button.getHeight() * 0.75f));
+		juce::ignoreUnused(shouldDrawButtonAsDown);
+
+		// auto fontSize = juce::jmin(15.0f, static_cast<float>(button.getHeight() * 0.75f));
 		const auto bounds = button.getLocalBounds().reduced(2);
 
 		auto textColour = juce::Colour{ 0xFFDDECFF };
 		std::array<juce::Colour, 3> gradientColours = { juce::Colour{0xFF4A7090}, juce::Colour{0xFF315160} , juce::Colour{0xFF324258} };
 		std::array<juce::Colour, 2> bypassColours = { juce::Colour{0xFFFF901A}, juce::Colour{0xFFFFC300} };
+
+		if (shouldDrawButtonAsHighlighted) {
+			std::transform(gradientColours.begin(), gradientColours.end(), gradientColours.begin(), [](auto& colour) { return colour.withMultipliedAlpha(0.7f); });
+			std::transform(bypassColours.begin(), bypassColours.end(), bypassColours.begin(), [](auto& colour) { return colour.withMultipliedAlpha(0.7f); });
+		}
 
 		auto buttonGradient = juce::ColourGradient::vertical(gradientColours[0], gradientColours[2], bounds);
 		buttonGradient.addColour(.73, gradientColours[1]);
@@ -26,6 +35,8 @@ namespace sky_trem {
 
 		button.getToggleState() ? g.setGradientFill(bypassGradient) : g.setGradientFill(buttonGradient);
 		g.fillRoundedRectangle(bounds.toFloat(), 4);
+
+		
 
 		g.setColour(textColour);
 		g.drawText(button.getButtonText(), bounds, juce::Justification::centred, false);
