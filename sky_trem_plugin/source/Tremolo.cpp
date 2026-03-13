@@ -29,7 +29,8 @@ namespace sky_trem {
 		for (const auto frameIndex : std::views::iota(0, buffer.getNumSamples())) {			
 			
 			const auto lfoValue = getNextLfoValue();
-			const auto modValue = (1.f - currentModulationDepth) + currentModulationDepth * (0.5f * (lfoValue + 1.f));  // may be a better implementation
+			const auto mdValue = getNextModulationDepthValue();
+			const auto modValue = (1.f - mdValue) + mdValue * (0.5f * (lfoValue + 1.f));  // may be a better implementation
 			// const auto modValue = (currentModulationDepth * lfoValue + 1.f); // uncomment this for testing just the raw waveform shape
 
 			// for each channel sample in the frame
@@ -51,7 +52,7 @@ namespace sky_trem {
 	}
 
 	void Tremolo::setModulationDepth(float modDepth) {
-		currentModulationDepth = modDepth;
+		modulationDepthToSet = modDepth;
 	}
 
 	void Tremolo::updateModulationDepth() {
