@@ -25,25 +25,35 @@ namespace sky_trem {
 		modulationRateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		modulationRateSlider.setPopupDisplayEnabled(true, true, this);
 		modulationRateSlider.setTextValueSuffix(" Hz");
+		modulationRateLabel.setJustificationType(juce::Justification::centred);
+		modulationRateLabel.setInterceptsMouseClicks(false, false);
 
 		modulationDepthSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 		modulationDepthSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		modulationDepthSlider.setPopupDisplayEnabled(true, true, this);
 		modulationDepthSlider.setTextValueSuffix(" Depth");
+		modulationDepthLabel.setJustificationType(juce::Justification::centred);
+		modulationDepthLabel.setInterceptsMouseClicks(false, false);
 
 		gainInDbSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 		gainInDbSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		gainInDbSlider.setPopupDisplayEnabled(true, true, this);
 		gainInDbSlider.setTextValueSuffix(" dB");
+		gainInDbLabel.setJustificationType(juce::Justification::centred);
+		gainInDbLabel.setInterceptsMouseClicks(false, false);
 
 
 		addAndMakeVisible(background);
 		addAndMakeVisible(logo);
 		addAndMakeVisible(lfoWaveformCombo);
+		// addAndMakeVisible(lfoWaveformLabel); // need to fix row spacing for controls
 		addAndMakeVisible(bypassButton);
 		addAndMakeVisible(modulationRateSlider);
+		addAndMakeVisible(modulationRateLabel);
 		addAndMakeVisible(modulationDepthSlider);
+		addAndMakeVisible(modulationDepthLabel);
 		addAndMakeVisible(gainInDbSlider);
+		addAndMakeVisible(gainInDbLabel);
 		addAndMakeVisible(lfoVisualizer);
 
 
@@ -84,6 +94,10 @@ namespace sky_trem {
 		lfoComboBounds.removeFromBottom(226);
 		lfoWaveformCombo.setBounds(lfoComboBounds);
 
+		auto lfoLabelBounds = lfoComboBounds;
+		lfoLabelBounds = lfoLabelBounds.translated(0, lfoComboBounds.getHeight());
+		lfoWaveformLabel.setBounds(lfoLabelBounds);
+
 		bypassButtonBounds.removeFromLeft(392);
 		bypassButtonBounds.removeFromRight(16);
 		bypassButtonBounds.removeFromTop(10);
@@ -95,18 +109,21 @@ namespace sky_trem {
 		modulationRateSliderBounds.removeFromTop(40);
 		modulationRateSliderBounds.removeFromBottom(150);
 		modulationRateSlider.setBounds(modulationRateSliderBounds);
+		modulationRateLabel.setBounds(modulationRateSliderBounds);
 
 		modulationDepthSliderBounds.removeFromLeft(16);
 		modulationDepthSliderBounds.removeFromRight(bounds.getRight() / 3 * 2);
 		modulationDepthSliderBounds.removeFromTop(40);
 		modulationDepthSliderBounds.removeFromBottom(150);
 		modulationDepthSlider.setBounds(modulationDepthSliderBounds);
+		modulationDepthLabel.setBounds(modulationDepthSliderBounds);
 
 		gainInDbSliderBounds.removeFromLeft(bounds.getRight() / 3 * 2);
 		gainInDbSliderBounds.removeFromRight(16);
 		gainInDbSliderBounds.removeFromTop(40);
 		gainInDbSliderBounds.removeFromBottom(150);
 		gainInDbSlider.setBounds(gainInDbSliderBounds);
+		gainInDbLabel.setBounds(gainInDbSliderBounds);
 
 		lfoVisualizer.setBounds({ 18, 149, 504, 92 });
 
