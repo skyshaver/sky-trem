@@ -5,12 +5,21 @@ namespace sky_trem {
 		: AudioProcessorEditor(&p),
 		modulationRateSliderAttachment{ p.getParameterRefs().modulationRate, modulationRateSlider },
 		modulationDepthSliderAttachement{ p.getParameterRefs().modulationDepth, modulationDepthSlider },
-		gainInDbSliderAttachment{ p.getParameterRefs().gainInDb, gainInDbSlider }, 
-		bypassParameterAttachment{p.getParameterRefs().bypass, bypassButton } {
+		gainInDbSliderAttachment{ p.getParameterRefs().gainInDb, gainInDbSlider },
+		bypassParameterAttachment{ p.getParameterRefs().bypass, bypassButton },
+		lfoWaveformParameterAttachment{ p.getParameterRefs().lfoWaveform, lfoWaveformCombo } {
 
 		background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
 
 		logo.setImage(juce::ImageCache::getFromMemory(assets::temp_logo_png, assets::temp_logo_pngSize));
+
+		lfoWaveformCombo.addItemList(p.getParameterRefs().lfoWaveform.choices, 1);
+		lfoWaveformParameterAttachment.sendInitialUpdate();
+		
+		bypassButton.onClick = [this]() {
+			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
+			};
+		bypassButton.onClick();
 
 		modulationRateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 		modulationRateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
@@ -27,22 +36,19 @@ namespace sky_trem {
 		gainInDbSlider.setPopupDisplayEnabled(true, true, this);
 		gainInDbSlider.setTextValueSuffix(" dB");
 
-		bypassButton.onClick = [this]() {
-			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
-			};
-		bypassButton.onClick();
-		
+
 		addAndMakeVisible(background);
 		addAndMakeVisible(logo);
+		addAndMakeVisible(lfoWaveformCombo);
+		addAndMakeVisible(bypassButton);
 		addAndMakeVisible(modulationRateSlider);
 		addAndMakeVisible(modulationDepthSlider);
 		addAndMakeVisible(gainInDbSlider);
-		addAndMakeVisible(bypassButton);		
 		addAndMakeVisible(lfoVisualizer);
 
 
 		setLookAndFeel(&lookAndFeel);
-		setSize(540, 270);		
+		setSize(540, 270);
 
 	}
 
@@ -53,23 +59,37 @@ namespace sky_trem {
 	void PluginEditor::resized() {
 
 		const auto bounds = getLocalBounds();
+		auto logoBounds = bounds;
+		auto lfoComboBounds = bounds;
+		auto bypassButtonBounds = bounds;
+		
 		auto modulationRateSliderBounds = bounds;
 		auto modulationDepthSliderBounds = bounds;
 		auto gainInDbSliderBounds = bounds;
-		auto strokeWidthSliderBounds = bounds;
-		auto bypassButtonBounds = bounds;
-
-		auto backgroundBounds = bounds;		
+				
+		auto backgroundBounds = bounds;
 		background.setBounds(backgroundBounds);
 
 		logo.setBounds({ 16, 16, 105, 24 });
+
+		logoBounds.removeFromLeft(16);
+		logoBounds.removeFromRight(392);
+		logoBounds.removeFromTop(10);
+		logoBounds.removeFromBottom(226);
+		logo.setBounds(logoBounds);
+
+		lfoComboBounds.removeFromLeft(230);
+		lfoComboBounds.removeFromRight(230);
+		lfoComboBounds.removeFromTop(10);
+		lfoComboBounds.removeFromBottom(226);
+		lfoWaveformCombo.setBounds(lfoComboBounds);
 
 		bypassButtonBounds.removeFromLeft(392);
 		bypassButtonBounds.removeFromRight(16);
 		bypassButtonBounds.removeFromTop(10);
 		bypassButtonBounds.removeFromBottom(226);
 		bypassButton.setBounds(bypassButtonBounds);
-				
+
 		modulationRateSliderBounds.removeFromLeft(230);
 		modulationRateSliderBounds.removeFromRight(230);
 		modulationRateSliderBounds.removeFromTop(40);
@@ -87,12 +107,6 @@ namespace sky_trem {
 		gainInDbSliderBounds.removeFromTop(40);
 		gainInDbSliderBounds.removeFromBottom(150);
 		gainInDbSlider.setBounds(gainInDbSliderBounds);
-		
-		strokeWidthSliderBounds.removeFromLeft(16);
-		strokeWidthSliderBounds.removeFromRight(bounds.getRight() / 2);
-		strokeWidthSliderBounds.removeFromTop(270);
-		strokeWidthSliderBounds.removeFromBottom(0);
-		strokeWidthSlider.setBounds(strokeWidthSliderBounds);
 
 		lfoVisualizer.setBounds({ 18, 149, 504, 92 });
 

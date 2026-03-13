@@ -28,6 +28,9 @@ namespace sky_trem {
 
 		juce::ToggleButton bypassButton;
 		juce::ButtonParameterAttachment bypassParameterAttachment;
+
+		juce::ComboBox lfoWaveformCombo;
+		juce::ComboBoxParameterAttachment lfoWaveformParameterAttachment;
 		
 		juce::Slider strokeWidthSlider;
 
