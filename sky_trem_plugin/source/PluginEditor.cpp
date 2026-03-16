@@ -27,6 +27,7 @@ namespace sky_trem {
 		modulationRateSlider.setTextValueSuffix(" Hz");
 		modulationRateLabel.setJustificationType(juce::Justification::centred);
 		modulationRateLabel.setInterceptsMouseClicks(false, false);
+		modulationRateLabel.setFont(lookAndFeel.getSliderLabelFont());
 
 		modulationDepthSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 		modulationDepthSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
@@ -34,6 +35,7 @@ namespace sky_trem {
 		modulationDepthSlider.setTextValueSuffix(" Depth");
 		modulationDepthLabel.setJustificationType(juce::Justification::centred);
 		modulationDepthLabel.setInterceptsMouseClicks(false, false);
+		modulationDepthLabel.setFont(lookAndFeel.getSliderLabelFont());
 
 		gainInDbSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 		gainInDbSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
@@ -41,6 +43,7 @@ namespace sky_trem {
 		gainInDbSlider.setTextValueSuffix(" dB");
 		gainInDbLabel.setJustificationType(juce::Justification::centred);
 		gainInDbLabel.setInterceptsMouseClicks(false, false);
+		gainInDbLabel.setFont(lookAndFeel.getSliderLabelFont());
 
 
 		addAndMakeVisible(background);

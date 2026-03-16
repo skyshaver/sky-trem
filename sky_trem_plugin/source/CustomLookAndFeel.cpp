@@ -1,3 +1,4 @@
+
 // https://github.com/juce-framework/JUCE/blob/master/modules/juce_gui_basics/lookandfeel/juce_LookAndFeel_V4.cpp
 
 namespace sky_trem {
@@ -37,8 +38,11 @@ namespace sky_trem {
 		g.fillRoundedRectangle(bounds.toFloat(), 4);
 
 		
-
-		g.setColour(textColour);
+		g.setFont(customFont().withPointHeight(12.0));
+		// g.setFont(juce::FontOptions{ juce::Typeface::createSystemTypefaceFor(assets::InterMedium_ttf, assets::InterMedium_ttfSize) }.withPointHeight(12.0));
+		// auto name = g.getCurrentFont().getTypefacePtr()->getName();
+		
+		g.setColour(textColour);		
 		g.drawText(button.getButtonText(), bounds, juce::Justification::centred, false);
 
 	}
@@ -93,6 +97,12 @@ namespace sky_trem {
 		//g.setColour(slider.findColour(juce::Slider::thumbColourId));
 		//g.fillEllipse(juce::Rectangle<float>(thumbWidth, thumbWidth).withCentre(thumbPoint));
 
+	}
+
+	juce::FontOptions CustomLookAndFeel::customFont() {
+		static const auto typefacePtr = juce::Typeface::createSystemTypefaceFor(assets::InterMedium_ttf, assets::InterMedium_ttfSize);
+
+		return juce::FontOptions{ typefacePtr };
 	}
 
 }  // namespace sky_trem

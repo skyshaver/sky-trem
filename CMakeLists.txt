@@ -109,7 +109,7 @@ juce_add_binary_data(sky_trem_plugin_assets
     assets/Background.png
     assets/Logo.png
     assets/temp_logo.png
-    # TODO: Add custom font files
+    assets/Inter-Medium.ttf
 )
 
 add_library(sky_trem::sky_trem_plugin_assets ALIAS sky_trem_plugin_assets)

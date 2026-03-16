@@ -27,7 +27,7 @@ namespace sky_trem {
 
 		juce::Slider gainInDbSlider;
 		juce::SliderParameterAttachment gainInDbSliderAttachment;
-		juce::Label gainInDbLabel{ "gain lable", "GAIN" };
+		juce::Label gainInDbLabel{ "gain label", "GAIN" };
 
 		juce::ToggleButton bypassButton;
 		juce::ButtonParameterAttachment bypassParameterAttachment;
