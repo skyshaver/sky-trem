@@ -14,7 +14,9 @@ namespace sky_trem {
 		logo.setImage(juce::ImageCache::getFromMemory(assets::temp_logo_png, assets::temp_logo_pngSize));
 
 		lfoWaveformCombo.addItemList(p.getParameterRefs().lfoWaveform.choices, 1);
+		
 		lfoWaveformParameterAttachment.sendInitialUpdate();
+
 		
 		bypassButton.onClick = [this]() {
 			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");

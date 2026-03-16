@@ -2,15 +2,16 @@
 // https://github.com/juce-framework/JUCE/blob/master/modules/juce_gui_basics/lookandfeel/juce_LookAndFeel_V4.cpp
 
 namespace sky_trem {
-	/*
-	* bounds of button are 132 x 28px
-	* margin of 2px
-	* rounded rectangle, corner radius of 4px
-	* text colour #DDECFF
-	* bg gradient, 3 stops, 0% #4A7090, 73% #315160, 100% #324258
-	* juce uses ARGB 0xAARRGGBB
-	* B4 for 70% opacity or use "withMultipliedAlpha" member function
-	*/	
+
+	CustomLookAndFeel::CustomLookAndFeel() {
+		setColour(juce::PopupMenu::backgroundColourId, juce::Colour{ 0xFF153245 });
+		setColour(juce::PopupMenu::textColourId, getCustomColour(CustomColours::paleBlueText));
+
+		setColour(juce::ComboBox::textColourId, getCustomColour(CustomColours::paleBlueText));
+
+		setColour(juce::Label::textColourId, getCustomColour(CustomColours::paleBlueText));
+
+	}
 
 	void sky_trem::CustomLookAndFeel::drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
 		bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) {
@@ -19,10 +20,10 @@ namespace sky_trem {
 
 		// auto fontSize = juce::jmin(15.0f, static_cast<float>(button.getHeight() * 0.75f));
 		const auto bounds = button.getLocalBounds().reduced(2);
-
-		auto textColour = juce::Colour{ 0xFFDDECFF };
-		std::array<juce::Colour, 3> gradientColours = { juce::Colour{0xFF4A7090}, juce::Colour{0xFF315160} , juce::Colour{0xFF324258} };
-		std::array<juce::Colour, 2> bypassColours = { juce::Colour{0xFFFF901A}, juce::Colour{0xFFFFC300} };
+		
+		std::array<juce::Colour, 3> gradientColours = { getCustomColour(CustomColours::gradientBlueStart), getCustomColour(CustomColours::gradientBlueMiddle),
+			getCustomColour(CustomColours::gradientBlueEnd) };
+		std::array<juce::Colour, 2> bypassColours = { getCustomColour(CustomColours::gradientOrangeStart), getCustomColour(CustomColours::gradientOrangeEnd)};
 
 		if (shouldDrawButtonAsHighlighted) {
 			std::transform(gradientColours.begin(), gradientColours.end(), gradientColours.begin(), [](auto& colour) { return colour.withMultipliedAlpha(0.7f); });
@@ -42,12 +43,30 @@ namespace sky_trem {
 		// g.setFont(juce::FontOptions{ juce::Typeface::createSystemTypefaceFor(assets::InterMedium_ttf, assets::InterMedium_ttfSize) }.withPointHeight(12.0));
 		// auto name = g.getCurrentFont().getTypefacePtr()->getName();
 		
-		g.setColour(textColour);		
+		g.setColour(getCustomColour(CustomColours::paleBlueText));
 		g.drawText(button.getButtonText(), bounds, juce::Justification::centred, false);
 
 	}
 
-	void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
+	void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos, 
+		const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider) {
+	
+		auto toAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
+		auto bounds = juce::Rectangle<int>(x, y, width, height).toFloat().reduced(3.75f);
+
+		g.setColour(getCustomColour(CustomColours::sliderCanalBlue));
+		g.fillEllipse(bounds);
+
+		juce::Path valueArc;
+		valueArc.addPieSegment(bounds.toFloat().reduced(0.25f), rotaryStartAngle, toAngle, 0.f);
+		g.setColour(getCustomColour(CustomColours::sliderOrange));
+		g.fillPath(valueArc);
+
+		g.setColour(getCustomColour(CustomColours::gradientBlueStart));
+		g.fillEllipse(bounds.toFloat().reduced(10.f));
+	}
+
+	void CustomLookAndFeel::drawRotarySliderOG(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
 		const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider) {
 
 		auto outline = slider.findColour(juce::Slider::rotarySliderOutlineColourId);
@@ -103,6 +122,32 @@ namespace sky_trem {
 		static const auto typefacePtr = juce::Typeface::createSystemTypefaceFor(assets::InterMedium_ttf, assets::InterMedium_ttfSize);
 
 		return juce::FontOptions{ typefacePtr };
+	}
+
+	juce::Colour CustomLookAndFeel::getCustomColour(CustomColours colour)
+	{
+		switch (colour) {
+			case CustomColours::paleBlueText:
+				return juce::Colour{ 0xFFDDECFF };
+			case CustomColours::darkerBlueText:
+				return juce::Colour{ 0xFF6EA0C7 };
+			case CustomColours::gradientBlueStart:
+				return juce::Colour{ 0xFF4A7090 };
+			case CustomColours::gradientBlueMiddle:
+				return juce::Colour{ 0xFF315160 };
+			case CustomColours::gradientBlueEnd:
+				return juce::Colour{ 0xFF324258 };
+			case CustomColours::gradientOrangeStart:
+				return juce::Colour{ 0xFFFF901A };
+			case CustomColours::gradientOrangeEnd:
+				return juce::Colour{ 0xFFFFC300 };
+			case CustomColours::sliderOrange:
+				return juce::Colour{ 0xFFFFAA00 };
+			case CustomColours::sliderCanalBlue:
+				return juce::Colour{ 0xFF2A3A3B };
+			default:
+				return juce::Colour{ juce::Colours::white };
+		}
 	}
 
 }  // namespace sky_trem
