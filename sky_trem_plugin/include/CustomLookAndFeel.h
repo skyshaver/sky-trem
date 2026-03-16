@@ -9,11 +9,15 @@ namespace sky_trem {
 		void drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
 			bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
 
+		void drawComboBox(juce::Graphics& g, int width, int height, bool, int, int, int, int, juce::ComboBox& box) override;
+
 		void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
 			const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider) override;
 
 		void drawRotarySliderOG(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
 			const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider);
+
+
 
 		static juce::FontOptions getSliderLabelFont() {
 			return customFont().withPointHeight(10.f);
@@ -30,10 +34,18 @@ namespace sky_trem {
 			gradientOrangeStart,
 			gradientOrangeEnd,
 			sliderOrange,
-			sliderCanalBlue
+			sliderCanalBlue,
+			insetBlueStart,
+			insetBlueMiddle,
+			insetBlueEnd
 		};
 
 		static juce::Colour getCustomColour(CustomColours colour);
+
+	private:
+		void drawButtonInset(juce::Graphics& g, const juce::Rectangle<float> bounds);
+		void drawBlueGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted);
+		void drawOrangeGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted);
 
 	};
 }  // namespace sky_trem

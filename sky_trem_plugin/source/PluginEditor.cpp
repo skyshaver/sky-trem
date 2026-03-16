@@ -16,7 +16,6 @@ namespace sky_trem {
 		lfoWaveformCombo.addItemList(p.getParameterRefs().lfoWaveform.choices, 1);
 		
 		lfoWaveformParameterAttachment.sendInitialUpdate();
-
 		
 		bypassButton.onClick = [this]() {
 			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
