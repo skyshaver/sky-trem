@@ -82,18 +82,29 @@ namespace sky_trem {
 
 		drawBlueGradientButton(g, bounds.reduced(2), false);
 
-		//juce::Rectangle<int> arrowZone(width - 30, 0, 20, height);
-		//juce::Path path;
-		//path.startNewSubPath((float)arrowZone.getX() + 3.0f, (float)arrowZone.getCentreY() - 2.0f);
-		//path.lineTo((float)arrowZone.getCentreX(), (float)arrowZone.getCentreY() + 3.0f);
-		//path.lineTo((float)arrowZone.getRight() - 3.0f, (float)arrowZone.getCentreY() - 2.0f);
+		juce::Rectangle<int> arrowZone(width - 30, 0, 20, height);
+		juce::Path path;
+		path.startNewSubPath((float)arrowZone.getX() + 3.0f, (float)arrowZone.getCentreY() - 2.0f);
+		path.lineTo((float)arrowZone.getCentreX(), (float)arrowZone.getCentreY() + 3.0f);
+		path.lineTo((float)arrowZone.getRight() - 3.0f, (float)arrowZone.getCentreY() - 2.0f);
+
+		juce::Rectangle<float> arrowBounds(width - 30, 0, 20, height);
+		juce::Path arrow;
+		arrow.startNewSubPath(arrowBounds.getTopLeft());
+		arrow.lineTo(arrowBounds.getTopRight());
+		arrow.lineTo(arrowBounds.getCentreX(), arrowBounds.getBottom());
+		arrow.closeSubPath();
 
 		//g.setColour(box.findColour(juce::ComboBox::arrowColourId).withAlpha((box.isEnabled() ? 0.9f : 0.2f)));
 		//g.strokePath(path, juce::PathStrokeType(2.0f));
+		g.setColour(getCustomColour(CustomColours::paleBlueText));
+		g.fillPath(arrow);
 	}
 
 	void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
 		const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider) {
+
+		juce::ignoreUnused(slider);
 
 		auto toAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 		auto bounds = juce::Rectangle<int>(x, y, width, height).toFloat().reduced(3.75f);
