@@ -17,7 +17,12 @@ namespace sky_trem {
 		void drawRotarySliderOG(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
 			const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider);
 
+		juce::Font getComboBoxFont(juce::ComboBox& box) override {
+			juce::ignoreUnused(box);
+			return customFont().withPointHeight(12.f);
+		}
 
+		void positionComboBoxText(juce::ComboBox& box, juce::Label& labelToPosition) override;
 
 		static juce::FontOptions getSliderLabelFont() {
 			return customFont().withPointHeight(10.f);

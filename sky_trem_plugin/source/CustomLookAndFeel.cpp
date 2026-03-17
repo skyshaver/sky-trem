@@ -25,12 +25,12 @@ namespace sky_trem {
 	}
 
 	void CustomLookAndFeel::drawBlueGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted) {
-		
+
 		std::array<juce::Colour, 3> gradientColours = { getCustomColour(CustomColours::gradientBlueStart), getCustomColour(CustomColours::gradientBlueMiddle),
 			getCustomColour(CustomColours::gradientBlueEnd) };
-		
+
 		if (shouldDrawButtonAsHighlighted) {
-			std::transform(gradientColours.begin(), gradientColours.end(), gradientColours.begin(), [](auto& colour) { return colour.withMultipliedAlpha(0.7f); });		
+			std::transform(gradientColours.begin(), gradientColours.end(), gradientColours.begin(), [](auto& colour) { return colour.withMultipliedAlpha(0.7f); });
 		}
 
 		auto buttonGradient = juce::ColourGradient::vertical(gradientColours[0], gradientColours[2], bounds);
@@ -46,7 +46,7 @@ namespace sky_trem {
 			std::transform(gradientColours.begin(), gradientColours.end(), gradientColours.begin(), [](auto& colour) { return colour.withMultipliedAlpha(0.7f); });
 		}
 
-		auto buttonGradient = juce::ColourGradient::vertical(gradientColours[0], gradientColours[1], bounds);		
+		auto buttonGradient = juce::ColourGradient::vertical(gradientColours[0], gradientColours[1], bounds);
 
 		g.setGradientFill(buttonGradient);
 		g.fillRoundedRectangle(bounds.toFloat(), 4.f);
@@ -66,7 +66,7 @@ namespace sky_trem {
 
 		button.getToggleState() ? drawOrangeGradientButton(g, bounds, shouldDrawButtonAsHighlighted) : drawBlueGradientButton(g, bounds, shouldDrawButtonAsHighlighted);
 
-		g.setFont(customFont().withPointHeight(12.0));		
+		g.setFont(customFont().withPointHeight(12.0));
 
 		g.setColour(getCustomColour(CustomColours::paleBlueText));
 		g.drawText(button.getButtonText(), bounds, juce::Justification::centred, false);
@@ -75,6 +75,8 @@ namespace sky_trem {
 
 	void CustomLookAndFeel::drawComboBox(juce::Graphics& g, int width, int height, bool isButtonDown,
 		int buttonX, int buttonY, int buttonW, int buttonH, juce::ComboBox& box) {
+
+		juce::ignoreUnused(isButtonDown, buttonX, buttonY, buttonH, buttonW);
 
 		const auto bounds = box.getLocalBounds().toFloat();
 
@@ -88,7 +90,7 @@ namespace sky_trem {
 		path.lineTo((float)arrowZone.getCentreX(), (float)arrowZone.getCentreY() + 3.0f);
 		path.lineTo((float)arrowZone.getRight() - 3.0f, (float)arrowZone.getCentreY() - 2.0f);
 
-		juce::Rectangle<float> arrowBounds(width - 30, 0, 20, height);
+		juce::Rectangle<float> arrowBounds(width - 30.f, 0.f, 20.f, height - 0.f);
 		juce::Path arrow;
 		arrow.startNewSubPath(arrowBounds.getTopLeft());
 		arrow.lineTo(arrowBounds.getTopRight());
@@ -171,6 +173,15 @@ namespace sky_trem {
 		//g.setColour(slider.findColour(juce::Slider::thumbColourId));
 		//g.fillEllipse(juce::Rectangle<float>(thumbWidth, thumbWidth).withCentre(thumbPoint));
 
+	}
+
+	void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& box, juce::Label& labelToPosition) {
+		auto bounds = box.getLocalBounds().reduced(10, 6);
+		bounds.removeFromRight(12);
+		labelToPosition.setBounds(bounds);
+		labelToPosition.setJustificationType(juce::Justification::centred);
+
+		labelToPosition.setFont(getComboBoxFont(box));
 	}
 
 	juce::FontOptions CustomLookAndFeel::customFont() {
