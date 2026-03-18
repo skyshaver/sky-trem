@@ -15,6 +15,14 @@
       }
     },
     {
+      "name": "release",
+      "binaryDir": "cmake-build-release",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
       "name": "default-with-tests",
       "inherits": "default",
       "binaryDir": "cmake-build-with-tests",
@@ -64,6 +72,11 @@
     {
       "name": "default-with-tests",
       "configurePreset": "default-with-tests"
+    },
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "configuration": "Release"
     },
     {
       "name": "ninja-debug",

@@ -62,7 +62,7 @@ namespace sky_trem {
 
 
 		setLookAndFeel(&lookAndFeel);
-		setSize(540, 270);
+		setSize(300, 600);
 
 	}
 

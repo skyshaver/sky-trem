@@ -191,6 +191,7 @@ namespace sky_trem {
 	}
 
 	juce::Colour CustomLookAndFeel::getCustomColour(CustomColours colour) {
+
 		switch (colour) {
 		case CustomColours::paleBlueText:
 			return juce::Colour{ 0xFFDDECFF };
