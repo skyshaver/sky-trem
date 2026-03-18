@@ -9,7 +9,7 @@ namespace sky_trem {
 		bypassParameterAttachment{ p.getParameterRefs().bypass, bypassButton },
 		lfoWaveformParameterAttachment{ p.getParameterRefs().lfoWaveform, lfoWaveformCombo } {
 
-		background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
+		// background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
 
 		logo.setImage(juce::ImageCache::getFromMemory(assets::temp_logo_png, assets::temp_logo_pngSize));
 
@@ -22,7 +22,7 @@ namespace sky_trem {
 			};
 		bypassButton.onClick();
 
-		modulationRateSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+		modulationRateSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
 		modulationRateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		modulationRateSlider.setPopupDisplayEnabled(true, true, this);
 		modulationRateSlider.setTextValueSuffix(" Hz");
@@ -30,7 +30,7 @@ namespace sky_trem {
 		modulationRateLabel.setInterceptsMouseClicks(false, false);
 		modulationRateLabel.setFont(lookAndFeel.getSliderLabelFont());
 
-		modulationDepthSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+		modulationDepthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
 		modulationDepthSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		modulationDepthSlider.setPopupDisplayEnabled(true, true, this);
 		modulationDepthSlider.setTextValueSuffix(" Depth");
@@ -47,7 +47,7 @@ namespace sky_trem {
 		gainInDbLabel.setFont(lookAndFeel.getSliderLabelFont());
 
 
-		addAndMakeVisible(background);
+		// addAndMakeVisible(background);
 		addAndMakeVisible(logo);
 		addAndMakeVisible(lfoWaveformCombo);
 		// addAndMakeVisible(lfoWaveformLabel); // need to fix row spacing for controls
@@ -58,7 +58,7 @@ namespace sky_trem {
 		addAndMakeVisible(modulationDepthLabel);
 		addAndMakeVisible(gainInDbSlider);
 		addAndMakeVisible(gainInDbLabel);
-		addAndMakeVisible(lfoVisualizer);
+		// addAndMakeVisible(lfoVisualizer);
 
 
 		setLookAndFeel(&lookAndFeel);
@@ -81,21 +81,19 @@ namespace sky_trem {
 		auto modulationDepthSliderBounds = bounds;
 		auto gainInDbSliderBounds = bounds;
 				
-		auto backgroundBounds = bounds;
-		background.setBounds(backgroundBounds);
+		//auto backgroundBounds = bounds;
+		//background.setBounds(backgroundBounds);		
 
-		logo.setBounds({ 16, 16, 105, 24 });
-
-		logoBounds.removeFromLeft(16);
-		logoBounds.removeFromRight(392);
-		logoBounds.removeFromTop(10);
-		logoBounds.removeFromBottom(226);
+		logoBounds.removeFromLeft(70);
+		logoBounds.removeFromRight(70);
+		logoBounds.removeFromTop(530);
+		logoBounds.removeFromBottom(30);
 		logo.setBounds(logoBounds);
 
-		lfoComboBounds.removeFromLeft(230);
-		lfoComboBounds.removeFromRight(230);
-		lfoComboBounds.removeFromTop(10);
-		lfoComboBounds.removeFromBottom(226);
+		lfoComboBounds.removeFromLeft(50);
+		lfoComboBounds.removeFromRight(50);
+		lfoComboBounds.removeFromTop(490);
+		lfoComboBounds.removeFromBottom(80);
 		lfoWaveformCombo.setBounds(lfoComboBounds);
 
 		auto lfoLabelBounds = lfoComboBounds;
@@ -108,28 +106,27 @@ namespace sky_trem {
 		bypassButtonBounds.removeFromBottom(226);
 		bypassButton.setBounds(bypassButtonBounds);
 
-		modulationRateSliderBounds.removeFromLeft(230);
-		modulationRateSliderBounds.removeFromRight(230);
-		modulationRateSliderBounds.removeFromTop(40);
+		modulationRateSliderBounds.removeFromLeft(30);
+		modulationRateSliderBounds.removeFromRight(220);
+		modulationRateSliderBounds.removeFromTop(50);
 		modulationRateSliderBounds.removeFromBottom(150);
 		modulationRateSlider.setBounds(modulationRateSliderBounds);
 		modulationRateLabel.setBounds(modulationRateSliderBounds);
 
-		modulationDepthSliderBounds.removeFromLeft(16);
-		modulationDepthSliderBounds.removeFromRight(bounds.getRight() / 3 * 2);
-		modulationDepthSliderBounds.removeFromTop(40);
+		modulationDepthSliderBounds.removeFromLeft(110);
+		modulationDepthSliderBounds.removeFromRight(140);
+		modulationDepthSliderBounds.removeFromTop(50);
 		modulationDepthSliderBounds.removeFromBottom(150);
 		modulationDepthSlider.setBounds(modulationDepthSliderBounds);
 		modulationDepthLabel.setBounds(modulationDepthSliderBounds);
 
-		gainInDbSliderBounds.removeFromLeft(bounds.getRight() / 3 * 2);
-		gainInDbSliderBounds.removeFromRight(16);
-		gainInDbSliderBounds.removeFromTop(40);
-		gainInDbSliderBounds.removeFromBottom(150);
+		gainInDbSliderBounds.removeFromLeft(225);
+		gainInDbSliderBounds.removeFromRight(25);
+		gainInDbSliderBounds.removeFromTop(50);
+		gainInDbSliderBounds.removeFromBottom(500);
 		gainInDbSlider.setBounds(gainInDbSliderBounds);
 		gainInDbLabel.setBounds(gainInDbSliderBounds);
-
-		lfoVisualizer.setBounds({ 18, 149, 504, 92 });
+		
 
 	}
 
