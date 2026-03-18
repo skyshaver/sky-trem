@@ -50,7 +50,7 @@ namespace sky_trem {
 		// addAndMakeVisible(background);
 		addAndMakeVisible(logo);
 		addAndMakeVisible(lfoWaveformCombo);
-		// addAndMakeVisible(lfoWaveformLabel); // need to fix row spacing for controls
+		addAndMakeVisible(lfoWaveformLabel); // need to fix row spacing for controls
 		addAndMakeVisible(bypassButton);
 		addAndMakeVisible(modulationRateSlider);
 		addAndMakeVisible(modulationRateLabel);
@@ -97,13 +97,13 @@ namespace sky_trem {
 		lfoWaveformCombo.setBounds(lfoComboBounds);
 
 		auto lfoLabelBounds = lfoComboBounds;
-		lfoLabelBounds = lfoLabelBounds.translated(0, lfoComboBounds.getHeight());
+		lfoLabelBounds = lfoLabelBounds.translated(0, -lfoComboBounds.getHeight());
 		lfoWaveformLabel.setBounds(lfoLabelBounds);
 
-		bypassButtonBounds.removeFromLeft(392);
-		bypassButtonBounds.removeFromRight(16);
-		bypassButtonBounds.removeFromTop(10);
-		bypassButtonBounds.removeFromBottom(226);
+		bypassButtonBounds.removeFromLeft(210);
+		bypassButtonBounds.removeFromRight(20);
+		bypassButtonBounds.removeFromTop(420);
+		bypassButtonBounds.removeFromBottom(160);
 		bypassButton.setBounds(bypassButtonBounds);
 
 		modulationRateSliderBounds.removeFromLeft(30);
