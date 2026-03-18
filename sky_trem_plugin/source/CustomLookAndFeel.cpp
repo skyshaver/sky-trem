@@ -90,7 +90,8 @@ namespace sky_trem {
 		path.lineTo((float)arrowZone.getCentreX(), (float)arrowZone.getCentreY() + 3.0f);
 		path.lineTo((float)arrowZone.getRight() - 3.0f, (float)arrowZone.getCentreY() - 2.0f);
 
-		juce::Rectangle<float> arrowBounds(width - 30.f, 0.f, 20.f, height - 0.f);
+		juce::Rectangle<float> arrowBounds = bounds.reduced(8, 9);
+		arrowBounds.removeFromLeft(170);
 		juce::Path arrow;
 		arrow.startNewSubPath(arrowBounds.getTopLeft());
 		arrow.lineTo(arrowBounds.getTopRight());
@@ -101,6 +102,7 @@ namespace sky_trem {
 		//g.strokePath(path, juce::PathStrokeType(2.0f));
 		g.setColour(getCustomColour(CustomColours::paleBlueText));
 		g.fillPath(arrow);
+		
 	}
 
 	void CustomLookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
