@@ -10,13 +10,13 @@ namespace sky_trem {
 		setColour(juce::ComboBox::textColourId, getCustomColour(CustomColours::paleBlueText));
 
 		setColour(juce::Label::textColourId, getCustomColour(CustomColours::paleBlueText));
-
+				
 	}
 
 	void sky_trem::CustomLookAndFeel::drawButtonInset(juce::Graphics& g, const juce::Rectangle<float> bounds) {
 
-		std::array<juce::Colour, 3> gradientColours = { getCustomColour(CustomColours::insetBlueStart), getCustomColour(CustomColours::insetBlueMiddle),
-			getCustomColour(CustomColours::insetBlueEnd) };
+		std::array<juce::Colour, 3> gradientColours = { getNightSkyColour(NightSky::darkBlue), getNightSkyColour(NightSky::mediumBlue),
+			getNightSkyColour(NightSky::lightBlue) };
 		auto buttonGradient = juce::ColourGradient::vertical(gradientColours[0], gradientColours[2], bounds);
 		buttonGradient.addColour(.35, gradientColours[1]);
 		g.setGradientFill(buttonGradient);
@@ -24,24 +24,24 @@ namespace sky_trem {
 
 	}
 
-	void CustomLookAndFeel::drawBlueGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted) {
+	void CustomLookAndFeel::drawGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted) {
 
-		std::array<juce::Colour, 3> gradientColours = { getCustomColour(CustomColours::gradientBlueStart), getCustomColour(CustomColours::gradientBlueMiddle),
-			getCustomColour(CustomColours::gradientBlueEnd) };
+		std::array<juce::Colour, 3> gradientColours = { getNightSkyColour(NightSky::darkBlue), getNightSkyColour(NightSky::mediumBlue),
+			getNightSkyColour(NightSky::lightBlue) };
 
 		if (shouldDrawButtonAsHighlighted) {
 			std::transform(gradientColours.begin(), gradientColours.end(), gradientColours.begin(), [](auto& colour) { return colour.withMultipliedAlpha(0.7f); });
 		}
 
-		auto buttonGradient = juce::ColourGradient::vertical(gradientColours[0], gradientColours[2], bounds);
+		auto buttonGradient = juce::ColourGradient::vertical(gradientColours[2], gradientColours[0], bounds);
 		buttonGradient.addColour(.35, gradientColours[1]);
 
 		g.setGradientFill(buttonGradient);
 		g.fillRoundedRectangle(bounds.toFloat(), 4.f);
 	}
 
-	void CustomLookAndFeel::drawOrangeGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted) {
-		std::array<juce::Colour, 2> gradientColours = { getCustomColour(CustomColours::gradientOrangeStart), getCustomColour(CustomColours::gradientOrangeEnd) };
+	void CustomLookAndFeel::drawAltGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted) {
+		std::array<juce::Colour, 2> gradientColours = { getNightSkyColour(NightSky::grey), getNightSkyColour(NightSky::violet) };
 		if (shouldDrawButtonAsHighlighted) {
 			std::transform(gradientColours.begin(), gradientColours.end(), gradientColours.begin(), [](auto& colour) { return colour.withMultipliedAlpha(0.7f); });
 		}
@@ -64,7 +64,7 @@ namespace sky_trem {
 
 		const auto bounds = button.getLocalBounds().toFloat().reduced(2);
 
-		button.getToggleState() ? drawOrangeGradientButton(g, bounds, shouldDrawButtonAsHighlighted) : drawBlueGradientButton(g, bounds, shouldDrawButtonAsHighlighted);
+		button.getToggleState() ? drawAltGradientButton(g, bounds, shouldDrawButtonAsHighlighted) : drawGradientButton(g, bounds, shouldDrawButtonAsHighlighted);
 
 		g.setFont(customFont().withPointHeight(12.0));
 
@@ -82,7 +82,7 @@ namespace sky_trem {
 
 		drawButtonInset(g, bounds);
 
-		drawBlueGradientButton(g, bounds.reduced(2), false);
+		drawGradientButton(g, bounds.reduced(2), false);
 
 		juce::Rectangle<int> arrowZone(width - 30, 0, 20, height);
 		juce::Path path;
@@ -118,11 +118,11 @@ namespace sky_trem {
 
 		juce::Path valueArc;
 		valueArc.addPieSegment(bounds.toFloat().reduced(0.25f), rotaryStartAngle, toAngle, 0.f);
-		g.setColour(getCustomColour(CustomColours::sliderOrange));
+		g.setColour(getNightSkyColour(NightSky::violet));
 		g.fillPath(valueArc);
 
-		g.setColour(getCustomColour(CustomColours::gradientBlueStart));
-		g.fillEllipse(bounds.toFloat().reduced(10.f));
+		g.setColour(getNightSkyColour(NightSky::darkBlue));
+		g.fillEllipse(bounds.toFloat().reduced(5.f));
 	}
 
 	void CustomLookAndFeel::drawRotarySliderOG(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
@@ -178,6 +178,7 @@ namespace sky_trem {
 	}
 
 	void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& box, juce::Label& labelToPosition) {
+		
 		auto bounds = box.getLocalBounds().reduced(10, 6);
 		bounds.removeFromRight(12);
 		labelToPosition.setBounds(bounds);
@@ -223,5 +224,24 @@ namespace sky_trem {
 			return juce::Colour{ juce::Colours::white };
 		}
 	}
+
+	juce::Colour CustomLookAndFeel::getNightSkyColour(NightSky colour) {
+
+		switch (colour) {
+		case NightSky::darkBlue:
+			return juce::Colour{ 0xFF131862 };
+		case NightSky::mediumBlue:
+			return juce::Colour{ 0xFF2E4482 };
+		case NightSky::lightBlue:
+			return juce::Colour{ 0xFF546BAB };
+		case NightSky::grey:
+			return juce::Colour{ 0xFF87889C };
+			case NightSky::violet :
+			return juce::Colour{ 0xFFBEA9DE };
+		default:
+			return juce::Colour{ juce::Colours::white };
+		}
+	}
+
 
 }  // namespace sky_trem

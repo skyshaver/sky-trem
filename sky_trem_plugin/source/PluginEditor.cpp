@@ -9,7 +9,7 @@ namespace sky_trem {
 		bypassParameterAttachment{ p.getParameterRefs().bypass, bypassButton },
 		lfoWaveformParameterAttachment{ p.getParameterRefs().lfoWaveform, lfoWaveformCombo } {
 
-		// background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
+		background.setImage(juce::ImageCache::getFromMemory(assets::background_blk_png, assets::background_blk_pngSize));
 
 		logo.setImage(juce::ImageCache::getFromMemory(assets::temp_logo_png, assets::temp_logo_pngSize));
 
@@ -47,7 +47,7 @@ namespace sky_trem {
 		gainInDbLabel.setFont(lookAndFeel.getSliderLabelFont());
 
 
-		// addAndMakeVisible(background);
+		addAndMakeVisible(background);		
 		addAndMakeVisible(logo);
 		addAndMakeVisible(lfoWaveformCombo);
 		addAndMakeVisible(lfoWaveformLabel); // need to fix row spacing for controls
@@ -58,8 +58,7 @@ namespace sky_trem {
 		addAndMakeVisible(modulationDepthLabel);
 		addAndMakeVisible(gainInDbSlider);
 		addAndMakeVisible(gainInDbLabel);
-		// addAndMakeVisible(lfoVisualizer);
-
+		// addAndMakeVisible(lfoVisualizer);		
 
 		setLookAndFeel(&lookAndFeel);
 		setSize(300, 600);
@@ -81,13 +80,13 @@ namespace sky_trem {
 		auto modulationDepthSliderBounds = bounds;
 		auto gainInDbSliderBounds = bounds;
 				
-		//auto backgroundBounds = bounds;
-		//background.setBounds(backgroundBounds);		
+		auto backgroundBounds = bounds;
+		background.setBounds(backgroundBounds);		
 
 		logoBounds.removeFromLeft(70);
 		logoBounds.removeFromRight(70);
-		logoBounds.removeFromTop(530);
-		logoBounds.removeFromBottom(30);
+		logoBounds.removeFromTop(540);
+		logoBounds.removeFromBottom(20);
 		logo.setBounds(logoBounds);
 
 		lfoComboBounds.removeFromLeft(50);
@@ -119,11 +118,12 @@ namespace sky_trem {
 		modulationDepthSliderBounds.removeFromBottom(150);
 		modulationDepthSlider.setBounds(modulationDepthSliderBounds);
 		modulationDepthLabel.setBounds(modulationDepthSliderBounds);
-
-		gainInDbSliderBounds.removeFromLeft(225);
+		
+		// 70px x 70px
+		gainInDbSliderBounds.removeFromLeft(205);
 		gainInDbSliderBounds.removeFromRight(25);
 		gainInDbSliderBounds.removeFromTop(50);
-		gainInDbSliderBounds.removeFromBottom(500);
+		gainInDbSliderBounds.removeFromBottom(480);
 		gainInDbSlider.setBounds(gainInDbSliderBounds);
 		gainInDbLabel.setBounds(gainInDbSliderBounds);
 		

@@ -106,7 +106,7 @@ juce_add_binary_data(sky_trem_plugin_assets
   NAMESPACE
     sky_trem::assets
   SOURCES
-    assets/Background.png
+    assets/background_blk.png
     assets/Logo.png
     assets/temp_logo.png
     assets/Inter-Medium.ttf

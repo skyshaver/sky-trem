@@ -44,13 +44,22 @@ namespace sky_trem {
 			insetBlueMiddle,
 			insetBlueEnd
 		};
-
 		static juce::Colour getCustomColour(CustomColours colour);
+
+		enum class NightSky {
+			darkBlue,
+			mediumBlue,
+			lightBlue,
+			grey,
+			violet
+		};
+
+		static juce::Colour getNightSkyColour(NightSky colour);
 
 	private:
 		void drawButtonInset(juce::Graphics& g, const juce::Rectangle<float> bounds);
-		void drawBlueGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted);
-		void drawOrangeGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted);
+		void drawGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted);
+		void drawAltGradientButton(juce::Graphics& g, const juce::Rectangle<float> bounds, bool shouldDrawButtonAsHighlighted);
 
 	};
 }  // namespace sky_trem
