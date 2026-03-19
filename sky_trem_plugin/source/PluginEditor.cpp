@@ -8,7 +8,8 @@ namespace sky_trem {
 		modulationDepthSliderAttachement{ p.getParameterRefs().modulationDepth, modulationDepthSlider },
 		gainInDbSliderAttachment{ p.getParameterRefs().gainInDb, gainInDbSlider },
 		bypassParameterAttachment{ p.getParameterRefs().bypass, bypassButton },
-		lfoWaveformParameterAttachment{ p.getParameterRefs().lfoWaveform, lfoWaveformCombo } {
+		lfoWaveformParameterAttachment{ p.getParameterRefs().lfoWaveform, lfoWaveformCombo },
+		rateChoiceParameterAttachment{p.getParameterRefs().isRateInHz, rateChoiceToggle} {
 
 		background.setImage(juce::ImageCache::getFromMemory(assets::background_blk_png, assets::background_blk_pngSize));
 
@@ -18,13 +19,15 @@ namespace sky_trem {
 		lfoWaveformParameterAttachment.sendInitialUpdate();
 
 		bypassButton.onClick = [this]() {
-			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
+				bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
 			};
 		bypassButton.onClick();
 
+		// the way the button overload is setup true is the colored choice
+		// so this choice seems non default, will leave for testing but need to make ui consistent
 		rateChoiceToggle.onClick = [this]() {
-						rateChoiceToggle.setButtonText(rateChoiceToggle.getToggleState() ? "Bpm Division" : "Rate in Hz");
-						resized();
+				rateChoiceToggle.setButtonText(rateChoiceToggle.getToggleState() ? "Rate in Hz" : "BPM Division");
+				resized();
 			};
 		rateChoiceToggle.onClick();
 
@@ -142,10 +145,10 @@ namespace sky_trem {
 		bpmDivisionLabel.setBounds(modulationRateSliderBounds);
 				
 		// toggle fader between bpm division and rate
-		bpmDivisionSlider.setVisible(rateChoiceToggle.getToggleState());
-		bpmDivisionLabel.setVisible(rateChoiceToggle.getToggleState());
-		modulationRateSlider.setVisible(!rateChoiceToggle.getToggleState());
-		modulationRateLabel.setVisible(!rateChoiceToggle.getToggleState());
+		bpmDivisionSlider.setVisible(!rateChoiceToggle.getToggleState());
+		bpmDivisionLabel.setVisible(!rateChoiceToggle.getToggleState());
+		modulationRateSlider.setVisible(rateChoiceToggle.getToggleState());
+		modulationRateLabel.setVisible(rateChoiceToggle.getToggleState());
 				
 		modulationDepthSliderBounds.removeFromLeft(110);
 		modulationDepthSliderBounds.removeFromRight(140);

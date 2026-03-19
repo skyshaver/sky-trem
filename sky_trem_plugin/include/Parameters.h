@@ -10,7 +10,10 @@ namespace sky_trem {
 		juce::AudioParameterFloat& gainInDb;
 		juce::AudioParameterBool& bypass;
 		juce::AudioParameterChoice& lfoWaveform;
-		juce::AudioParameterChoice& bpmDivision;		
+		juce::AudioParameterChoice& bpmDivision;
+		// represents the state of Rate in HZ or Bpm Division for calculating modRate
+		juce::AudioParameterBool& isRateInHz;
+		juce::AudioParameterFloat& bpm;
 
 		JUCE_DECLARE_NON_COPYABLE(Parameters);
 		JUCE_DECLARE_NON_MOVEABLE(Parameters);

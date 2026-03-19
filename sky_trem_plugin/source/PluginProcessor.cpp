@@ -102,10 +102,12 @@ namespace sky_trem {
 			buffer.clear(channelToClear, 0, buffer.getNumSamples());
 		}
 
-		playhead = this->getPlayHead();		
-		currentPosInfo = *playhead->getPosition();
-		if (currentPosInfo.getBpm() != std::nullopt) {
-			// DBG(*currentPosInfo.getBpm());
+		if (!parameters.isRateInHz.get()) {
+			playhead = this->getPlayHead();		
+			currentPosInfo = *playhead->getPosition();
+			if (currentPosInfo.getBpm() != std::nullopt) {
+				DBG(*currentPosInfo.getBpm());
+			}
 		}
 
 		tremolo.setModulationRate(parameters.modulationRate.get());

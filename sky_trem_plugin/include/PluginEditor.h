@@ -43,6 +43,7 @@ namespace sky_trem {
 		// TODO: make this a parameter etc.
 		// THIS IS FOR TESTING DO NOT LEAVE IT LIKE THIS
 		juce::ToggleButton rateChoiceToggle;
+		juce::ButtonParameterAttachment rateChoiceParameterAttachment;
 		
 
 		CustomLookAndFeel lookAndFeel;

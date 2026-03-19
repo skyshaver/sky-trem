@@ -91,14 +91,41 @@ namespace sky_trem {
 
 	}
 
+	juce::AudioParameterBool& createIsRateInHzParameter(juce::AudioProcessor& processor) {
+
+		constexpr auto versionHint = 1;
+		return addParameterToProcessor(
+			processor,
+			std::make_unique<juce::AudioParameterBool>(
+				juce::ParameterID{ "isRateInHz", versionHint },
+				"Division Toggle",
+				true));
+
+	}
+
+	juce::AudioParameterFloat& createBpmParameter(juce::AudioProcessor& processor) {
+
+		constexpr auto versionHint = 1;
+		return addParameterToProcessor(
+			processor,
+			std::make_unique<juce::AudioParameterFloat>(
+				juce::ParameterID{ "bpm", versionHint },
+				"Modulation Rate",
+				juce::NormalisableRange<float>{ 20.f, 300.f, .01f },
+				10.f,
+				juce::AudioParameterFloatAttributes{}.withLabel("bpm")));
+
+	}
+
 	Parameters::Parameters(juce::AudioProcessor& processor) :
 		modulationRate{ createModulationRateParameter(processor) },
 		modulationDepth{ createModulationDepthParameter(processor) },
 		gainInDb{ createGainInDbParameter(processor) },
 		bypass{ createbypassParameter(processor) },
 		lfoWaveform{ createLfoWaveformParameter(processor) },
-		bpmDivision{ createBpmDivisionParameter(processor) }
-
+		bpmDivision{ createBpmDivisionParameter(processor) },
+		isRateInHz{ createIsRateInHzParameter(processor) },
+		bpm{ createBpmParameter(processor) }
 	{
 	}
 

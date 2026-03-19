@@ -2,11 +2,13 @@
 namespace {
 	struct SerializableParameters {
 		float modulationRate;
-		juce::String bpmDivision;
 		float modulationDepth;
 		float gainInDb;
 		bool bypass;
 		juce::String lfoWaveform;
+		juce::String bpmDivision;
+		bool isRateInHz;
+		float bpm;
 
 		static constexpr auto marshallingVersion = 1; //set to std::null_opt to avoid serializing __version__
 
@@ -24,11 +26,13 @@ namespace {
 			}
 
 			archive(juce::named("modulationRate", p.modulationRate),
-				juce::named("bpmDivision", p.bpmDivision),
 				juce::named("modulationDepth", p.modulationDepth),
 				juce::named("gainInDb", p.gainInDb),
 				juce::named("bypass", p.bypass),
-				juce::named("lfoWaveform", p.lfoWaveform));
+				juce::named("lfoWaveform", p.lfoWaveform),
+				juce::named("bpmDivision", p.bpmDivision),
+				juce::named("isRateInHz", p.isRateInHz),
+				juce::named("bpm", p.bpm));
 
 		}
 	};
@@ -36,11 +40,13 @@ namespace {
 	SerializableParameters from(const sky_trem::Parameters& parameters) {
 		return {
 			.modulationRate = parameters.modulationRate.get(),
-			.bpmDivision = parameters.bpmDivision.getCurrentChoiceName(),
 			.modulationDepth = parameters.modulationDepth.get(),
 			.gainInDb = parameters.gainInDb.get(),
 			.bypass = parameters.bypass.get(),
 			.lfoWaveform = parameters.lfoWaveform.getCurrentChoiceName(),
+			.bpmDivision = parameters.bpmDivision.getCurrentChoiceName(),
+			.isRateInHz = parameters.isRateInHz.get(),
+			.bpm = parameters.bpm.get(),
 		};
 	}
 }
@@ -91,11 +97,13 @@ namespace sky_trem {
 
 		
 		parameters.modulationRate = parsedParamaters->modulationRate;
-		parameters.bpmDivision = bpmDivisionIndex;
 		parameters.modulationDepth = parsedParamaters->modulationDepth;
 		parameters.gainInDb = parsedParamaters->gainInDb;
 		parameters.bypass = parsedParamaters->bypass;
 		parameters.lfoWaveform = lfoWaveformIndex;
+		parameters.bpmDivision = bpmDivisionIndex;
+		parameters.isRateInHz = parsedParamaters->isRateInHz;
+		parameters.bpm = parsedParamaters->bpm;
 		return juce::Result::ok();
 		
 	}

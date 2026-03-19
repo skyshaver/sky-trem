@@ -45,8 +45,8 @@ namespace sky_trem {
 
 		Tremolo tremolo;
 
-		juce::AudioPlayHead::PositionInfo currentPosInfo;
 		juce::AudioPlayHead* playhead;
+		juce::AudioPlayHead::PositionInfo currentPosInfo;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 	};

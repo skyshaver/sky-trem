@@ -7,22 +7,26 @@ namespace sky_trem {
 		auto& parameters = processor.getParameterRefs();
 
 		parameters.modulationRate = 10.f;
-		parameters.bpmDivision = 1;
 		parameters.modulationDepth = 0.5f;
 		parameters.gainInDb = 0.f;
 		parameters.bypass = true;
 		parameters.lfoWaveform = 1;
+		parameters.bpmDivision = 1;
+		parameters.isRateInHz = true;
+		parameters.bpm = 120.f;
 
 		const juce::String expectedOutput =
 			u8R"({
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
-  "bpmDivision": "0.125",
   "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
-  "lfoWaveform": "Triangle"
+  "lfoWaveform": "Triangle",
+  "bpmDivision": "0.125",
+  "isRateInHz": true,
+  "bpm": 120.0
 })";
 		juce::MemoryBlock block;
 		juce::MemoryOutputStream outputStream{ block, false };
@@ -41,11 +45,13 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
-  "bpmDivision": "0.125",
   "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
-  "lfoWaveform": "Triangle"
+  "lfoWaveform": "Triangle",
+  "bpmDivision": "0.125",
+  "isRateInHz": true,
+  "bpm": 120.0
 })";
 
 		juce::MemoryInputStream inputStream{
@@ -59,9 +65,13 @@ namespace sky_trem {
 
 		EXPECT_TRUE(result.wasOk());
 		EXPECT_FLOAT_EQ(parameters.modulationRate, 10.f);
+		EXPECT_FLOAT_EQ(parameters.modulationDepth, 0.5f);
+		EXPECT_FLOAT_EQ(parameters.gainInDb, 0.f);
 		EXPECT_TRUE(parameters.bypass);
-		EXPECT_EQ(juce::String{ "Triangle" },
-			parameters.lfoWaveform.getCurrentChoiceName());
+		EXPECT_EQ(juce::String{ "Triangle" }, parameters.lfoWaveform.getCurrentChoiceName());
+		EXPECT_EQ(juce::String{ "0.125" }, parameters.bpmDivision.getCurrentChoiceName());
+		EXPECT_TRUE(parameters.isRateInHz);
+		EXPECT_FLOAT_EQ(parameters.bpm, 120.f);
 	}
 
 	TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
@@ -71,11 +81,11 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
-  "bpmDivision": "0.125",
   "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
-  "lfoWaveform": "Foo"
+  "lfoWaveform": "Foo",
+  "bpmDivision": "0.125"
 })";
 
 		juce::MemoryInputStream inputStream{ savedParameters.getCharPointer(), static_cast<size_t>(savedParameters.length()), false };
@@ -103,11 +113,11 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
-  "bpmDivision": "foo",
   "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
-  "lfoWaveform": "Triangle"
+  "lfoWaveform": "Triangle",
+  "bpmDivision": "foo"
 })";
 
 		juce::MemoryInputStream inputStream{ savedParameters.getCharPointer(), static_cast<size_t>(savedParameters.length()), false };

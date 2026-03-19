@@ -60,6 +60,16 @@ namespace sky_trem {
 		float modulationDepthToSet = currentModulationDepth;
 		juce::LinearSmoothedValue<float> modulationDepthSmoothed{ 0.4f };
 
+		// bpm
+		/*
+		* get bpm
+		* calculate osc rate
+		* set rate
+		* reset osc
+		* only do this based on bool parameter and use existing functions?
+		* so if(bpm) get bpm, check if bpm is different than existing bpm, call setModulationRate
+		*/
+
 	};
 
 }  // namespace sky_trem
