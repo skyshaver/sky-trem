@@ -39,6 +39,10 @@ namespace sky_trem {
 		juce::ComboBox lfoWaveformCombo;
 		juce::ComboBoxParameterAttachment lfoWaveformParameterAttachment;
 		juce::Label lfoWaveformLabel{"lfowaveform label","WAVEFORM"};
+
+		// TODO: make this a parameter etc.
+		// THIS IS FOR TESTING DO NOT LEAVE IT LIKE THIS
+		juce::ToggleButton rateChoiceToggle;
 		
 
 		CustomLookAndFeel lookAndFeel;

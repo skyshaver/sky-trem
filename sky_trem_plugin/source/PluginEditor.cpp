@@ -16,12 +16,16 @@ namespace sky_trem {
 
 		lfoWaveformCombo.addItemList(p.getParameterRefs().lfoWaveform.choices, 1);		
 		lfoWaveformParameterAttachment.sendInitialUpdate();
-
 		
 		bypassButton.onClick = [this]() {
 			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
 			};
 		bypassButton.onClick();
+
+		rateChoiceToggle.onClick = [this]() {
+			rateChoiceToggle.setButtonText(rateChoiceToggle.getToggleState() ? "Bpm Division" : "Rate in Hz");
+			};
+		rateChoiceToggle.onClick();
 
 		modulationRateSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
 		modulationRateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
@@ -30,6 +34,14 @@ namespace sky_trem {
 		modulationRateLabel.setJustificationType(juce::Justification::centred);
 		modulationRateLabel.setInterceptsMouseClicks(false, false);
 		modulationRateLabel.setFont(lookAndFeel.getSliderLabelFont());
+
+		bpmDivisionSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
+		bpmDivisionSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+		bpmDivisionSlider.setPopupDisplayEnabled(true, true, this);
+		bpmDivisionSlider.setTextValueSuffix(" bpm division");
+		bpmDivisionLabel.setJustificationType(juce::Justification::centred);
+		bpmDivisionLabel.setInterceptsMouseClicks(false, false);
+		bpmDivisionLabel.setFont(lookAndFeel.getSliderLabelFont());
 
 		modulationDepthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
 		modulationDepthSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
@@ -51,10 +63,19 @@ namespace sky_trem {
 		addAndMakeVisible(background);		
 		addAndMakeVisible(logo);
 		addAndMakeVisible(lfoWaveformCombo);
-		addAndMakeVisible(lfoWaveformLabel); // need to fix row spacing for controls
+		addAndMakeVisible(lfoWaveformLabel); 
 		addAndMakeVisible(bypassButton);
-		addAndMakeVisible(modulationRateSlider);
-		addAndMakeVisible(modulationRateLabel);
+		addAndMakeVisible(rateChoiceToggle);
+
+		// this doesn't work, need to look up how to swap UI state
+		if (!rateChoiceToggle.getToggleState()) {
+			addAndMakeVisible(modulationRateSlider);
+			addAndMakeVisible(modulationRateLabel);
+		}
+		else {
+			addAndMakeVisible(bpmDivisionSlider);
+			addAndMakeVisible(bpmDivisionLabel);
+		}
 		addAndMakeVisible(modulationDepthSlider);
 		addAndMakeVisible(modulationDepthLabel);
 		addAndMakeVisible(gainInDbSlider);
@@ -76,8 +97,9 @@ namespace sky_trem {
 		auto logoBounds = bounds;
 		auto lfoComboBounds = bounds;
 		auto bypassButtonBounds = bounds;
+		auto rateChoiceToggleBounds = bounds;
 		
-		auto modulationRateSliderBounds = bounds;
+		auto modulationRateSliderBounds = bounds;		
 		auto modulationDepthSliderBounds = bounds;
 		auto gainInDbSliderBounds = bounds;
 				
@@ -106,12 +128,22 @@ namespace sky_trem {
 		bypassButtonBounds.removeFromBottom(160);
 		bypassButton.setBounds(bypassButtonBounds);
 
+		rateChoiceToggleBounds.removeFromLeft(190);
+		rateChoiceToggleBounds.removeFromRight(20);
+		rateChoiceToggleBounds.removeFromTop(390);
+		rateChoiceToggleBounds.removeFromBottom(190);
+		rateChoiceToggle.setBounds(rateChoiceToggleBounds);
+
 		modulationRateSliderBounds.removeFromLeft(30);
 		modulationRateSliderBounds.removeFromRight(220);
 		modulationRateSliderBounds.removeFromTop(50);
 		modulationRateSliderBounds.removeFromBottom(150);
 		modulationRateSlider.setBounds(modulationRateSliderBounds);
 		modulationRateLabel.setBounds(modulationRateSliderBounds);
+
+		// this will appear instead of modRate slider
+		bpmDivisionSlider.setBounds(modulationRateSliderBounds);
+		bpmDivisionLabel.setBounds(modulationRateSliderBounds);
 
 		modulationDepthSliderBounds.removeFromLeft(110);
 		modulationDepthSliderBounds.removeFromRight(140);
