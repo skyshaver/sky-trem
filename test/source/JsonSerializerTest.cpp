@@ -71,6 +71,7 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
+  "bpmDivision": "0.125",
   "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
@@ -93,5 +94,40 @@ namespace sky_trem {
 		EXPECT_FLOAT_EQ(parameters.modulationRate.get(), 5.f);
 		EXPECT_FALSE(parameters.bypass.get());
 		EXPECT_EQ(0, parameters.lfoWaveform.getIndex());
+	}
+
+	TEST(JsonSerializer, DontUpdateParametersWhenBpmDivisionIsInvalid) {
+		// given
+		const juce::String savedParameters =
+			u8R"({
+  "__version__": 1,
+  "pluginName": "SkyTrem",
+  "modulationRate": 10.0,
+  "bpmDivision": "foo",
+  "modulationDepth": 0.5,
+  "gainInDb": 0.0,
+  "bypass": true,
+  "lfoWaveform": "Triangle"
+})";
+
+		juce::MemoryInputStream inputStream{ savedParameters.getCharPointer(), static_cast<size_t>(savedParameters.length()), false };
+
+		PluginProcessor processor;
+		auto& parameters = processor.getParameterRefs();
+		parameters.modulationRate = 5.f;
+		parameters.bpmDivision = 1;
+		parameters.modulationDepth = 0.5f;
+		parameters.gainInDb = 0.f;
+		parameters.bypass = false;
+		parameters.lfoWaveform = 1;
+
+		// when
+		const auto result = JsonSerializer::deserialize(inputStream, parameters);
+
+		// then
+		EXPECT_TRUE(result.failed());
+		EXPECT_FLOAT_EQ(parameters.modulationRate.get(), 5.f);
+		EXPECT_FALSE(parameters.bypass.get());
+		EXPECT_EQ(1, parameters.lfoWaveform.getIndex());
 	}
 }  // namespace sky_trem
