@@ -86,8 +86,8 @@ namespace sky_trem {
 			std::make_unique<juce::AudioParameterChoice>(
 				juce::ParameterID{ "modulation.division", versionHint },
 				"Modulation Division",
-				juce::StringArray{ "0.0625", "0.125", "0.25", "0.5", "1.0625", "1.125", "1.25", "1.5" },
-				1));
+				juce::StringArray{ "0.0625", "0.125", "0.25", "0.5", "1.0", "1.0625", "1.125", "1.25", "1.5" },
+				2));
 
 	}
 
@@ -109,11 +109,11 @@ namespace sky_trem {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "bpm", versionHint },
-				"Modulation Rate",
+				juce::ParameterID{ "localBpm", versionHint },
+				"Local BPM",
 				juce::NormalisableRange<float>{ 20.f, 300.f, .01f },
-				10.f,
-				juce::AudioParameterFloatAttributes{}.withLabel("bpm")));
+				120.f
+				));
 
 	}
 

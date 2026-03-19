@@ -52,7 +52,7 @@ namespace sky_trem {
 
 	void PluginProcessor::prepareToPlay(double sampleRate, int expectedMaxFramesPerBlock) {
 		// Use this method as the place to do any pre-playback
-		// initialization that you need, e.g., allocate memory.
+		// initialization that you need, e.g., allocate memory.		
 
 		tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
 		bypassTransitionSmoother.prepare({
@@ -102,15 +102,28 @@ namespace sky_trem {
 			buffer.clear(channelToClear, 0, buffer.getNumSamples());
 		}
 
-		if (!parameters.isRateInHz.get()) {
-			playhead = this->getPlayHead();		
+		if (parameters.isRateInHz.get()) {			
+			
+			tremolo.setModulationRate(parameters.modulationRate.get());						
+		} 
+		else {
+			playhead = this->getPlayHead();
 			currentPosInfo = *playhead->getPosition();
+
 			if (currentPosInfo.getBpm() != std::nullopt) {
-				DBG(*currentPosInfo.getBpm());
+				parameters.bpm = static_cast<float>(*currentPosInfo.getBpm());
+				// DBG("Host BPM" <<  *currentPosInfo.getBpm());
 			}
+			else {
+				// we're in standalone for testing so set to dummy bpm
+				parameters.bpm = 120.f;
+			}
+
+			// DBG(parameters.bpmDivision.getCurrentChoiceName().getFloatValue());
+			// rough bpm calculations base on note duration, needs to be much smaller divisions to be useful or we get ring mod
+			tremolo.setModulationRate(parameters.bpm * parameters.bpmDivision.getCurrentChoiceName().getFloatValue());
 		}
 
-		tremolo.setModulationRate(parameters.modulationRate.get());
 		tremolo.setModulationDepth(parameters.modulationDepth.get());
 		tremolo.setGainInDB(parameters.gainInDb.get());
 		tremolo.setLfoWaveform(static_cast<Tremolo::LfoWaveform>(parameters.lfoWaveform.getIndex()));
