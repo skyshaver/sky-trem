@@ -4,7 +4,7 @@
 namespace sky_trem {
 
 	CustomLookAndFeel::CustomLookAndFeel() {
-		setColour(juce::PopupMenu::backgroundColourId, juce::Colour{ 0xFF153245 });
+		setColour(juce::PopupMenu::backgroundColourId, getNightSkyColour(NightSky::mediumBlue));
 		setColour(juce::PopupMenu::textColourId, getCustomColour(CustomColours::paleBlueText));
 
 		setColour(juce::ComboBox::textColourId, getCustomColour(CustomColours::paleBlueText));

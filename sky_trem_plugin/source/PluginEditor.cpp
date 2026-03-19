@@ -99,7 +99,7 @@ namespace sky_trem {
 		lfoLabelBounds = lfoLabelBounds.translated(0, -lfoComboBounds.getHeight());
 		lfoWaveformLabel.setBounds(lfoLabelBounds);
 
-		bypassButtonBounds.removeFromLeft(210);
+		bypassButtonBounds.removeFromLeft(190);
 		bypassButtonBounds.removeFromRight(20);
 		bypassButtonBounds.removeFromTop(420);
 		bypassButtonBounds.removeFromBottom(160);
