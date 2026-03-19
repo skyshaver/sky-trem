@@ -14,16 +14,17 @@ namespace sky_trem {
 
 		logo.setImage(juce::ImageCache::getFromMemory(assets::temp_logo_png, assets::temp_logo_pngSize));
 
-		lfoWaveformCombo.addItemList(p.getParameterRefs().lfoWaveform.choices, 1);		
+		lfoWaveformCombo.addItemList(p.getParameterRefs().lfoWaveform.choices, 1);
 		lfoWaveformParameterAttachment.sendInitialUpdate();
-		
+
 		bypassButton.onClick = [this]() {
 			bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
 			};
 		bypassButton.onClick();
 
 		rateChoiceToggle.onClick = [this]() {
-			rateChoiceToggle.setButtonText(rateChoiceToggle.getToggleState() ? "Bpm Division" : "Rate in Hz");
+						rateChoiceToggle.setButtonText(rateChoiceToggle.getToggleState() ? "Bpm Division" : "Rate in Hz");
+						resized();
 			};
 		rateChoiceToggle.onClick();
 
@@ -59,23 +60,19 @@ namespace sky_trem {
 		gainInDbLabel.setInterceptsMouseClicks(false, false);
 		gainInDbLabel.setFont(lookAndFeel.getSliderLabelFont());
 
-
-		addAndMakeVisible(background);		
+		addAndMakeVisible(background);
 		addAndMakeVisible(logo);
 		addAndMakeVisible(lfoWaveformCombo);
-		addAndMakeVisible(lfoWaveformLabel); 
+		addAndMakeVisible(lfoWaveformLabel);
 		addAndMakeVisible(bypassButton);
 		addAndMakeVisible(rateChoiceToggle);
+		
+		addAndMakeVisible(modulationRateSlider);
+		addAndMakeVisible(modulationRateLabel);
 
-		// this doesn't work, need to look up how to swap UI state
-		if (!rateChoiceToggle.getToggleState()) {
-			addAndMakeVisible(modulationRateSlider);
-			addAndMakeVisible(modulationRateLabel);
-		}
-		else {
-			addAndMakeVisible(bpmDivisionSlider);
-			addAndMakeVisible(bpmDivisionLabel);
-		}
+		addAndMakeVisible(bpmDivisionSlider);
+		addAndMakeVisible(bpmDivisionLabel);
+
 		addAndMakeVisible(modulationDepthSlider);
 		addAndMakeVisible(modulationDepthLabel);
 		addAndMakeVisible(gainInDbSlider);
@@ -98,13 +95,13 @@ namespace sky_trem {
 		auto lfoComboBounds = bounds;
 		auto bypassButtonBounds = bounds;
 		auto rateChoiceToggleBounds = bounds;
-		
-		auto modulationRateSliderBounds = bounds;		
+
+		auto modulationRateSliderBounds = bounds;
 		auto modulationDepthSliderBounds = bounds;
 		auto gainInDbSliderBounds = bounds;
-				
+
 		auto backgroundBounds = bounds;
-		background.setBounds(backgroundBounds);		
+		background.setBounds(backgroundBounds);
 
 		logoBounds.removeFromLeft(70);
 		logoBounds.removeFromRight(70);
@@ -140,18 +137,23 @@ namespace sky_trem {
 		modulationRateSliderBounds.removeFromBottom(150);
 		modulationRateSlider.setBounds(modulationRateSliderBounds);
 		modulationRateLabel.setBounds(modulationRateSliderBounds);
-
-		// this will appear instead of modRate slider
+		
 		bpmDivisionSlider.setBounds(modulationRateSliderBounds);
 		bpmDivisionLabel.setBounds(modulationRateSliderBounds);
-
+				
+		// toggle fader between bpm division and rate
+		bpmDivisionSlider.setVisible(rateChoiceToggle.getToggleState());
+		bpmDivisionLabel.setVisible(rateChoiceToggle.getToggleState());
+		modulationRateSlider.setVisible(!rateChoiceToggle.getToggleState());
+		modulationRateLabel.setVisible(!rateChoiceToggle.getToggleState());
+				
 		modulationDepthSliderBounds.removeFromLeft(110);
 		modulationDepthSliderBounds.removeFromRight(140);
 		modulationDepthSliderBounds.removeFromTop(50);
 		modulationDepthSliderBounds.removeFromBottom(150);
 		modulationDepthSlider.setBounds(modulationDepthSliderBounds);
 		modulationDepthLabel.setBounds(modulationDepthSliderBounds);
-		
+
 		// 70px x 70px
 		gainInDbSliderBounds.removeFromLeft(205);
 		gainInDbSliderBounds.removeFromRight(25);
@@ -159,7 +161,7 @@ namespace sky_trem {
 		gainInDbSliderBounds.removeFromBottom(480);
 		gainInDbSlider.setBounds(gainInDbSliderBounds);
 		gainInDbLabel.setBounds(gainInDbSliderBounds);
-		
+
 
 	}
 
