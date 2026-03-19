@@ -30,6 +30,7 @@ namespace sky_trem {
 
 		static juce::FontOptions customFont();
 
+		// https://forum.juce.com/t/whats-the-proper-way-to-create-a-custom-colourscheme/60111/2
 		enum class CustomColours {
 			paleBlueText,
 			darkerBlueText,
