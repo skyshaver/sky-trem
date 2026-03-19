@@ -3,7 +3,7 @@ namespace sky_trem {
 
 	namespace {
 		auto& addParameterToProcessor(juce::AudioProcessor& processor, auto parameter) {
-			
+
 			auto& result = *parameter;
 			processor.addParameter(parameter.release());
 			return result;
@@ -17,7 +17,7 @@ namespace sky_trem {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "modulation.rate", versionHint }, 
+				juce::ParameterID{ "modulation.rate", versionHint },
 				"Modulation Rate",
 				juce::NormalisableRange<float>{ .1f, 20.f, .01f, .4f },
 				10.f,
@@ -45,7 +45,7 @@ namespace sky_trem {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "gainInDb.value", versionHint }, 
+				juce::ParameterID{ "gainInDb.value", versionHint },
 				"Gain in dB",
 				juce::NormalisableRange<float>{-12.f, 12.f, .1f},
 				0.f,
@@ -59,9 +59,9 @@ namespace sky_trem {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterBool>(
-				juce::ParameterID{ "bypass", versionHint }, 
+				juce::ParameterID{ "bypass", versionHint },
 				"Bypass",
-				false ));
+				false));
 
 	}
 
@@ -78,13 +78,28 @@ namespace sky_trem {
 
 	}
 
-	Parameters::Parameters(juce::AudioProcessor& processor) : 
-		modulationRate{ createModulationRateParameter(processor) }, 
-		modulationDepth{ createModulationDepthParameter(processor) },
-		gainInDb{ createGainInDbParameter(processor) }, 
-		bypass{ createbypassParameter(processor) },
-		lfoWaveform{ createLfoWaveformParameter(processor) }
+	juce::AudioParameterChoice& createBpmDivisionParameter(juce::AudioProcessor& processor) {
 
-	{}
+		constexpr auto versionHint = 1;
+		return addParameterToProcessor(
+			processor,
+			std::make_unique<juce::AudioParameterChoice>(
+				juce::ParameterID{ "modulation.waveform", versionHint },
+				"Modulation Waveform",
+				juce::StringArray{ "0.0625", "0.125", "0.25", "0.5", "1.0625", "1.125", "1.25", "1.5" },
+				1));
+
+	}
+
+	Parameters::Parameters(juce::AudioProcessor& processor) :
+		modulationRate{ createModulationRateParameter(processor) },
+		modulationDepth{ createModulationDepthParameter(processor) },
+		gainInDb{ createGainInDbParameter(processor) },
+		bypass{ createbypassParameter(processor) },
+		lfoWaveform{ createLfoWaveformParameter(processor) },
+		bpmDivision{ createBpmDivisionParameter(processor) }
+
+	{
+	}
 
 }  // namespace sky_trem

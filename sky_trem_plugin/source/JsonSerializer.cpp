@@ -2,6 +2,7 @@
 namespace {
 	struct SerializableParameters {
 		float modulationRate;
+		juce::String bpmDivision;
 		float modulationDepth;
 		float gainInDb;
 		bool bypass;
@@ -23,6 +24,7 @@ namespace {
 			}
 
 			archive(juce::named("modulationRate", p.modulationRate),
+				juce::named("bpmDivision", p.bpmDivision),
 				juce::named("modulationDepth", p.modulationDepth),
 				juce::named("gainInDb", p.gainInDb),
 				juce::named("bypass", p.bypass),
@@ -34,6 +36,7 @@ namespace {
 	SerializableParameters from(const sky_trem::Parameters& parameters) {
 		return {
 			.modulationRate = parameters.modulationRate.get(),
+			.bpmDivision = parameters.bpmDivision.getCurrentChoiceName(),
 			.modulationDepth = parameters.modulationDepth.get(),
 			.gainInDb = parameters.gainInDb.get(),
 			.bypass = parameters.bypass.get(),
@@ -78,8 +81,17 @@ namespace sky_trem {
 				parameters.lfoWaveform.choices.joinIntoString(", "));
 		}
 
+		const auto bpmDivisionIndex = parameters.bpmDivision.choices.indexOf(parsedParamaters->bpmDivision);
+		if (bpmDivisionIndex < 0) {
+			return juce::Result::fail(
+				"invalid bpm division name; supported values arer: " +
+				parameters.bpmDivision.choices.joinIntoString(", ")
+			);
+		}
+
 		
 		parameters.modulationRate = parsedParamaters->modulationRate;
+		parameters.bpmDivision = bpmDivisionIndex;
 		parameters.modulationDepth = parsedParamaters->modulationDepth;
 		parameters.gainInDb = parsedParamaters->gainInDb;
 		parameters.bypass = parsedParamaters->bypass;

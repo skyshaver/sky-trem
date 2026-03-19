@@ -4,6 +4,7 @@ namespace sky_trem {
 	PluginEditor::PluginEditor(PluginProcessor& p)
 		: AudioProcessorEditor(&p),
 		modulationRateSliderAttachment{ p.getParameterRefs().modulationRate, modulationRateSlider },
+		bpmDivisionSliderAttachment{ p.getParameterRefs().bpmDivision, bpmDivisionSlider },
 		modulationDepthSliderAttachement{ p.getParameterRefs().modulationDepth, modulationDepthSlider },
 		gainInDbSliderAttachment{ p.getParameterRefs().gainInDb, gainInDbSlider },
 		bypassParameterAttachment{ p.getParameterRefs().bypass, bypassButton },

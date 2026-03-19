@@ -21,6 +21,10 @@ namespace sky_trem {
 		juce::SliderParameterAttachment modulationRateSliderAttachment;
 		juce::Label modulationRateLabel{ "modulation rate label", "RATE" };
 
+		juce::Slider bpmDivisionSlider;
+		juce::SliderParameterAttachment bpmDivisionSliderAttachment;
+		juce::Label bpmDivisionLabel{ "bpm division label", "BPM DIVISION" };
+
 		juce::Slider modulationDepthSlider;
 		juce::SliderParameterAttachment modulationDepthSliderAttachement;
 		juce::Label modulationDepthLabel{ "mod depth label", "DEPTH" };

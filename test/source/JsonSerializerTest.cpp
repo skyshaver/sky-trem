@@ -7,6 +7,9 @@ namespace sky_trem {
 		auto& parameters = processor.getParameterRefs();
 
 		parameters.modulationRate = 10.f;
+		parameters.bpmDivision = 1;
+		parameters.modulationDepth = 0.5f;
+		parameters.gainInDb = 0.f;
 		parameters.bypass = true;
 		parameters.lfoWaveform = 1;
 
@@ -15,6 +18,7 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
+  "bpmDivision": "0.125",
   "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,
@@ -37,6 +41,7 @@ namespace sky_trem {
   "__version__": 1,
   "pluginName": "SkyTrem",
   "modulationRate": 10.0,
+  "bpmDivision": "0.125",
   "modulationDepth": 0.5,
   "gainInDb": 0.0,
   "bypass": true,

@@ -10,6 +10,7 @@ namespace sky_trem {
 		juce::AudioParameterFloat& gainInDb;
 		juce::AudioParameterBool& bypass;
 		juce::AudioParameterChoice& lfoWaveform;
+		juce::AudioParameterChoice& bpmDivision;		
 
 		JUCE_DECLARE_NON_COPYABLE(Parameters);
 		JUCE_DECLARE_NON_MOVEABLE(Parameters);
