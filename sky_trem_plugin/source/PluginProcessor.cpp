@@ -121,7 +121,7 @@ namespace sky_trem {
 
 			// DBG(parameters.bpmDivision.getCurrentChoiceName().getFloatValue());
 			// rough bpm calculations base on note duration, needs to be much smaller divisions to be useful or we get ring mod
-			tremolo.setModulationRate(parameters.bpm * parameters.bpmDivision.getCurrentChoiceName().getFloatValue());
+			tremolo.setModulationRate(parameters.bpm * parameters.bpmDivision.getCurrentChoiceName().getFloatValue() / 60.f);
 		}
 
 		tremolo.setModulationDepth(parameters.modulationDepth.get());
