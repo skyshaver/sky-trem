@@ -47,6 +47,8 @@ namespace sky_trem {
 
 		juce::AudioPlayHead* playhead;
 		juce::AudioPlayHead::PositionInfo currentPosInfo;
+		float currentBpm{ 120.f };
+		float currentBpmDivsion;
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 	};

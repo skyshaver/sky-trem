@@ -54,6 +54,7 @@ namespace sky_trem {
 		// Use this method as the place to do any pre-playback
 		// initialization that you need, e.g., allocate memory.		
 
+		currentBpmDivsion = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();		
 		tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
 		bypassTransitionSmoother.prepare({
 			.sampleRate = sampleRate,
@@ -111,17 +112,25 @@ namespace sky_trem {
 			currentPosInfo = *playhead->getPosition();
 
 			if (currentPosInfo.getBpm() != std::nullopt) {
-				parameters.bpm = static_cast<float>(*currentPosInfo.getBpm());
+				currentBpm = static_cast<float>(*currentPosInfo.getBpm());
+				// parameters.bpm = static_cast<float>(*currentPosInfo.getBpm());
 				// DBG("Host BPM" <<  *currentPosInfo.getBpm());
 			}
 			else {
 				// we're in standalone for testing so set to dummy bpm
-				parameters.bpm = 120.f;
+				currentBpm = 120.f;
 			}
 
 			// DBG(parameters.bpmDivision.getCurrentChoiceName().getFloatValue());
 			// rough bpm calculations base on note duration, needs to be much smaller divisions to be useful or we get ring mod
-			tremolo.setModulationRate(parameters.bpm * parameters.bpmDivision.getCurrentChoiceName().getFloatValue() / 60.f);
+			// also if bpmDivision has changed
+			auto bpmDivisionToSet = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();
+			if (parameters.bpm != currentBpm || currentBpmDivsion != bpmDivisionToSet) {
+				parameters.bpm = currentBpm;
+				currentBpmDivsion = bpmDivisionToSet;
+				tremolo.setModulationRate(parameters.bpm * currentBpmDivsion  / 60.f);
+
+			}
 		}
 
 		tremolo.setModulationDepth(parameters.modulationDepth.get());
