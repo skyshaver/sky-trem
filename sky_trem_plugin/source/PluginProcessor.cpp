@@ -54,6 +54,8 @@ namespace sky_trem {
 		// Use this method as the place to do any pre-playback
 		// initialization that you need, e.g., allocate memory.		
 
+
+		// TODO: some of these values need to updated in processBlock if bpm changes
 		currentSampleRate = sampleRate;
 		currentBpmDivsion = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();	
 		auto bps = 60.0 / currentBpm;
@@ -144,8 +146,7 @@ namespace sky_trem {
 			}
 
 			if (currentPosInfo.getTimeInSamples()) {							
-				auto tis = *currentPosInfo.getTimeInSamples();								
-				// DBG("Current Time in Samples: " << tis);
+				auto tis = *currentPosInfo.getTimeInSamples();												
 				if (tis % samplesPerNumerator == 0) {
 					DBG("quarter note event");
 				}
