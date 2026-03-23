@@ -68,8 +68,11 @@ namespace sky_trem {
 		* reset osc
 		* only do this based on bool parameter and use existing functions?
 		* so if(bpm) get bpm, check if bpm is different than existing bpm, call setModulationRate
+		* other ideas:
+		*	detect passing of downbeat, each 1/4, 1/8 etc to improve lfo sync and facilitate depth randomization
 		*/
 
 	};
 
 }  // namespace sky_trem
+ 

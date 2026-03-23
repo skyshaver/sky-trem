@@ -54,7 +54,12 @@ namespace sky_trem {
 		// Use this method as the place to do any pre-playback
 		// initialization that you need, e.g., allocate memory.		
 
-		currentBpmDivsion = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();		
+		currentSampleRate = sampleRate;
+		currentBpmDivsion = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();	
+		auto bps = 60.0 / currentBpm;
+		samplesPerNumerator = juce::roundToInt(currentSampleRate / bps); // assume 1/4 note for now
+		samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator); // this could get tricky with like 6/8 etc?
+		
 		tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
 		bypassTransitionSmoother.prepare({
 			.sampleRate = sampleRate,
@@ -111,17 +116,23 @@ namespace sky_trem {
 			playhead = this->getPlayHead();
 			currentPosInfo = *playhead->getPosition();
 
-			if (currentPosInfo.getBpm() != std::nullopt) {
-				currentBpm = static_cast<float>(*currentPosInfo.getBpm());
-				// parameters.bpm = static_cast<float>(*currentPosInfo.getBpm());
-				// DBG("Host BPM" <<  *currentPosInfo.getBpm());
+			if (currentPosInfo.getBpm()) {
+				currentBpm = static_cast<float>(*currentPosInfo.getBpm());				
 			}
 			else {
 				// we're in standalone for testing so set to dummy bpm
 				currentBpm = 120.f;
-			}
+			}		
 
-			// DBG(parameters.bpmDivision.getCurrentChoiceName().getFloatValue());
+			if (currentPosInfo.getTimeSignature()) {
+				if (*currentPosInfo.getTimeSignature() != currentTimeSignature) {
+					currentTimeSignature = *currentPosInfo.getTimeSignature();
+					// update bar length if time sig changes?
+					samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator);
+
+				}
+				
+			}
 			// rough bpm calculations base on note duration, needs to be much smaller divisions to be useful or we get ring mod
 			// also if bpmDivision has changed
 			auto bpmDivisionToSet = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();
@@ -129,6 +140,19 @@ namespace sky_trem {
 				parameters.bpm = currentBpm;
 				currentBpmDivsion = bpmDivisionToSet;
 				tremolo.setModulationRate(parameters.bpm * currentBpmDivsion  / 60.f);
+
+			}
+
+			if (currentPosInfo.getTimeInSamples()) {							
+				auto tis = *currentPosInfo.getTimeInSamples();								
+				// DBG("Current Time in Samples: " << tis);
+				if (tis % samplesPerNumerator == 0) {
+					DBG("quarter note event");
+				}
+				if (tis % samplesPerBar == 0) {
+					DBG("bar event");
+				}
+
 
 			}
 		}
