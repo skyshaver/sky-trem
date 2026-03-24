@@ -58,9 +58,6 @@ namespace sky_trem {
 		// TODO: some of these values need to updated in processBlock if bpm changes
 		currentSampleRate = sampleRate;
 		currentBpmDivsion = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();	
-		auto bps = 60.0 / currentBpm;
-		samplesPerNumerator = juce::roundToInt(currentSampleRate / bps); // assume 1/4 note for now
-		samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator); // this could get tricky with like 6/8 etc?
 		
 		tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
 		bypassTransitionSmoother.prepare({
@@ -124,7 +121,11 @@ namespace sky_trem {
 			else {
 				// we're in standalone for testing so set to dummy bpm
 				currentBpm = 120.f;
-			}		
+			}
+
+			auto bps = 60.0 / currentBpm;
+			samplesPerNumerator = juce::roundToInt(currentSampleRate * bps); // assume 1/4 note for now
+			samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator); // this could get tricky with like 6/8 etc?
 
 			if (currentPosInfo.getTimeSignature()) {
 				if (*currentPosInfo.getTimeSignature() != currentTimeSignature) {
@@ -144,15 +145,37 @@ namespace sky_trem {
 				tremolo.setModulationRate(parameters.bpm * currentBpmDivsion  / 60.f);
 
 			}
+			
+			if (currentPosInfo.getIsPlaying() && currentPosInfo.getTimeInSamples()) {
+				auto tis = *currentPosInfo.getTimeInSamples();	
+				for (auto i = 0; i < buffer.getNumSamples(); i++) {
+					
+					if ((tis + i) % samplesPerNumerator == 0) {
+ 					//	DBG("quarter note event");
+						//DBG("1/4: " << tis + i);
+						localIsQuarterNote = true;
+					}
+					if ((tis + i) % samplesPerBar == 0) {
+						DBG("bar event");
+						DBG("Bar: " << tis + i);
+					}
 
-			if (currentPosInfo.getTimeInSamples()) {							
-				auto tis = *currentPosInfo.getTimeInSamples();												
-				if (tis % samplesPerNumerator == 0) {
-					DBG("quarter note event");
+
 				}
-				if (tis % samplesPerBar == 0) {
-					DBG("bar event");
-				}
+				
+				/*
+				quarter note event
+				1/4: 120000
+				quarter note event
+				1/4: 144000
+				quarter note event
+				1/4: 168000
+				quarter note event
+				1/4: 192000
+				bar event
+				Bar: 192000
+				https://forum.juce.com/t/sending-signal-events-from-audio-to-gui-thread/27792/7
+				*/
 
 
 			}
@@ -173,6 +196,8 @@ namespace sky_trem {
 		tremolo.process(buffer);
 
 		bypassTransitionSmoother.mixToWetBuffer(buffer);
+
+		isQuarterNote.set(localIsQuarterNote);
 	}
 
 	bool PluginProcessor::hasEditor() const {

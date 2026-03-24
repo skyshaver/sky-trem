@@ -38,6 +38,11 @@ namespace sky_trem {
 
 		Parameters& getParameterRefs() noexcept { return parameters; }
 
+		bool getAndResetIsQuarterNote() {
+			localIsQuarterNote = !localIsQuarterNote;
+			return isQuarterNote.exchange(!isQuarterNote.value);
+		}
+
 	private:
 		Parameters parameters{ *this };
 
@@ -53,6 +58,10 @@ namespace sky_trem {
 		juce::AudioPlayHead::TimeSignature currentTimeSignature;
 		int64_t samplesPerNumerator;
 		int64_t samplesPerBar;
+
+		juce::Atomic<bool> isQuarterNote;
+		bool localIsQuarterNote{ false };
+		
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 	};

@@ -10,6 +10,8 @@ namespace sky_trem {
 
 		void resized() override;
 
+		PluginProcessor& pluginProcessor;
+
 	private:
 
 		juce::ImageComponent background;
@@ -43,6 +45,8 @@ namespace sky_trem {
 		juce::ToggleButton rateChoiceToggle;
 		juce::ButtonParameterAttachment rateChoiceParameterAttachment;
 		
+		juce::ImageButton quarterNoteFlasher;
+
 
 		CustomLookAndFeel lookAndFeel;
 
