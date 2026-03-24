@@ -2,7 +2,7 @@
 
 namespace sky_trem {
 
-	class PluginEditor : public juce::AudioProcessorEditor {
+	class PluginEditor : public juce::AudioProcessorEditor, private juce::Timer {
 
 	public:
 		explicit PluginEditor(PluginProcessor&);
@@ -11,6 +11,8 @@ namespace sky_trem {
 		void resized() override;
 
 		PluginProcessor& pluginProcessor;
+
+		void timerCallback() override;
 
 	private:
 
@@ -45,7 +47,7 @@ namespace sky_trem {
 		juce::ToggleButton rateChoiceToggle;
 		juce::ButtonParameterAttachment rateChoiceParameterAttachment;
 		
-		juce::ImageButton quarterNoteFlasher;
+		juce::ShapeButton quarterNoteFlasher{ "flasher", juce::Colours::aliceblue, juce::Colours::antiquewhite, juce::Colours::red };
 
 
 		CustomLookAndFeel lookAndFeel;

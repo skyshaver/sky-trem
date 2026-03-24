@@ -32,6 +32,14 @@ namespace sky_trem {
 			};
 		rateChoiceToggle.onClick();
 
+
+		// stuff for debug light
+		startTimerHz(30);
+		juce::Path circle;
+		circle.addEllipse(50.f, 50.f, 50.f, 50.f);
+		quarterNoteFlasher.setShape(circle, true, true, false);
+
+
 		modulationRateSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
 		modulationRateSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		modulationRateSlider.setPopupDisplayEnabled(true, true, this);
@@ -70,6 +78,7 @@ namespace sky_trem {
 		addAndMakeVisible(lfoWaveformLabel);
 		addAndMakeVisible(bypassButton);
 		addAndMakeVisible(rateChoiceToggle);
+		addAndMakeVisible(quarterNoteFlasher);
 		
 		addAndMakeVisible(modulationRateSlider);
 		addAndMakeVisible(modulationRateLabel);
@@ -103,6 +112,7 @@ namespace sky_trem {
 		auto modulationRateSliderBounds = bounds;
 		auto modulationDepthSliderBounds = bounds;
 		auto gainInDbSliderBounds = bounds;
+		
 
 		auto backgroundBounds = bounds;
 		background.setBounds(backgroundBounds);
@@ -135,6 +145,8 @@ namespace sky_trem {
 		rateChoiceToggleBounds.removeFromBottom(190);
 		rateChoiceToggle.setBounds(rateChoiceToggleBounds);
 
+		
+
 		modulationRateSliderBounds.removeFromLeft(30);
 		modulationRateSliderBounds.removeFromRight(220);
 		modulationRateSliderBounds.removeFromTop(50);
@@ -166,7 +178,22 @@ namespace sky_trem {
 		gainInDbSlider.setBounds(gainInDbSliderBounds);
 		gainInDbLabel.setBounds(gainInDbSliderBounds);
 
+		auto flasherBounds = bounds;
+		flasherBounds.removeFromLeft(205);
+		flasherBounds.removeFromRight(25);
+		flasherBounds.removeFromTop(150);
+		flasherBounds.removeFromBottom(380);
+		quarterNoteFlasher.setBounds(flasherBounds);
 
+
+	}
+
+	void PluginEditor::timerCallback() {
+	
+		const bool lightOn = pluginProcessor.getAndResetIsQuarterNote();
+		
+		quarterNoteFlasher.setState(lightOn ? juce::Button::buttonDown : juce::Button::buttonNormal);
+		repaint();
 	}
 
 }  // namespace sky_trem

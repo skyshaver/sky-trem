@@ -153,7 +153,8 @@ namespace sky_trem {
 					if ((tis + i) % samplesPerNumerator == 0) {
  					//	DBG("quarter note event");
 						//DBG("1/4: " << tis + i);
-						localIsQuarterNote = true;
+						// TODO: setting an atomic in hot loop, not ideal, should set local bool and update atomic at end of processblock?
+						isQuarterNote.set(true);
 					}
 					if ((tis + i) % samplesPerBar == 0) {
 						DBG("bar event");
@@ -197,7 +198,7 @@ namespace sky_trem {
 
 		bypassTransitionSmoother.mixToWetBuffer(buffer);
 
-		isQuarterNote.set(localIsQuarterNote);
+		
 	}
 
 	bool PluginProcessor::hasEditor() const {
