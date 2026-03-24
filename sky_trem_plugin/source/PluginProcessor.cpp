@@ -150,15 +150,14 @@ namespace sky_trem {
 				auto tis = *currentPosInfo.getTimeInSamples();	
 				for (auto i = 0; i < buffer.getNumSamples(); i++) {
 					
-					if ((tis + i) % samplesPerNumerator == 0) {
- 					//	DBG("quarter note event");
-						//DBG("1/4: " << tis + i);
+					if ((tis + i) % samplesPerNumerator == 0) { 						
 						// TODO: setting an atomic in hot loop, not ideal, should set local bool and update atomic at end of processblock?
 						isQuarterNote.set(true);
 					}
 					if ((tis + i) % samplesPerBar == 0) {
-						DBG("bar event");
-						DBG("Bar: " << tis + i);
+						// DBG("bar event");
+						// DBG("Bar: " << tis + i);
+
 					}
 
 

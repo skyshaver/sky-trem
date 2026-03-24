@@ -113,7 +113,6 @@ namespace sky_trem {
 		auto modulationDepthSliderBounds = bounds;
 		auto gainInDbSliderBounds = bounds;
 		
-
 		auto backgroundBounds = bounds;
 		background.setBounds(backgroundBounds);
 
@@ -189,9 +188,18 @@ namespace sky_trem {
 	}
 
 	void PluginEditor::timerCallback() {
+
+		static size_t counter = 0;
+
+		if (quarterNoteFlasher.getState() == juce::Button::buttonDown) {
+			if (counter < 3) {
+				counter++;
+				return;
+			}
+			counter = 0;
+		}
 	
-		const bool lightOn = pluginProcessor.getAndResetIsQuarterNote();
-		
+		const bool lightOn = pluginProcessor.getAndResetIsQuarterNote();		
 		quarterNoteFlasher.setState(lightOn ? juce::Button::buttonDown : juce::Button::buttonNormal);
 		repaint();
 	}
