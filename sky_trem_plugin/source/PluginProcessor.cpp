@@ -157,7 +157,8 @@ namespace sky_trem {
 					if ((tis + i) % samplesPerBar == 0) {
 						// DBG("bar event");
 						// DBG("Bar: " << tis + i);
-
+						// try resetting lfos every bar
+						tremolo.reset();
 					}
 
 
