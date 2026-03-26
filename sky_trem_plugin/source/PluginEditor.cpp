@@ -64,7 +64,7 @@ namespace sky_trem {
 		modulationDepthLabel.setInterceptsMouseClicks(false, false);
 		modulationDepthLabel.setFont(lookAndFeel.getSliderLabelFont());
 
-		gainInDbSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+		// gainInDbSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
 		gainInDbSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		gainInDbSlider.setPopupDisplayEnabled(true, true, this);
 		gainInDbSlider.setTextValueSuffix(" dB");

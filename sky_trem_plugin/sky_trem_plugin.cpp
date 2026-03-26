@@ -8,4 +8,4 @@
 #include "source/PluginProcessor.cpp"
 #include "source/Tremolo.cpp"
 #include "source/BypassTransitionSmoother.cpp"
-#include "source/ModulationRateSlider.cpp"
+#include "source/SkyRotarySlider01.cpp"

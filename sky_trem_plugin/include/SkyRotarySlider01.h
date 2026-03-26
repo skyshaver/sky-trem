@@ -2,7 +2,7 @@
 
 namespace sky_trem {
 	
-	class ModulationRateSlider : public juce::Slider {
+	class SkyRotarySlider01 : public juce::Slider {
 	public:
 		void paint(juce::Graphics& g) override;		
 	};

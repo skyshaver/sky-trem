@@ -33,7 +33,8 @@ namespace sky_trem {
 		juce::SliderParameterAttachment modulationDepthSliderAttachement;
 		juce::Label modulationDepthLabel{ "mod depth label", "DEPTH" };
 
-		juce::Slider gainInDbSlider;
+		// juce::Slider gainInDbSlider;
+		SkyRotarySlider01 gainInDbSlider;
 		juce::SliderParameterAttachment gainInDbSliderAttachment;
 		juce::Label gainInDbLabel{ "gain label", "GAIN" };
 
