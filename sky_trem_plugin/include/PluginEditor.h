@@ -49,7 +49,8 @@ namespace sky_trem {
 		juce::ButtonParameterAttachment rateChoiceParameterAttachment;
 		
 		juce::ShapeButton quarterNoteFlasher{ "flasher", juce::Colours::aliceblue, juce::Colours::antiquewhite, juce::Colours::red };
-
+		bool lightOn{ false };
+		bool lastButtonState{ false };
 
 		CustomLookAndFeel lookAndFeel;
 
