@@ -189,15 +189,15 @@ namespace sky_trem {
 
 	void PluginEditor::timerCallback() {
 
-		static size_t counter = 0;
+		//static size_t counter = 0;
 
-		if (quarterNoteFlasher.getState() == juce::Button::buttonDown) {
-			if (counter < 3) {
-				counter++;
-				return;
-			}
-			counter = 0;
-		}
+		//if (quarterNoteFlasher.getState() == juce::Button::buttonDown) {
+		//	if (counter < 2) {
+		//		counter++;
+		//		return;
+		//	}
+		//	counter = 0;
+		//}
 	
 		const bool lightOn = pluginProcessor.getAndResetIsQuarterNote();		
 		quarterNoteFlasher.setState(lightOn ? juce::Button::buttonDown : juce::Button::buttonNormal);
