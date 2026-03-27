@@ -95,6 +95,7 @@ namespace sky_trem {
 	* https://www.harmoniccycle.com/hc/music-07-tempo_and_note_length.htm
 	*/
 
+	// TODO: update tests for this
 	juce::AudioParameterChoice& createBpmDivisionParameter(juce::AudioProcessor& processor) {
 
 		constexpr auto versionHint = 1;
@@ -105,7 +106,7 @@ namespace sky_trem {
 				"Modulation Division",
 				// juce::StringArray{ "0.0625", "0.125", "0.25", "0.5", "1.0", "1.0625", "1.125", "1.25", "1.5", "2.0" },
 				// juce::StringArray{ "7.5", "11.2465", "15", "22.5141", "30", "44.9438", "60", "90.2256", "120", "179.1045", "240", },
-				juce::StringArray{ "1/32", ".1/32", "1/16", ".1/16", "1/8", ".1/8", "1/4", ".1/4", "1/2", ".1/2", "1", },
+				juce::StringArray{ "1/32", ".1/32", "1/16", ".1/16", "1/8", ".1/8", "1/4", ".1/4", "1/2", ".1/2", "1/1", },
 				6));
 
 	}

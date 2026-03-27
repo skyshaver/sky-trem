@@ -72,7 +72,7 @@ namespace sky_trem {
 			{".1/4", 90.2256f},
 			{"1/2", 120.f},
 			{".1/2", 179.1045f},
-			{"1", 240.f}
+			{"1/1", 240.f}
 		};
 
 		juce::Atomic<bool> isQuarterNote{ false };		
