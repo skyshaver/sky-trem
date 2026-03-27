@@ -78,6 +78,23 @@ namespace sky_trem {
 
 	}
 
+	/*
+	* at 120bpm
+	* bpm / 240 is 1/1 (.5hz)
+	* bpm / 179.1045 is . 1/2 (.67hz)
+	* bpm / 120 is 1/2 (1hz)
+	* bpm / 90.2256 is . 1/4 (1.33hz)
+	* bpm / 60 is 1/4 (2hz)
+	* bpm / 44.9438 is . 1/8 (2.67hz)
+	* bpm / 30 is 1/8 (4hz)
+	* bpm / 22.5141 is . 1/16 (5.33hz)
+	* bpm / 15 is 1/16 (8hz)
+	* bpm / 11.2465 is . 1/32 (10.67hz)
+	* bpm / 7.5 is 1/32 (16hz)
+	* can maybe add a toggle to switch to triplets?
+	* https://www.harmoniccycle.com/hc/music-07-tempo_and_note_length.htm
+	*/
+
 	juce::AudioParameterChoice& createBpmDivisionParameter(juce::AudioProcessor& processor) {
 
 		constexpr auto versionHint = 1;
@@ -86,8 +103,10 @@ namespace sky_trem {
 			std::make_unique<juce::AudioParameterChoice>(
 				juce::ParameterID{ "modulation.division", versionHint },
 				"Modulation Division",
-				juce::StringArray{ "0.0625", "0.125", "0.25", "0.5", "1.0", "1.0625", "1.125", "1.25", "1.5" },
-				2));
+				// juce::StringArray{ "0.0625", "0.125", "0.25", "0.5", "1.0", "1.0625", "1.125", "1.25", "1.5", "2.0" },
+				// juce::StringArray{ "7.5", "11.2465", "15", "22.5141", "30", "44.9438", "60", "90.2256", "120", "179.1045", "240", },
+				juce::StringArray{ "1/32", ".1/32", "1/16", ".1/16", "1/8", ".1/8", "1/4", ".1/4", "1/2", ".1/2", "1", },
+				6));
 
 	}
 
@@ -113,7 +132,7 @@ namespace sky_trem {
 				"Local BPM",
 				juce::NormalisableRange<float>{ 20.f, 300.f, .01f },
 				120.f
-				));
+			));
 
 	}
 
@@ -126,7 +145,6 @@ namespace sky_trem {
 		bpmDivision{ createBpmDivisionParameter(processor) },
 		isRateInHz{ createIsRateInHzParameter(processor) },
 		bpm{ createBpmParameter(processor) }
-	{
-	}
+	{}
 
 }  // namespace sky_trem

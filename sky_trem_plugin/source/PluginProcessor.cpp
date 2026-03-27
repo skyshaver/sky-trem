@@ -57,7 +57,7 @@ namespace sky_trem {
 
 		// TODO: some of these values need to updated in processBlock if bpm changes
 		currentSampleRate = sampleRate;
-		currentBpmDivsion = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();	
+		currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];	
 		
 		tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
 		bypassTransitionSmoother.prepare({
@@ -138,11 +138,12 @@ namespace sky_trem {
 			}
 			// rough bpm calculations base on note duration, needs to be much smaller divisions to be useful or we get ring mod
 			// also if bpmDivision has changed
-			auto bpmDivisionToSet = parameters.bpmDivision.getCurrentChoiceName().getFloatValue();
-			if (parameters.bpm != currentBpm || currentBpmDivsion != bpmDivisionToSet) {
+			auto bpmDivisionToSet = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];
+			//TODO:  this may be skipping the initial switch from hz to beat sync
+			if (parameters.bpm != currentBpm || currentBpmDivision != bpmDivisionToSet) {
 				parameters.bpm = currentBpm;
-				currentBpmDivsion = bpmDivisionToSet;
-				tremolo.setModulationRate(parameters.bpm * currentBpmDivsion  / 60.f);
+				currentBpmDivision = bpmDivisionToSet;
+				tremolo.setModulationRate(parameters.bpm / currentBpmDivision);
 
 			}
 			

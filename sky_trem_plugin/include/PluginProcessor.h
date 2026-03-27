@@ -55,11 +55,25 @@ namespace sky_trem {
 		juce::AudioPlayHead* playhead;
 		juce::AudioPlayHead::PositionInfo currentPosInfo;
 		float currentBpm{ 120.f };
-		float currentBpmDivsion;
+		float currentBpmDivision;
 		double currentSampleRate;
 		juce::AudioPlayHead::TimeSignature currentTimeSignature;
 		int64_t samplesPerNumerator;
 		int64_t samplesPerBar;
+
+		std::map<juce::String, float> noteDivToBpmDiv {
+			{"1/32", 7.5f},
+			{".1/32", 11.2465f},
+			{"1/16", 15.f},
+			{".1/16", 22.5141f},
+			{"1/8", 30.f},
+			{".1/8", 44.9438f},
+			{"1/4", 60.f},
+			{".1/4", 90.2256f},
+			{"1/2", 120.f},
+			{".1/2", 179.1045f},
+			{"1", 240.f}
+		};
 
 		juce::Atomic<bool> isQuarterNote{ false };		
 			

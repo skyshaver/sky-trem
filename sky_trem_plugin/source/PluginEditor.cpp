@@ -27,7 +27,7 @@ namespace sky_trem {
 		// the way the button overload is setup true is the colored choice
 		// so this choice seems non default, will leave for testing but need to make ui consistent
 		rateChoiceToggle.onClick = [this]() {
-				rateChoiceToggle.setButtonText(rateChoiceToggle.getToggleState() ? "Rate in Hz" : "BPM Division");
+				rateChoiceToggle.setButtonText(rateChoiceToggle.getToggleState() ? "Rate in Hz" : "Beat Sync");
 				resized();
 			};
 		rateChoiceToggle.onClick();
@@ -51,7 +51,7 @@ namespace sky_trem {
 		bpmDivisionSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
 		bpmDivisionSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
 		bpmDivisionSlider.setPopupDisplayEnabled(true, true, this);
-		bpmDivisionSlider.setTextValueSuffix(" bpm division");
+		bpmDivisionSlider.setTextValueSuffix(" note");
 		bpmDivisionLabel.setJustificationType(juce::Justification::centred);
 		bpmDivisionLabel.setInterceptsMouseClicks(false, false);
 		bpmDivisionLabel.setFont(lookAndFeel.getSliderLabelFont());

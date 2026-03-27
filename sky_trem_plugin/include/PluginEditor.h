@@ -27,7 +27,7 @@ namespace sky_trem {
 
 		juce::Slider bpmDivisionSlider;
 		juce::SliderParameterAttachment bpmDivisionSliderAttachment;
-		juce::Label bpmDivisionLabel{ "bpm division label", "BPM DIVISION" };
+		juce::Label bpmDivisionLabel{ "bpm division label", "BEAT SYNC" };
 
 		juce::Slider modulationDepthSlider;
 		juce::SliderParameterAttachment modulationDepthSliderAttachement;
