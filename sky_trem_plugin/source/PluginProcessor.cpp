@@ -53,9 +53,7 @@ namespace sky_trem {
 	void PluginProcessor::prepareToPlay(double sampleRate, int expectedMaxFramesPerBlock) {
 		// Use this method as the place to do any pre-playback
 		// initialization that you need, e.g., allocate memory.		
-
-
-		// TODO: some of these values need to updated in processBlock if bpm changes
+		
 		currentSampleRate = sampleRate;
 		currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];	
 		
@@ -107,8 +105,7 @@ namespace sky_trem {
 			buffer.clear(channelToClear, 0, buffer.getNumSamples());
 		}
 
-		if (parameters.isRateInHz.get()) {			
-			
+		if (parameters.isRateInHz.get()) {						
 			tremolo.setModulationRate(parameters.modulationRate.get());						
 		} 
 		else {

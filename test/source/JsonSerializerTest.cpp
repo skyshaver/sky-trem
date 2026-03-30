@@ -11,7 +11,7 @@ namespace sky_trem {
 		parameters.gainInDb = 0.f;
 		parameters.bypass = true;
 		parameters.lfoWaveform = 1;
-		parameters.bpmDivision = 1;
+		parameters.bpmDivision = 6;
 		parameters.isRateInHz = true;
 		parameters.bpm = 120.f;
 
@@ -24,7 +24,7 @@ namespace sky_trem {
   "gainInDb": 0.0,
   "bypass": true,
   "lfoWaveform": "Triangle",
-  "bpmDivision": "0.125",
+  "bpmDivision": "1/4",
   "isRateInHz": true,
   "bpm": 120.0
 })";
@@ -49,7 +49,7 @@ namespace sky_trem {
   "gainInDb": 0.0,
   "bypass": true,
   "lfoWaveform": "Triangle",
-  "bpmDivision": "0.125",
+  "bpmDivision": "1/4",
   "isRateInHz": true,
   "bpm": 120.0
 })";
@@ -69,13 +69,12 @@ namespace sky_trem {
 		EXPECT_FLOAT_EQ(parameters.gainInDb, 0.f);
 		EXPECT_TRUE(parameters.bypass);
 		EXPECT_EQ(juce::String{ "Triangle" }, parameters.lfoWaveform.getCurrentChoiceName());
-		EXPECT_EQ(juce::String{ "0.125" }, parameters.bpmDivision.getCurrentChoiceName());
+		EXPECT_EQ(juce::String{ "1/4" }, parameters.bpmDivision.getCurrentChoiceName());
 		EXPECT_TRUE(parameters.isRateInHz);
 		EXPECT_FLOAT_EQ(parameters.bpm, 120.f);
 	}
 
-	TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {
-		// given
+	TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {		
 		const juce::String savedParameters =
 			u8R"({
   "__version__": 1,
@@ -85,7 +84,7 @@ namespace sky_trem {
   "gainInDb": 0.0,
   "bypass": true,
   "lfoWaveform": "Foo",
-  "bpmDivision": "0.125"
+  "bpmDivision": "1/4"
 })";
 
 		juce::MemoryInputStream inputStream{ savedParameters.getCharPointer(), static_cast<size_t>(savedParameters.length()), false };
@@ -95,19 +94,16 @@ namespace sky_trem {
 		parameters.lfoWaveform = 0;
 		parameters.bypass = false;
 		parameters.modulationRate = 5.f;
-
-		// when
+		
 		const auto result = JsonSerializer::deserialize(inputStream, parameters);
-
-		// then
+		
 		EXPECT_TRUE(result.failed());
 		EXPECT_FLOAT_EQ(parameters.modulationRate.get(), 5.f);
 		EXPECT_FALSE(parameters.bypass.get());
 		EXPECT_EQ(0, parameters.lfoWaveform.getIndex());
 	}
 
-	TEST(JsonSerializer, DontUpdateParametersWhenBpmDivisionIsInvalid) {
-		// given
+	TEST(JsonSerializer, DontUpdateParametersWhenBpmDivisionIsInvalid) {		
 		const juce::String savedParameters =
 			u8R"({
   "__version__": 1,
@@ -130,11 +126,9 @@ namespace sky_trem {
 		parameters.gainInDb = 0.f;
 		parameters.bypass = false;
 		parameters.lfoWaveform = 1;
-
-		// when
+		
 		const auto result = JsonSerializer::deserialize(inputStream, parameters);
-
-		// then
+		
 		EXPECT_TRUE(result.failed());
 		EXPECT_FLOAT_EQ(parameters.modulationRate.get(), 5.f);
 		EXPECT_FALSE(parameters.bypass.get());
