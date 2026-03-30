@@ -9,6 +9,7 @@ namespace {
 		juce::String bpmDivision;
 		bool isRateInHz;
 		float bpm;
+		bool isModDepthRando;
 
 		static constexpr auto marshallingVersion = 1; //set to std::null_opt to avoid serializing __version__
 
@@ -32,7 +33,8 @@ namespace {
 				juce::named("lfoWaveform", p.lfoWaveform),
 				juce::named("bpmDivision", p.bpmDivision),
 				juce::named("isRateInHz", p.isRateInHz),
-				juce::named("bpm", p.bpm));
+				juce::named("bpm", p.bpm),
+				juce::named("isModDepthRando", p.isModDepthRando));
 
 		}
 	};
@@ -47,6 +49,7 @@ namespace {
 			.bpmDivision = parameters.bpmDivision.getCurrentChoiceName(),
 			.isRateInHz = parameters.isRateInHz.get(),
 			.bpm = parameters.bpm.get(),
+			.isModDepthRando = parameters.isModDepthRando.get(),
 		};
 	}
 }
@@ -104,6 +107,7 @@ namespace sky_trem {
 		parameters.bpmDivision = bpmDivisionIndex;
 		parameters.isRateInHz = parsedParamaters->isRateInHz;
 		parameters.bpm = parsedParamaters->bpm;
+		parameters.isModDepthRando = parsedParamaters->isModDepthRando;
 		return juce::Result::ok();
 		
 	}
