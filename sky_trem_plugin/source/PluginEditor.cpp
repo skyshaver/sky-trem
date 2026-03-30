@@ -10,7 +10,8 @@ namespace sky_trem {
 		gainInDbSliderAttachment{ p.getParameterRefs().gainInDb, gainInDbSlider },
 		bypassParameterAttachment{ p.getParameterRefs().bypass, bypassButton },
 		lfoWaveformParameterAttachment{ p.getParameterRefs().lfoWaveform, lfoWaveformCombo },
-		rateChoiceParameterAttachment{p.getParameterRefs().isRateInHz, rateChoiceToggle} {
+		rateChoiceParameterAttachment{p.getParameterRefs().isRateInHz, rateChoiceToggle},
+		modDepthRandoParameterAttachment{ p.getParameterRefs().isModDepthRando, modDepthRandoToggle } {
 
 		background.setImage(juce::ImageCache::getFromMemory(assets::background_blk_png, assets::background_blk_pngSize));
 
@@ -31,6 +32,11 @@ namespace sky_trem {
 				resized();
 			};
 		rateChoiceToggle.onClick();
+
+		modDepthRandoToggle.onClick = [this]() {
+			modDepthRandoToggle.setButtonText(modDepthRandoToggle.getToggleState() ? "Rando ON" : "Rando OFF");
+			};
+		modDepthRandoToggle.onClick();
 
 
 		// stuff for debug light
@@ -78,6 +84,7 @@ namespace sky_trem {
 		addAndMakeVisible(lfoWaveformLabel);
 		addAndMakeVisible(bypassButton);
 		addAndMakeVisible(rateChoiceToggle);
+		addAndMakeVisible(modDepthRandoToggle);
 		addAndMakeVisible(quarterNoteFlasher);
 		
 		addAndMakeVisible(modulationRateSlider);
@@ -144,7 +151,13 @@ namespace sky_trem {
 		rateChoiceToggleBounds.removeFromBottom(190);
 		rateChoiceToggle.setBounds(rateChoiceToggleBounds);
 
-		
+
+		auto modRandoToggleBounds = bounds;
+		modRandoToggleBounds.removeFromLeft(190);
+		modRandoToggleBounds.removeFromRight(20);
+		modRandoToggleBounds.removeFromTop(360);
+		modRandoToggleBounds.removeFromBottom(220);
+		modDepthRandoToggle.setBounds(modRandoToggleBounds);
 
 		modulationRateSliderBounds.removeFromLeft(30);
 		modulationRateSliderBounds.removeFromRight(220);
