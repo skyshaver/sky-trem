@@ -136,17 +136,11 @@ namespace sky_trem {
 				}
 				
 			}
-			// rough bpm calculations base on note duration, needs to be much smaller divisions to be useful or we get ring mod
-			// also if bpmDivision has changed
-			auto bpmDivisionToSet = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];
-			//TODO:  this may be skipping the initial switch from hz to beat sync
-			if (parameters.bpm != currentBpm || currentBpmDivision != bpmDivisionToSet) {
-				parameters.bpm = currentBpm;
-				currentBpmDivision = bpmDivisionToSet;
-				tremolo.setModulationRate(parameters.bpm / currentBpmDivision);
 
-			}
-			
+			parameters.bpm = currentBpm;
+			currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];;
+			tremolo.setModulationRate(parameters.bpm / currentBpmDivision);
+
 			if (currentPosInfo.getIsPlaying() && currentPosInfo.getTimeInSamples()) {
 				auto tis = *currentPosInfo.getTimeInSamples();	
 				for (auto i = 0; i < buffer.getNumSamples(); i++) {
@@ -155,9 +149,7 @@ namespace sky_trem {
 						// TODO: setting an atomic in hot loop, not ideal, should set local bool and update atomic at end of processblock?
 						isQuarterNote.set(true);
 					}
-					if ((tis + i) % samplesPerBar == 0) {
-						// DBG("bar event");
-						// DBG("Bar: " << tis + i);
+					if ((tis + i) % samplesPerBar == 0) {						
 						// try resetting lfos every bar
 						tremolo.reset();
 					}
