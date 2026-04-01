@@ -117,6 +117,7 @@ namespace sky_trem {
 			currentBpm = 120.f;
 		}
 
+		// also factor out samplesPerNumerator and just use samplesPerBar and a LUT?
 		auto bps = 60.0 / currentBpm;
 		samplesPerNumerator = juce::roundToInt(currentSampleRate * bps); // assume 1/4 note for now
 		samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator); // this could get tricky with like 6/8 etc?
@@ -143,6 +144,7 @@ namespace sky_trem {
 		} 
 		else {
 			
+			// should we wait till the next beat subdivision to set the mod rate?
 			tremolo.setModulationRate(parameters.bpm / currentBpmDivision);
 
 			if (currentPosInfo.getIsPlaying() && currentPosInfo.getTimeInSamples()) {
@@ -152,10 +154,14 @@ namespace sky_trem {
 					if ((tis + i) % samplesPerNumerator == 0) { 						
 						// TODO: setting an atomic in hot loop, not ideal, should set local bool and update atomic at end of processblock?
 						isQuarterNote.set(true);
-						// float between .01f and .03f
-						auto nextRand =  1.f + (juce::Random::getSystemRandom().nextInt(juce::Range<int>(1000, 3000)) * 0.00001f);
+					}
+
+					if ((tis + i) % (samplesPerBar / noteDivToSpbDiv[parameters.bpmDivision.getCurrentChoiceName()]) == 0) {
+						// float between 1.01f and 1.03f
+						auto nextRand = 1.f + (juce::Random::getSystemRandom().nextInt(juce::Range<int>(1000, 3000)) * 0.00001f);						
 						tremolo.setModulationDepth(parameters.modulationDepth.get() * nextRand);
 					}
+
 					if ((tis + i) % samplesPerBar == 0) {						
 						// try resetting lfos every bar
 						tremolo.reset();

@@ -75,6 +75,21 @@ namespace sky_trem {
 			{"1/1", 240.f}
 		};
 
+		// for simplicity use whole numbers, need floats for accuracy of . 
+		std::map<juce::String, int64_t> noteDivToSpbDiv{
+			{"1/32", 32},
+			{".1/32", 32},
+			{"1/16", 16},
+			{".1/16", 16},
+			{"1/8", 8},
+			{".1/8", 8},
+			{"1/4", 4},
+			{".1/4", 4},
+			{"1/2", 2},
+			{".1/2", 2},
+			{"1/1", 1}
+		};
+
 		juce::Atomic<bool> isQuarterNote{ false };		
 			
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)

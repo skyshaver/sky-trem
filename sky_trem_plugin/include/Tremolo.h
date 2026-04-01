@@ -30,6 +30,8 @@ namespace sky_trem {
 		void setGainInDB(float gainInDb);
 		void updateGain();
 
+		// void processTimeInSamples(juce::AudioPlayHead::PositionInfo posInfo, int64_t spb, int64_t spn);
+
 		void reset() noexcept;		
 
 	private:
