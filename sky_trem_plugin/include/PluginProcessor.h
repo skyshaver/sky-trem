@@ -76,7 +76,7 @@ namespace sky_trem {
 		};
 
 		// for simplicity use whole numbers, need floats for accuracy of . 
-		std::map<juce::String, int64_t> noteDivToSpbDiv{
+		std::map<juce::String, int64_t> noteDivToSpbDiv {
 			{"1/32", 32},
 			{".1/32", 32},
 			{"1/16", 16},
@@ -88,6 +88,12 @@ namespace sky_trem {
 			{"1/2", 2},
 			{".1/2", 2},
 			{"1/1", 1}
+		};
+
+		std::map<juce::String, juce::Range<int>> randoRangeToIntRange {
+			{"3%", juce::Range<int>{1000, 3000} },
+			{ "5%", juce::Range<int>{1000, 5000} },
+			{ "10%", juce::Range<int>{1000, 10000} }
 		};
 
 		juce::Atomic<bool> isQuarterNote{ false };		

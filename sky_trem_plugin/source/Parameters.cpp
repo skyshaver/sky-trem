@@ -94,8 +94,7 @@ namespace sky_trem {
 	* can maybe add a toggle to switch to triplets?
 	* https://www.harmoniccycle.com/hc/music-07-tempo_and_note_length.htm
 	*/
-
-	// TODO: update tests for this
+	
 	juce::AudioParameterChoice& createBpmDivisionParameter(juce::AudioProcessor& processor) {
 
 		constexpr auto versionHint = 1;
@@ -143,9 +142,22 @@ namespace sky_trem {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterBool>(
-				juce::ParameterID{ "isModDepthRando", versionHint },
+				juce::ParameterID{ "moddepthrando.engaged", versionHint },
 				"ModDepth Rando Toggle",
 				false));
+
+	}
+
+	juce::AudioParameterChoice& createModDepthRandoRangeParameter(juce::AudioProcessor& processor) {
+
+		constexpr auto versionHint = 1;
+		return addParameterToProcessor(
+			processor,
+			std::make_unique<juce::AudioParameterChoice>(
+				juce::ParameterID{ "moddepthrando.range", versionHint },
+				"Modulation Depth Rando Range",
+				juce::StringArray{ "3%", "5%", "10%" },
+				0));
 
 	}
 
@@ -158,7 +170,8 @@ namespace sky_trem {
 		bpmDivision{ createBpmDivisionParameter(processor) },
 		isRateInHz{ createIsRateInHzParameter(processor) },
 		bpm{ createBpmParameter(processor) },
-		isModDepthRando{ createIsModDepthRandoParameter(processor)}
+		isModDepthRando{ createIsModDepthRandoParameter(processor)},
+		modDepthRandoRange { createModDepthRandoRangeParameter(processor) }
 	{}
 
 }  // namespace sky_trem

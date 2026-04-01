@@ -157,16 +157,19 @@ namespace sky_trem {
 					}
 
 					if ((tis + i) % (samplesPerBar / noteDivToSpbDiv[parameters.bpmDivision.getCurrentChoiceName()]) == 0) {
-						// float between .01f and .03f
-						auto nextRand = (juce::Random::getSystemRandom().nextInt(juce::Range<int>(1000, 3000)) * 0.00001f);
-						nextRand = juce::Random::getSystemRandom().nextInt() % 2 == 0 ? nextRand * 1.f : nextRand * -1.f;
-						auto nextModRate = std::clamp(parameters.modulationDepth.get() + nextRand, 0.f, 1.f);
-						DBG(nextModRate);
-						tremolo.setModulationDepth(nextModRate);
+						if (parameters.isModDepthRando.get()) {
+							auto range = randoRangeToIntRange[parameters.modDepthRandoRange.getCurrentChoiceName()];
+							auto nextRand = juce::Random::getSystemRandom().nextInt(juce::Range<int>(range.getStart(), range.getEnd()));
+							nextRand = nextRand % 2 == 0 ? nextRand * 1 : nextRand * -1;
+							auto nextModRate = std::clamp(parameters.modulationDepth.get() + (nextRand * 0.00001f), 0.f, 1.f);
+							DBG(nextModRate);
+							tremolo.setModulationDepth(nextModRate);
+						}
 					}
 
 					if ((tis + i) % samplesPerBar == 0) {						
 						// try resetting lfos every bar
+						// this gets freaky when using the . values as they aren't clean divisions of the bar
 						tremolo.reset();
 					}
 				}								

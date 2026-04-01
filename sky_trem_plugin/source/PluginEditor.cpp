@@ -11,7 +11,8 @@ namespace sky_trem {
 		bypassParameterAttachment{ p.getParameterRefs().bypass, bypassButton },
 		lfoWaveformParameterAttachment{ p.getParameterRefs().lfoWaveform, lfoWaveformCombo },
 		rateChoiceParameterAttachment{p.getParameterRefs().isRateInHz, rateChoiceToggle},
-		modDepthRandoParameterAttachment{ p.getParameterRefs().isModDepthRando, modDepthRandoToggle } {
+		modDepthRandoParameterAttachment{ p.getParameterRefs().isModDepthRando, modDepthRandoToggle },
+		modDepthRandoRangeAttachment{ p.getParameterRefs().modDepthRandoRange, modDepthRandoRangeCombo } {
 
 		background.setImage(juce::ImageCache::getFromMemory(assets::background_blk_png, assets::background_blk_pngSize));
 
@@ -19,6 +20,9 @@ namespace sky_trem {
 
 		lfoWaveformCombo.addItemList(p.getParameterRefs().lfoWaveform.choices, 1);
 		lfoWaveformParameterAttachment.sendInitialUpdate();
+
+		modDepthRandoRangeCombo.addItemList(p.getParameterRefs().modDepthRandoRange.choices, 1);
+		modDepthRandoRangeAttachment.sendInitialUpdate();
 
 		bypassButton.onClick = [this]() {
 				bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
@@ -85,6 +89,7 @@ namespace sky_trem {
 		addAndMakeVisible(bypassButton);
 		addAndMakeVisible(rateChoiceToggle);
 		addAndMakeVisible(modDepthRandoToggle);
+		addAndMakeVisible(modDepthRandoRangeCombo);
 		addAndMakeVisible(quarterNoteFlasher);
 		
 		addAndMakeVisible(modulationRateSlider);
@@ -158,6 +163,13 @@ namespace sky_trem {
 		modRandoToggleBounds.removeFromTop(360);
 		modRandoToggleBounds.removeFromBottom(220);
 		modDepthRandoToggle.setBounds(modRandoToggleBounds);
+
+		auto modRandoRangeBounds = bounds;
+		modRandoRangeBounds.removeFromLeft(190);
+		modRandoRangeBounds.removeFromRight(20);
+		modRandoRangeBounds.removeFromTop(330);
+		modRandoRangeBounds.removeFromBottom(250);
+		modDepthRandoRangeCombo.setBounds(modRandoRangeBounds);
 
 		modulationRateSliderBounds.removeFromLeft(30);
 		modulationRateSliderBounds.removeFromRight(220);
