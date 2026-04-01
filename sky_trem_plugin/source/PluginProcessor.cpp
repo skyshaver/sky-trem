@@ -105,37 +105,44 @@ namespace sky_trem {
 			buffer.clear(channelToClear, 0, buffer.getNumSamples());
 		}
 
+		// get bpm info and set tis stuff
+		playhead = this->getPlayHead();
+		currentPosInfo = *playhead->getPosition();
+
+		if (currentPosInfo.getBpm()) {
+			currentBpm = static_cast<float>(*currentPosInfo.getBpm());
+		}
+		else {
+			// we're in standalone for testing so set to dummy bpm
+			currentBpm = 120.f;
+		}
+
+		auto bps = 60.0 / currentBpm;
+		samplesPerNumerator = juce::roundToInt(currentSampleRate * bps); // assume 1/4 note for now
+		samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator); // this could get tricky with like 6/8 etc?
+
+		if (currentPosInfo.getTimeSignature()) {
+			if (*currentPosInfo.getTimeSignature() != currentTimeSignature) {
+				currentTimeSignature = *currentPosInfo.getTimeSignature();
+				// update bar length if time sig changes?
+				samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator);
+
+			}
+
+		}
+		// can we factor out currentBpm and just hold parameters.bpm?
+		parameters.bpm = currentBpm;
+		currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];
+
+		if (!parameters.isModDepthRando.get()) {
+			tremolo.setModulationDepth(parameters.modulationDepth.get());
+		}
+
 		if (parameters.isRateInHz.get()) {						
 			tremolo.setModulationRate(parameters.modulationRate.get());						
 		} 
 		else {
-			playhead = this->getPlayHead();
-			currentPosInfo = *playhead->getPosition();
-
-			if (currentPosInfo.getBpm()) {
-				currentBpm = static_cast<float>(*currentPosInfo.getBpm());				
-			}
-			else {
-				// we're in standalone for testing so set to dummy bpm
-				currentBpm = 120.f;
-			}
-
-			auto bps = 60.0 / currentBpm;
-			samplesPerNumerator = juce::roundToInt(currentSampleRate * bps); // assume 1/4 note for now
-			samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator); // this could get tricky with like 6/8 etc?
-
-			if (currentPosInfo.getTimeSignature()) {
-				if (*currentPosInfo.getTimeSignature() != currentTimeSignature) {
-					currentTimeSignature = *currentPosInfo.getTimeSignature();
-					// update bar length if time sig changes?
-					samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator);
-
-				}
-				
-			}
-
-			parameters.bpm = currentBpm;
-			currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];;
+			
 			tremolo.setModulationRate(parameters.bpm / currentBpmDivision);
 
 			if (currentPosInfo.getIsPlaying() && currentPosInfo.getTimeInSamples()) {
@@ -145,34 +152,19 @@ namespace sky_trem {
 					if ((tis + i) % samplesPerNumerator == 0) { 						
 						// TODO: setting an atomic in hot loop, not ideal, should set local bool and update atomic at end of processblock?
 						isQuarterNote.set(true);
+						// float between .01f and .03f
+						auto nextRand =  1.f + (juce::Random::getSystemRandom().nextInt(juce::Range<int>(1000, 3000)) * 0.00001f);
+						tremolo.setModulationDepth(parameters.modulationDepth.get() * nextRand);
 					}
 					if ((tis + i) % samplesPerBar == 0) {						
 						// try resetting lfos every bar
 						tremolo.reset();
 					}
-
-
-				}
-				
-				/*
-				quarter note event
-				1/4: 120000
-				quarter note event
-				1/4: 144000
-				quarter note event
-				1/4: 168000
-				quarter note event
-				1/4: 192000
-				bar event
-				Bar: 192000
-				https://forum.juce.com/t/sending-signal-events-from-audio-to-gui-thread/27792/7
-				*/
-
-
+				}								
 			}
 		}
 
-		tremolo.setModulationDepth(parameters.modulationDepth.get());
+		
 		tremolo.setGainInDB(parameters.gainInDb.get());
 		tremolo.setLfoWaveform(static_cast<Tremolo::LfoWaveform>(parameters.lfoWaveform.getIndex()));
 

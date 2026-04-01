@@ -80,3 +80,18 @@ namespace sky_trem {
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginProcessor)
 	};
 }  // namespace sky_trem
+
+
+/*
+quarter note event
+1/4: 120000
+quarter note event
+1/4: 144000
+quarter note event
+1/4: 168000
+quarter note event
+1/4: 192000
+bar event
+Bar: 192000
+https://forum.juce.com/t/sending-signal-events-from-audio-to-gui-thread/27792/7
+*/
