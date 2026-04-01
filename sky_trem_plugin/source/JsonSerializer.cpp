@@ -10,6 +10,7 @@ namespace {
 		bool isRateInHz;
 		float bpm;
 		bool isModDepthRando;
+		juce::String modDepthRandoRange;
 
 		static constexpr auto marshallingVersion = 1; //set to std::null_opt to avoid serializing __version__
 
@@ -34,7 +35,8 @@ namespace {
 				juce::named("bpmDivision", p.bpmDivision),
 				juce::named("isRateInHz", p.isRateInHz),
 				juce::named("bpm", p.bpm),
-				juce::named("isModDepthRando", p.isModDepthRando));
+				juce::named("isModDepthRando", p.isModDepthRando),
+				juce::named("modDepthRandoRange", p.modDepthRandoRange));
 
 		}
 	};
@@ -50,6 +52,7 @@ namespace {
 			.isRateInHz = parameters.isRateInHz.get(),
 			.bpm = parameters.bpm.get(),
 			.isModDepthRando = parameters.isModDepthRando.get(),
+			.modDepthRandoRange = parameters.modDepthRandoRange.getCurrentChoiceName(),
 		};
 	}
 }
@@ -93,11 +96,18 @@ namespace sky_trem {
 		const auto bpmDivisionIndex = parameters.bpmDivision.choices.indexOf(parsedParamaters->bpmDivision);
 		if (bpmDivisionIndex < 0) {
 			return juce::Result::fail(
-				"invalid bpm division name; supported values arer: " +
+				"invalid bpm division name; supported values are: " +
 				parameters.bpmDivision.choices.joinIntoString(", ")
 			);
 		}
 
+		const auto modDepthRandoRangeIndex = parameters.modDepthRandoRange.choices.indexOf(parsedParamaters->modDepthRandoRange);
+		if (modDepthRandoRangeIndex < 0) {
+			return juce::Result::fail(
+				"invalid mod depth rando range name; supported values are: " +
+				parameters.bpmDivision.choices.joinIntoString(", ")
+			);
+		}
 		
 		parameters.modulationRate = parsedParamaters->modulationRate;
 		parameters.modulationDepth = parsedParamaters->modulationDepth;
@@ -108,6 +118,7 @@ namespace sky_trem {
 		parameters.isRateInHz = parsedParamaters->isRateInHz;
 		parameters.bpm = parsedParamaters->bpm;
 		parameters.isModDepthRando = parsedParamaters->isModDepthRando;
+		parameters.modDepthRandoRange = modDepthRandoRangeIndex;
 		return juce::Result::ok();
 		
 	}
