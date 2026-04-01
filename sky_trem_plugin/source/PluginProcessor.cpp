@@ -157,9 +157,12 @@ namespace sky_trem {
 					}
 
 					if ((tis + i) % (samplesPerBar / noteDivToSpbDiv[parameters.bpmDivision.getCurrentChoiceName()]) == 0) {
-						// float between 1.01f and 1.03f
-						auto nextRand = 1.f + (juce::Random::getSystemRandom().nextInt(juce::Range<int>(1000, 3000)) * 0.00001f);						
-						tremolo.setModulationDepth(parameters.modulationDepth.get() * nextRand);
+						// float between .01f and .03f
+						auto nextRand = (juce::Random::getSystemRandom().nextInt(juce::Range<int>(1000, 3000)) * 0.00001f);
+						nextRand = juce::Random::getSystemRandom().nextInt() % 2 == 0 ? nextRand * 1.f : nextRand * -1.f;
+						auto nextModRate = std::clamp(parameters.modulationDepth.get() + nextRand, 0.f, 1.f);
+						DBG(nextModRate);
+						tremolo.setModulationDepth(nextModRate);
 					}
 
 					if ((tis + i) % samplesPerBar == 0) {						
