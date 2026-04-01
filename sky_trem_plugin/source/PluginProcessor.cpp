@@ -145,6 +145,7 @@ namespace sky_trem {
 		else {
 			
 			// should we wait till the next beat subdivision to set the mod rate?
+			// could fix the issue with . values
 			tremolo.setModulationRate(parameters.bpm / currentBpmDivision);
 
 			if (currentPosInfo.getIsPlaying() && currentPosInfo.getTimeInSamples()) {
@@ -157,9 +158,8 @@ namespace sky_trem {
 					}
 
 					if ((tis + i) % (samplesPerBar / noteDivToSpbDiv[parameters.bpmDivision.getCurrentChoiceName()]) == 0) {
-						if (parameters.isModDepthRando.get()) {
-							auto range = randoRangeToIntRange[parameters.modDepthRandoRange.getCurrentChoiceName()];
-							auto nextRand = juce::Random::getSystemRandom().nextInt(juce::Range<int>(range.getStart(), range.getEnd()));
+						if (parameters.isModDepthRando.get()) {							
+							auto nextRand = juce::Random::getSystemRandom().nextInt(randoRangeToIntRange[parameters.modDepthRandoRange.getCurrentChoiceName()]);
 							nextRand = nextRand % 2 == 0 ? nextRand * 1 : nextRand * -1;
 							auto nextModRate = std::clamp(parameters.modulationDepth.get() + (nextRand * 0.00001f), 0.f, 1.f);
 							DBG(nextModRate);
