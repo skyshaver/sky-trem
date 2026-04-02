@@ -28,9 +28,7 @@ namespace sky_trem {
 		void updateLfoWaveform();
 
 		void setGainInDB(float gainInDb);
-		void updateGain();
-
-		// void processTimeInSamples(juce::AudioPlayHead::PositionInfo posInfo, int64_t spb, int64_t spn);
+		void updateGain();		
 
 		void reset() noexcept;		
 
@@ -61,18 +59,6 @@ namespace sky_trem {
 		float currentModulationDepth{ 0.4f };
 		float modulationDepthToSet = currentModulationDepth;
 		juce::LinearSmoothedValue<float> modulationDepthSmoothed{ 0.4f };
-
-		// bpm
-		/*
-		* get bpm
-		* calculate osc rate
-		* set rate
-		* reset osc
-		* only do this based on bool parameter and use existing functions?
-		* so if(bpm) get bpm, check if bpm is different than existing bpm, call setModulationRate
-		* other ideas:
-		*	detect passing of downbeat, each 1/4, 1/8 etc to improve lfo sync and facilitate depth randomization
-		*/
 
 	};
 

@@ -51,9 +51,7 @@ namespace sky_trem {
 	}
 
 	void PluginProcessor::prepareToPlay(double sampleRate, int expectedMaxFramesPerBlock) {
-		// Use this method as the place to do any pre-playback
-		// initialization that you need, e.g., allocate memory.		
-		
+				
 		currentSampleRate = sampleRate;
 		currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];	
 		
@@ -170,6 +168,7 @@ namespace sky_trem {
 					if ((tis + i) % samplesPerBar == 0) {						
 						// try resetting lfos every bar
 						// this gets freaky when using the . values as they aren't clean divisions of the bar
+						// maybe move this out to a toggle?
 						tremolo.reset();
 					}
 				}								
