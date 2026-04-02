@@ -93,7 +93,8 @@ namespace sky_trem {
 		std::map<juce::String, juce::Range<int>> randoRangeToIntRange {
 			{ "3%", juce::Range<int>{1000, 3000} },
 			{ "5%", juce::Range<int>{1000, 5000} },
-			{ "10%", juce::Range<int>{1000, 10000} }
+			{ "10%", juce::Range<int>{1000, 10000} },
+			{ "20%", juce::Range<int>{1000, 20000} },
 		};
 
 		juce::Atomic<bool> isQuarterNote{ false };		

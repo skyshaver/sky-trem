@@ -156,7 +156,7 @@ namespace sky_trem {
 			std::make_unique<juce::AudioParameterChoice>(
 				juce::ParameterID{ "moddepthrando.range", versionHint },
 				"Modulation Depth Rando Range",
-				juce::StringArray{ "3%", "5%", "10%" },
+				juce::StringArray{ "3%", "5%", "10%", "20%" },
 				0));
 
 	}
