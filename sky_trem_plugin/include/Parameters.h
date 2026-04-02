@@ -15,6 +15,9 @@ namespace sky_trem {
 		juce::AudioParameterBool& isRateInHz;
 		juce::AudioParameterFloat& bpm;
 
+		juce::AudioParameterBool& isModDepthRando;
+		juce::AudioParameterChoice& modDepthRandoRange;
+
 		JUCE_DECLARE_NON_COPYABLE(Parameters);
 		JUCE_DECLARE_NON_MOVEABLE(Parameters);
 	};

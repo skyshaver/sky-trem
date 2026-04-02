@@ -51,9 +51,7 @@ namespace sky_trem {
 	}
 
 	void PluginProcessor::prepareToPlay(double sampleRate, int expectedMaxFramesPerBlock) {
-		// Use this method as the place to do any pre-playback
-		// initialization that you need, e.g., allocate memory.		
-		
+				
 		currentSampleRate = sampleRate;
 		currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];	
 		
@@ -105,37 +103,47 @@ namespace sky_trem {
 			buffer.clear(channelToClear, 0, buffer.getNumSamples());
 		}
 
+		// get bpm info and set tis stuff
+		playhead = this->getPlayHead();
+		currentPosInfo = *playhead->getPosition();
+
+		if (currentPosInfo.getBpm()) {
+			currentBpm = static_cast<float>(*currentPosInfo.getBpm());
+		}
+		else {
+			// we're in standalone for testing so set to dummy bpm
+			currentBpm = 120.f;
+		}
+
+		// also factor out samplesPerNumerator and just use samplesPerBar and a LUT?
+		auto bps = 60.0 / currentBpm;
+		samplesPerNumerator = juce::roundToInt(currentSampleRate * bps); // assume 1/4 note for now
+		samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator); // this could get tricky with like 6/8 etc?
+
+		if (currentPosInfo.getTimeSignature()) {
+			if (*currentPosInfo.getTimeSignature() != currentTimeSignature) {
+				currentTimeSignature = *currentPosInfo.getTimeSignature();
+				// update bar length if time sig changes?
+				samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator);
+
+			}
+
+		}
+		// can we factor out currentBpm and just hold parameters.bpm?
+		parameters.bpm = currentBpm;
+		currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];
+
+		if (!parameters.isModDepthRando.get()) {
+			tremolo.setModulationDepth(parameters.modulationDepth.get());
+		}
+
 		if (parameters.isRateInHz.get()) {						
 			tremolo.setModulationRate(parameters.modulationRate.get());						
 		} 
 		else {
-			playhead = this->getPlayHead();
-			currentPosInfo = *playhead->getPosition();
-
-			if (currentPosInfo.getBpm()) {
-				currentBpm = static_cast<float>(*currentPosInfo.getBpm());				
-			}
-			else {
-				// we're in standalone for testing so set to dummy bpm
-				currentBpm = 120.f;
-			}
-
-			auto bps = 60.0 / currentBpm;
-			samplesPerNumerator = juce::roundToInt(currentSampleRate * bps); // assume 1/4 note for now
-			samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator); // this could get tricky with like 6/8 etc?
-
-			if (currentPosInfo.getTimeSignature()) {
-				if (*currentPosInfo.getTimeSignature() != currentTimeSignature) {
-					currentTimeSignature = *currentPosInfo.getTimeSignature();
-					// update bar length if time sig changes?
-					samplesPerBar = juce::roundToInt(samplesPerNumerator * currentTimeSignature.denominator);
-
-				}
-				
-			}
-
-			parameters.bpm = currentBpm;
-			currentBpmDivision = noteDivToBpmDiv[parameters.bpmDivision.getCurrentChoiceName()];;
+			
+			// should we wait till the next beat subdivision to set the mod rate?
+			// could fix the issue with . values
 			tremolo.setModulationRate(parameters.bpm / currentBpmDivision);
 
 			if (currentPosInfo.getIsPlaying() && currentPosInfo.getTimeInSamples()) {
@@ -146,33 +154,28 @@ namespace sky_trem {
 						// TODO: setting an atomic in hot loop, not ideal, should set local bool and update atomic at end of processblock?
 						isQuarterNote.set(true);
 					}
-					if ((tis + i) % samplesPerBar == 0) {						
-						// try resetting lfos every bar
-						tremolo.reset();
+
+					if ((tis + i) % (samplesPerBar / noteDivToSpbDiv[parameters.bpmDivision.getCurrentChoiceName()]) == 0) {
+						if (parameters.isModDepthRando.get()) {							
+							auto nextRand = juce::Random::getSystemRandom().nextInt(randoRangeToIntRange[parameters.modDepthRandoRange.getCurrentChoiceName()]);
+							nextRand = nextRand % 2 == 0 ? nextRand * 1 : nextRand * -1;
+							auto nextModRate = std::clamp(parameters.modulationDepth.get() + (nextRand * 0.00001f), 0.f, 1.f);
+							// DBG(nextModRate);
+							tremolo.setModulationDepth(nextModRate);
+						}
 					}
 
-
-				}
-				
-				/*
-				quarter note event
-				1/4: 120000
-				quarter note event
-				1/4: 144000
-				quarter note event
-				1/4: 168000
-				quarter note event
-				1/4: 192000
-				bar event
-				Bar: 192000
-				https://forum.juce.com/t/sending-signal-events-from-audio-to-gui-thread/27792/7
-				*/
-
-
+					if ((tis + i) % samplesPerBar == 0) {						
+						// try resetting lfos every bar
+						// this gets freaky when using the . values as they aren't clean divisions of the bar
+						// maybe move this out to a toggle?
+						tremolo.reset();
+					}
+				}								
 			}
 		}
 
-		tremolo.setModulationDepth(parameters.modulationDepth.get());
+		
 		tremolo.setGainInDB(parameters.gainInDb.get());
 		tremolo.setLfoWaveform(static_cast<Tremolo::LfoWaveform>(parameters.lfoWaveform.getIndex()));
 

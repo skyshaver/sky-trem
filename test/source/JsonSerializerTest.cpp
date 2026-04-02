@@ -14,6 +14,8 @@ namespace sky_trem {
 		parameters.bpmDivision = 6;
 		parameters.isRateInHz = true;
 		parameters.bpm = 120.f;
+		parameters.isModDepthRando = false;
+		parameters.modDepthRandoRange = 0;
 
 		const juce::String expectedOutput =
 			u8R"({
@@ -26,7 +28,9 @@ namespace sky_trem {
   "lfoWaveform": "Triangle",
   "bpmDivision": "1/4",
   "isRateInHz": true,
-  "bpm": 120.0
+  "bpm": 120.0,
+  "isModDepthRando": false,
+  "modDepthRandoRange": "3%"
 })";
 		juce::MemoryBlock block;
 		juce::MemoryOutputStream outputStream{ block, false };
@@ -51,7 +55,9 @@ namespace sky_trem {
   "lfoWaveform": "Triangle",
   "bpmDivision": "1/4",
   "isRateInHz": true,
-  "bpm": 120.0
+  "bpm": 120.0,
+  "isModDepthRando": false,
+  "modDepthRandoRange": "3%"
 })";
 
 		juce::MemoryInputStream inputStream{
@@ -72,6 +78,8 @@ namespace sky_trem {
 		EXPECT_EQ(juce::String{ "1/4" }, parameters.bpmDivision.getCurrentChoiceName());
 		EXPECT_TRUE(parameters.isRateInHz);
 		EXPECT_FLOAT_EQ(parameters.bpm, 120.f);
+		EXPECT_FALSE(parameters.isModDepthRando);
+		EXPECT_EQ(0, parameters.modDepthRandoRange.getIndex());
 	}
 
 	TEST(JsonSerializer, DontUpdateParametersWhenWaveformNameIsInvalid) {		
