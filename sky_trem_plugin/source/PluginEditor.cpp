@@ -38,7 +38,8 @@ namespace sky_trem {
 		rateChoiceToggle.onClick();
 
 		modDepthRandoToggle.onClick = [this]() {
-			modDepthRandoToggle.setButtonText(modDepthRandoToggle.getToggleState() ? "Rando ON" : "Rando OFF");
+				modDepthRandoToggle.setButtonText(modDepthRandoToggle.getToggleState() ? "Rando ON" : "Rando OFF");
+				resized();
 			};
 		modDepthRandoToggle.onClick();
 
@@ -181,9 +182,12 @@ namespace sky_trem {
 		bpmDivisionSlider.setBounds(modulationRateSliderBounds);
 		bpmDivisionLabel.setBounds(modulationRateSliderBounds);
 				
-		// toggle fader between bpm division and rate
+		// toggle fader and controls between bpm division and rate in hz
 		bpmDivisionSlider.setVisible(!rateChoiceToggle.getToggleState());
 		bpmDivisionLabel.setVisible(!rateChoiceToggle.getToggleState());
+		modDepthRandoToggle.setVisible(!rateChoiceToggle.getToggleState());
+		modDepthRandoRangeCombo.setVisible(modDepthRandoToggle.getToggleState() && !rateChoiceToggle.getToggleState());
+
 		modulationRateSlider.setVisible(rateChoiceToggle.getToggleState());
 		modulationRateLabel.setVisible(rateChoiceToggle.getToggleState());
 				

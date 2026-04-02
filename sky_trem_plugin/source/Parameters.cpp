@@ -111,7 +111,7 @@ namespace sky_trem {
 			std::make_unique<juce::AudioParameterBool>(
 				juce::ParameterID{ "isRateInHz", Parameters::versionHint },
 				"Beat Sync Toggle",
-				true));
+				false));
 
 	}
 
