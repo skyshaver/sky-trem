@@ -12,12 +12,11 @@ namespace sky_trem {
 	}
 
 	juce::AudioParameterFloat& createModulationRateParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "modulation.rate", versionHint },
+				juce::ParameterID{ "modulation.rate", Parameters::versionHint },
 				"Modulation Rate",
 				juce::NormalisableRange<float>{ .1f, 20.f, .01f, .4f },
 				10.f,
@@ -26,12 +25,11 @@ namespace sky_trem {
 	}
 
 	juce::AudioParameterFloat& createModulationDepthParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "modulation.depth", versionHint },
+				juce::ParameterID{ "modulation.depth", Parameters::versionHint },
 				"Modulation Depth",
 				juce::NormalisableRange<float>{ 0.f, 1.f, .01f },
 				0.4f,
@@ -41,11 +39,10 @@ namespace sky_trem {
 
 	juce::AudioParameterFloat& createGainInDbParameter(juce::AudioProcessor& processor) {
 
-		constexpr auto versionHint = 1;
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "gainInDb.value", versionHint },
+				juce::ParameterID{ "gainInDb.value", Parameters::versionHint },
 				"Gain in dB",
 				juce::NormalisableRange<float>{-12.f, 12.f, .1f},
 				0.f,
@@ -54,24 +51,22 @@ namespace sky_trem {
 	}
 
 	juce::AudioParameterBool& createbypassParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterBool>(
-				juce::ParameterID{ "bypass", versionHint },
+				juce::ParameterID{ "bypass", Parameters::versionHint },
 				"Bypass",
 				false));
 
 	}
 
 	juce::AudioParameterChoice& createLfoWaveformParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterChoice>(
-				juce::ParameterID{ "modulation.waveform", versionHint },
+				juce::ParameterID{ "modulation.waveform", Parameters::versionHint },
 				"Modulation Waveform",
 				juce::StringArray{ "Sine", "Triangle", "Square" },
 				1));
@@ -98,12 +93,11 @@ namespace sky_trem {
 	*/
 	
 	juce::AudioParameterChoice& createBpmDivisionParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterChoice>(
-				juce::ParameterID{ "modulation.division", versionHint },
+				juce::ParameterID{ "modulation.division", Parameters::versionHint },
 				"Modulation Division",				
 				juce::StringArray{ "1/32", ".1/32", "1/16", ".1/16", "1/8", ".1/8", "1/4", ".1/4", "1/2", ".1/2", "1/1", },
 				6));
@@ -111,24 +105,22 @@ namespace sky_trem {
 	}
 
 	juce::AudioParameterBool& createIsRateInHzParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterBool>(
-				juce::ParameterID{ "isRateInHz", versionHint },
+				juce::ParameterID{ "isRateInHz", Parameters::versionHint },
 				"Beat Sync Toggle",
 				true));
 
 	}
 
 	juce::AudioParameterFloat& createBpmParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "localBpm", versionHint },
+				juce::ParameterID{ "localBpm", Parameters::versionHint },
 				"Local BPM",
 				juce::NormalisableRange<float>{ 20.f, 300.f, .01f },
 				120.f
@@ -137,24 +129,22 @@ namespace sky_trem {
 	}
 
 	juce::AudioParameterBool& createIsModDepthRandoParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterBool>(
-				juce::ParameterID{ "moddepthrando.engaged", versionHint },
+				juce::ParameterID{ "moddepthrando.engaged", Parameters::versionHint },
 				"ModDepth Rando Toggle",
 				false));
 
 	}
 
 	juce::AudioParameterChoice& createModDepthRandoRangeParameter(juce::AudioProcessor& processor) {
-
-		constexpr auto versionHint = 1;
+		
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterChoice>(
-				juce::ParameterID{ "moddepthrando.range", versionHint },
+				juce::ParameterID{ "moddepthrando.range", Parameters::versionHint },
 				"Modulation Depth Rando Range",
 				juce::StringArray{ "3%", "5%", "10%", "20%" },
 				0));

@@ -18,6 +18,8 @@ namespace sky_trem {
 		juce::AudioParameterBool& isModDepthRando;
 		juce::AudioParameterChoice& modDepthRandoRange;
 
+		static constexpr int versionHint = 1;
+
 		JUCE_DECLARE_NON_COPYABLE(Parameters);
 		JUCE_DECLARE_NON_MOVEABLE(Parameters);
 	};
