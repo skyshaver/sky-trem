@@ -162,7 +162,7 @@ namespace sky_trem {
 							auto nextRand = juce::Random::getSystemRandom().nextInt(randoRangeToIntRange[parameters.modDepthRandoRange.getCurrentChoiceName()]);
 							nextRand = nextRand % 2 == 0 ? nextRand * 1 : nextRand * -1;
 							auto nextModRate = std::clamp(parameters.modulationDepth.get() + (nextRand * 0.00001f), 0.f, 1.f);
-							DBG(nextModRate);
+							// DBG(nextModRate);
 							tremolo.setModulationDepth(nextModRate);
 						}
 					}
