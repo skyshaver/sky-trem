@@ -9,3 +9,4 @@
 #include "source/Tremolo.cpp"
 #include "source/BypassTransitionSmoother.cpp"
 #include "source/SkyRotarySlider01.cpp"
+#include "source/SkyComboBox01.cpp"

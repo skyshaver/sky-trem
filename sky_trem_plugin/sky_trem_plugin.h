@@ -44,5 +44,6 @@ END_JUCE_MODULE_DECLARATION
 #include "include/PluginProcessor.h"
 #include "include/LfoVisualizer.h"
 #include "include/SkyRotarySlider01.h"
+#include "include/SkyComboBox01.h"
 #include "include/PluginEditor.h"
 

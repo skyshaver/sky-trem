@@ -28,12 +28,10 @@ namespace sky_trem {
 				bypassButton.setButtonText(bypassButton.getToggleState() ? "Bypass On" : "Bypass");
 			};
 		bypassButton.onClick();
-
-		// the way the button overload is setup true is the colored choice
-		// so this choice seems non default, will leave for testing but need to make ui consistent
+		
 		rateChoiceToggle.onClick = [this]() {
 				rateChoiceToggle.setButtonText(rateChoiceToggle.getToggleState() ? "Rate in Hz" : "Beat Sync");
-				resized();
+				resized(); // call resized to deal with "setVisible" logic, may be better way"?
 			};
 		rateChoiceToggle.onClick();
 
