@@ -68,7 +68,7 @@ namespace sky_trem {
 			std::make_unique<juce::AudioParameterChoice>(
 				juce::ParameterID{ "modulation.waveform", Parameters::versionHint },
 				"Modulation Waveform",
-				juce::StringArray{ "Sine", "Triangle", "Square" },
+				juce::StringArray{ "Sine", "Triangle", "Square", "Sawtooth" },
 				1));
 
 	}
