@@ -51,7 +51,7 @@ namespace sky_trem {
 		juce::ToggleButton modDepthRandoToggle;
 		juce::ButtonParameterAttachment modDepthRandoParameterAttachment;
 
-		SkyComboBox01 modDepthRandoRangeCombo;
+		juce::ComboBox modDepthRandoRangeCombo;
 		juce::ComboBoxParameterAttachment modDepthRandoRangeAttachment;
 		
 		juce::ShapeButton quarterNoteFlasher{ "flasher", juce::Colours::aliceblue, juce::Colours::antiquewhite, juce::Colours::red };

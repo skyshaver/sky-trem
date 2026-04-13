@@ -179,8 +179,9 @@ namespace sky_trem {
 
 	void CustomLookAndFeel::positionComboBoxText(juce::ComboBox& box, juce::Label& labelToPosition) {
 		
-		auto bounds = box.getLocalBounds().reduced(10, 6);
-		bounds.removeFromRight(12);
+		// auto bounds = box.getLocalBounds().reduced(10, 6); // this causes the combo box popup menu to scale very small on a smaller combo box
+		auto bounds = box.getLocalBounds();
+		// bounds.removeFromRight(12); // this is useful for offsetting the selection arrow
 		labelToPosition.setBounds(bounds);
 		labelToPosition.setJustificationType(juce::Justification::centred);
 
