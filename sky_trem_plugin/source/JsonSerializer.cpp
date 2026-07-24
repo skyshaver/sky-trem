@@ -1,4 +1,7 @@
-// it may make more sense for this to live in Parameters as we have dangerous separation of redundant info
+//
+// This code is generated. Do not edit by hand.
+//
+
 namespace {
 	struct SerializableParameters {
 		float modulationRate;
@@ -57,6 +60,7 @@ namespace {
 	}
 }
 
+
 namespace sky_trem {
 
 
@@ -73,7 +77,7 @@ namespace sky_trem {
 
 	juce::Result JsonSerializer::deserialize(juce::InputStream& input, Parameters& parameters) {
 		juce::var parsedResult;
-		
+
 		const auto result = juce::JSON::parse(input.readEntireStreamAsString(), parsedResult);
 
 		if (result.failed()) {
@@ -85,30 +89,30 @@ namespace sky_trem {
 		if (!parsedParamaters.has_value()) {
 			return juce::Result::fail("failed to parse parameters from json");
 		}
-		
-		const auto lfoWaveformIndex = parameters.lfoWaveform.choices.indexOf(parsedParamaters->lfoWaveform);
-		if (lfoWaveformIndex < 0) {			
-			return juce::Result::fail(
-				"invalid modulation waveform name; supported values are: " +
-				parameters.lfoWaveform.choices.joinIntoString(", "));
-		}
 
+		const auto lfoWaveformIndex = parameters.lfoWaveform.choices.indexOf(parsedParamaters->lfoWaveform);
+		if (lfoWaveformIndex < 0) {
+			return juce::Result::fail(
+				"invalid lfoWaveform; supported values are: " +
+				parameters.lfoWaveform.choices.joinIntoString(", ")
+			);
+		}
 		const auto bpmDivisionIndex = parameters.bpmDivision.choices.indexOf(parsedParamaters->bpmDivision);
 		if (bpmDivisionIndex < 0) {
 			return juce::Result::fail(
-				"invalid bpm division name; supported values are: " +
+				"invalid bpmDivision; supported values are: " +
 				parameters.bpmDivision.choices.joinIntoString(", ")
 			);
 		}
-
 		const auto modDepthRandoRangeIndex = parameters.modDepthRandoRange.choices.indexOf(parsedParamaters->modDepthRandoRange);
 		if (modDepthRandoRangeIndex < 0) {
 			return juce::Result::fail(
-				"invalid mod depth rando range name; supported values are: " +
-				parameters.bpmDivision.choices.joinIntoString(", ")
+				"invalid modDepthRandoRange; supported values are: " +
+				parameters.modDepthRandoRange.choices.joinIntoString(", ")
 			);
 		}
-		
+
+
 		parameters.modulationRate = parsedParamaters->modulationRate;
 		parameters.modulationDepth = parsedParamaters->modulationDepth;
 		parameters.gainInDb = parsedParamaters->gainInDb;
@@ -120,6 +124,6 @@ namespace sky_trem {
 		parameters.isModDepthRando = parsedParamaters->isModDepthRando;
 		parameters.modDepthRandoRange = modDepthRandoRangeIndex;
 		return juce::Result::ok();
-		
+
 	}
 }  // namespace sky_trem
